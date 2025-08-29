@@ -3,30 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <title>طلب تشكيل لجنة</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: "Tahoma", Arial, sans-serif;
-      margin: 40px;
-      background: #fff;
-      color: #000;
-      line-height: 1.8;
+      font-family: 'Cairo', sans-serif;
+      margin: 0;
+      background: #f0f2f5;
+      color: #333;
+    }
+    header {
+      background: #007bff;
+      color: #fff;
+      padding: 15px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+    }
+    .container {
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
     }
     .header {
       text-align: center;
       margin-bottom: 20px;
       position: relative;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
     .header img {
       width: 100px;
       position: absolute;
-      left: 40px;
-      top: 0;
+      left: 20px;
+      top: 20px;
     }
     .title {
       font-size: 20px;
       font-weight: bold;
       text-decoration: underline;
       margin-top: 20px;
+      color: #007bff;
     }
     .subtitle {
       font-size: 18px;
@@ -35,71 +53,325 @@
     }
     .gray-box {
       background: #e6e6e6;
-      padding: 10px;
+      padding: 15px;
       margin: 15px 0;
-      border-radius: 4px;
+      border-radius: 8px;
+      background: #fff;
+      border: 1px solid #e5e5e5;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
     .committee {
       margin: 15px 0;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
     .committee div {
-      margin: 5px 0;
+      margin: 10px 0;
+      padding: 8px;
+      border-bottom: 1px solid #f0f2f5;
     }
     .sign-section {
       margin-top: 30px;
       text-align: right;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
     .stamp {
-      margin-top: 50px;
-      border: 1px solid #000;
+      margin-top: 30px;
+      border: 1px solid #007bff;
       width: 150px;
       height: 80px;
       text-align: center;
       padding-top: 30px;
       font-size: 14px;
-      color: gray;
+      color: #007bff;
+      border-radius: 8px;
+      background: #f8f9fa;
     }
     .highlight {
-      background: yellow;
+      background: #d4edda;
       padding: 2px 6px;
       font-weight: bold;
+      color: #155724;
+      border-radius: 4px;
+    }
+
+    /* Navbar أساسي */
+    .navbar {
+      background-color: #007bff;
+      color: #fff;
+      font-family: 'Cairo', sans-serif;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+    .nav-container {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+    }
+    .nav-logo {
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 15px;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-links li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+    .nav-links li a:hover {
+      background-color: rgba(255,255,255,0.2);
+    }
+    .nav-toggle {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    /* تصميم متجاوب */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+        background-color: #007bff;
+        padding: 10px 0;
+      }
+      .nav-links.active {
+        display: flex;
+      }
+      .nav-toggle {
+        display: block;
+      }
+      .header img {
+        position: static;
+        margin-bottom: 10px;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        padding: 10px;
+      }
+    }
+
+    /* أزرار التحكم */
+    .controls {
+      display: flex;
+      gap: 10px;
+      margin: 20px 0;
+      justify-content: center;
+    }
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      font-family: 'Cairo', sans-serif;
+      transition: background-color 0.3s;
+    }
+    .btn-print {
+      background-color: #28a745;
+      color: white;
+    }
+    .btn-print:hover {
+      background-color: #218838;
+    }
+    .btn-clear {
+      background-color: #dc3545;
+      color: white;
+    }
+    .btn-clear:hover {
+      background-color: #c82333;
+    }
+
+    /* حقول الإدخال */
+    input[type="text"], textarea {
+      font-family: 'Cairo', sans-serif;
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    input[type="text"]:focus, textarea:focus {
+      outline: none;
+      border-color: #007bff;
+      box-shadow: 0 0 0 2px rgba(0,123,255,.25);
+    }
+    .editable-text {
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      padding: 4px 8px;
+      border-radius: 4px;
+      min-height: 30px;
+    }
+
+    /* طباعة */
+    @media print {
+      .navbar, .controls, header {
+        display: none;
+      }
+      body {
+        background: white;
+      }
+      .container {
+        padding: 0;
+        max-width: none;
+      }
+      .header, .gray-box, .committee, .sign-section {
+        box-shadow: none;
+        border: none;
+        background: white;
+      }
     }
   </style>
 </head>
 <body>
 
-  <div class="header">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Emblem_of_Egypt_%28Official%29.svg" alt="شعار مصر">
-    <div class="subtitle">وزارة الصحة والسكان</div>
-    <div class="highlight">مستشفى سمنود المركزي</div>
-    <div>المشتريات</div>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">تطبيق المشتريات</div>
+      <ul class="nav-links">
+        <li><a href="main.html">الرئيسية</a></li>
+        <li><a href="taw.html">التوريد</a></li>
+        <li><a href="taf.html">تفريغ</a></li>
+        <li><a href="mahdr.html">محضر</a></li>
+        <li><a href="talab.html">طلب</a></li>
+        <li><a href="moka.html">مقايسه</a></li>
+        <li><a href="tash.html">تشكيل</a></li>
+        <li><a href="custom.html">الضرايب</a></li>
+      </ul>
+      <div class="nav-toggle" onclick="toggleMenu()">☰</div>
+    </div>
+  </nav>
+
+  <header>طلب تشكيل لجنة</header>
+
+  <div class="container">
+    <!-- أزرار التحكم -->
+    <div class="controls">
+      <button class="btn btn-print" onclick="printForm()">طباعة الطلب</button>
+      <button class="btn btn-clear" onclick="clearForm()">مسح الكل</button>
+    </div>
+
+    <div class="header">
+      <img src="images/logo.png" alt="شعار ">
+      <div class="subtitle">وزارة الصحة والسكان</div>
+      <div class="highlight">مستشفى <input type="text" id="hospitalName" value="سمنود المركزي" placeholder="اسم المستشفى"></div>
+      <div>المشتريات</div>
+    </div>
+
+    <div class="title">طلب تشكيل لجنة</div>
+
+    <div class="gray-box">
+      <p>
+        السيد الدكتور مدير <span class="highlight">مستشفى <input type="text" id="hospitalName2" value="سمنود المركزي" placeholder="اسم المستشفى"></span><br>
+        بعد التحية،<br><br>
+        <textarea id="requestText" rows="4" style="width: 100%; border: none; background: transparent; resize: vertical;">الرجاء التكرم من سيادتكم بالموافقة على تشكيل لجنة للتأكد من صحة ورقة الأسعار الواردة ببنود المقايسة، والتأكد من أنها أقل الأسعار و مطابقتها للمواصفات الفنية وأصل الصناعة، على أن تقع على اللجنة مسؤولية التحقق من الأسعار.</textarea>
+      </p>
+    </div>
+
+    <p>وهذه اللجنة هي :</p>
+    <div class="committee">
+      <div>1/ السيد : <input type="text" id="member1" placeholder="اسم رئيس اللجنة"> &nbsp;&nbsp; رئيساً</div>
+      <div>2/ السيد : <input type="text" id="member2" placeholder="اسم العضو الأول"> &nbsp;&nbsp; عضو</div>
+      <div>3/ السيد : <input type="text" id="member3" placeholder="اسم العضو الثاني"> &nbsp;&nbsp; عضو</div>
+    </div>
+
+    <div class="sign-section">
+      <p>يعتمد / <input type="text" id="approver" placeholder="اسم المعتمد"></p>
+      <p>مقدمه لسيادتكم :</p>
+      <p>الإسم / <input type="text" id="submitterName" placeholder="اسم المقدم"></p>
+      <p>التوقيع / <input type="text" id="signature" placeholder="التوقيع"></p>
+      <div class="stamp">ختم الجهة:</div>
+    </div>
   </div>
 
-  <div class="title">طلب تشكيل لجنة</div>
+  <script>
+    function toggleMenu() {
+      document.querySelector('.nav-links').classList.toggle('active');
+    }
 
-  <p>
-    السيد الدكتور مدير <span class="highlight">مستشفى سمنود المركزي</span><br>
-    بعد التحية،<br><br>
-    الرجاء التكرم من سيادتكم بالموافقة على تشكيل لجنة للتأكد من صحة ورقة الأسعار الواردة
-    ببنود المقايسة، والتأكد من أنها أقل الأسعار و مطابقتها للمواصفات الفنية وأصل الصناعة،
-    على أن تقع على اللجنة مسؤولية التحقق من الأسعار.
-  </p>
+    function printForm() {
+      window.print();
+    }
 
-  <p>وهذه اللجنة هي :</p>
-  <div class="committee">
-    <div>1/ السيد : .................................................. &nbsp;&nbsp; رئيساً</div>
-    <div>2/ السيد : .................................................. &nbsp;&nbsp; عضو</div>
-    <div>3/ السيد : .................................................. &nbsp;&nbsp; عضو</div>
-  </div>
+    function clearForm() {
+      if (confirm('هل أنت متأكد من مسح جميع البيانات؟')) {
+        document.getElementById('hospitalName').value = 'سمنود المركزي';
+        document.getElementById('hospitalName2').value = 'سمنود المركزي';
+        document.getElementById('requestText').value = 'الرجاء التكرم من سيادتكم بالموافقة على تشكيل لجنة للتأكد من صحة ورقة الأسعار الواردة ببنود المقايسة، والتأكد من أنها أقل الأسعار و مطابقتها للمواصفات الفنية وأصل الصناعة، على أن تقع على اللجنة مسؤولية التحقق من الأسعار.';
+        document.getElementById('member1').value = '';
+        document.getElementById('member2').value = '';
+        document.getElementById('member3').value = '';
+        document.getElementById('approver').value = '';
+        document.getElementById('submitterName').value = '';
+        document.getElementById('signature').value = '';
+      }
+    }
 
-  <div class="sign-section">
-    <p>يعتمد / ..................................................</p>
-    <p>مقدمه لسيادتكم :</p>
-    <p>الإسم / ..................................................</p>
-    <p>التوقيع / ..................................................</p>
-  </div>
+    // حفظ البيانات في localStorage
+    function saveData() {
+      const data = {
+        hospitalName: document.getElementById('hospitalName').value,
+        hospitalName2: document.getElementById('hospitalName2').value,
+        requestText: document.getElementById('requestText').value,
+        member1: document.getElementById('member1').value,
+        member2: document.getElementById('member2').value,
+        member3: document.getElementById('member3').value,
+        approver: document.getElementById('approver').value,
+        submitterName: document.getElementById('submitterName').value,
+        signature: document.getElementById('signature').value
+      };
+      localStorage.setItem('tashFormData', JSON.stringify(data));
+    }
 
-  <div class="stamp">ختم الجهة:</div>
+    // تحميل البيانات من localStorage
+    function loadData() {
+      const savedData = localStorage.getItem('tashFormData');
+      if (savedData) {
+        const data = JSON.parse(savedData);
+        document.getElementById('hospitalName').value = data.hospitalName || 'سمنود المركزي';
+        document.getElementById('hospitalName2').value = data.hospitalName2 || 'سمنود المركزي';
+        document.getElementById('requestText').value = data.requestText || 'الرجاء التكرم من سيادتكم بالموافقة على تشكيل لجنة للتأكد من صحة ورقة الأسعار الواردة ببنود المقايسة، والتأكد من أنها أقل الأسعار و مطابقتها للمواصفات الفنية وأصل الصناعة، على أن تقع على اللجنة مسؤولية التحقق من الأسعار.';
+        document.getElementById('member1').value = data.member1 || '';
+        document.getElementById('member2').value = data.member2 || '';
+        document.getElementById('member3').value = data.member3 || '';
+        document.getElementById('approver').value = data.approver || '';
+        document.getElementById('submitterName').value = data.submitterName || '';
+        document.getElementById('signature').value = data.signature || '';
+      }
+    }
+
+    // حفظ البيانات تلقائياً عند التغيير
+    document.addEventListener('input', saveData);
+
+    // تحميل البيانات عند فتح الصفحة
+    window.addEventListener('load', loadData);
+  </script>
 
 </body>
 </html>

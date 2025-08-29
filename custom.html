@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>بيانات المورد للضرائب</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      margin: 0;
+      background: #f0f2f5;
+      color: #333;
+    }
+    header {
+      background: #007bff;
+      color: #fff;
+      padding: 15px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+    }
+    .container {
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+      position: relative;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .header img {
+      width: 100px;
+      position: absolute;
+      left: 20px;
+      top: 20px;
+    }
+    .form-section {
+      background: #fff;
+      padding: 20px;
+      margin: 15px 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .form-section h3 {
+      color: #007bff;
+      border-bottom: 2px solid #007bff;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    .form-group {
+      flex: 1;
+      min-width: 250px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #555;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 14px;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: #007bff;
+      box-shadow: 0 0 0 2px rgba(0,123,255,.25);
+    }
+    .full-width {
+      flex: 1 1 100%;
+    }
+    .half-width {
+      flex: 1 1 48%;
+    }
+    .third-width {
+      flex: 1 1 31%;
+    }
+    .tax-calculation {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      padding: 20px;
+    }
+    .tax-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #e9ecef;
+    }
+    .tax-row:last-child {
+      border-bottom: none;
+      font-weight: bold;
+      font-size: 18px;
+      color: #007bff;
+    }
+    .stamp-section {
+      margin-top: 30px;
+      text-align: center;
+    }
+    .stamp {
+      border: 2px solid #007bff;
+      width: 200px;
+      height: 100px;
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: #007bff;
+      border-radius: 8px;
+      background: #f8f9fa;
+    }
+
+    /* Navigation Bar */
+    .navbar {
+      background-color: #007bff;
+      color: #fff;
+      font-family: 'Cairo', sans-serif;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+    .nav-container {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+    }
+    .nav-logo {
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 15px;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-links li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+    .nav-links li a:hover {
+      background-color: rgba(255,255,255,0.2);
+    }
+    .nav-toggle {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    /* Controls */
+    .controls {
+      display: flex;
+      gap: 10px;
+      margin: 20px 0;
+      justify-content: center;
+    }
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      font-family: 'Cairo', sans-serif;
+      transition: background-color 0.3s;
+    }
+    .btn-print {
+      background-color: #28a745;
+      color: white;
+    }
+    .btn-print:hover {
+      background-color: #218838;
+    }
+    .btn-save {
+      background-color: #007bff;
+      color: white;
+    }
+    .btn-save:hover {
+      background-color: #0056b3;
+    }
+    .btn-clear {
+      background-color: #dc3545;
+      color: white;
+    }
+    .btn-clear:hover {
+      background-color: #c82333;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+        background-color: #007bff;
+        padding: 10px 0;
+      }
+      .nav-links.active {
+        display: flex;
+      }
+      .nav-toggle {
+        display: block;
+      }
+      .form-row {
+        flex-direction: column;
+      }
+      .form-group {
+        min-width: 100%;
+      }
+    }
+
+    /* Print Styles */
+    @media print {
+      .navbar, .controls {
+        display: none;
+      }
+      header {
+        display: block !important;
+        background: white !important;
+        color: black !important;
+        border-bottom: 2px solid #000;
+        padding: 20px 0;
+      }
+      header img {
+        filter: grayscale(100%);
+      }
+      header input {
+        border: 1px solid #000 !important;
+        color: #000 !important;
+        background: white !important;
+      }
+      body {
+        background: white;
+      }
+      .container {
+        padding: 0;
+        max-width: none;
+      }
+      .form-section {
+        box-shadow: none;
+        border: 1px solid #000;
+        margin: 10px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">تطبيق المشتريات</div>
+      <ul class="nav-links">
+        <li><a href="main.html">الرئيسية</a></li>
+        <li><a href="taw.html">التوريد</a></li>
+        <li><a href="taf.html">تفريغ</a></li>
+        <li><a href="mahdr.html">محضر</a></li>
+        <li><a href="talab.html">طلب</a></li>
+        <li><a href="moka.html">مقايسه</a></li>
+        <li><a href="tash.html">تشكيل</a></li>
+        <li><a href="custom.html">الضرايب</a></li>
+      </ul>
+      <div class="nav-toggle" onclick="toggleMenu()">☰</div>
+    </div>
+  </nav>
+
+  <header>
+    <div style="display: flex; align-items: center; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+      <img src="images/logo.png"
+           alt="شعار "
+           style="width: 80px; height: auto;">
+      <h1 style="margin: 0; font-size: 24px;">بيانات المورد للهيئة العامة للضرائب</h1>
+      <div style="text-align: right; font-size: 16px;">
+        <div>اسم الجهة: <input type="text" id="entityName" placeholder="أدخل اسم الجهة" style="width: 200px; padding: 5px; font-size: 14px; border: 1px solid #fff; border-radius: 4px; background: rgba(255,255,255,0.2); color: #fff;"></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Controls -->
+    <div class="controls">
+      <button class="btn btn-print" onclick="printForm()">طباعة البيانات</button>
+      <button class="btn btn-save" onclick="saveForm()">حفظ البيانات</button>
+      <button class="btn btn-clear" onclick="clearForm()">مسح الكل</button>
+    </div>
+
+    <!-- بيانات المورد -->
+    <div class="form-section">
+      <h3>بيانات المورد الأساسية</h3>
+      <div class="form-row">
+        <div class="form-group half-width">
+          <label>اسم المورد / الشركة</label>
+          <input type="text" id="supplierName" placeholder="أدخل اسم المورد أو الشركة">
+        </div>
+        <div class="form-group half-width">
+          <label>الاسم التجاري</label>
+          <input type="text" id="tradeName" placeholder="الاسم التجاري للمورد">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group third-width">
+          <label>رقم السجل التجاري</label>
+          <input type="text" id="commercialNo" placeholder="رقم السجل التجاري">
+        </div>
+        <div class="form-group third-width">
+          <label>رقم البطاقة الضريبية</label>
+          <input type="text" id="taxCardNo" placeholder="رقم البطاقة الضريبية">
+        </div>
+        <div class="form-group third-width">
+          <label>الرقم القومي / السجل المدني</label>
+          <input type="text" id="nationalId" placeholder="الرقم القومي أو السجل المدني">
+        </div>
+      </div>
+    </div>
+
+    <!-- بيانات العنوان -->
+    <div class="form-section">
+      <h3>بيانات العنوان</h3>
+      <div class="form-row">
+        <div class="form-group half-width">
+          <label>العنوان الرئيسي</label>
+          <input type="text" id="address" placeholder="العنوان الرئيسي للمورد">
+        </div>
+        <div class="form-group half-width">
+          <label>العنوان الفرعي</label>
+          <input type="text" id="address2" placeholder="العنوان الفرعي (اختياري)">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group third-width">
+          <label>المحافظة</label>
+          <input type="text" id="governorate" placeholder="المحافظة">
+        </div>
+        <div class="form-group third-width">
+          <label>المركز / المدينة</label>
+          <input type="text" id="city" placeholder="المركز أو المدينة">
+        </div>
+        <div class="form-group third-width">
+          <label>الرمز البريدي</label>
+          <input type="text" id="postalCode" placeholder="الرمز البريدي">
+        </div>
+      </div>
+    </div>
+
+    <!-- بيانات الاتصال -->
+    <div class="form-section">
+      <h3>بيانات الاتصال</h3>
+      <div class="form-row">
+        <div class="form-group half-width">
+          <label>رقم الهاتف</label>
+          <input type="text" id="phone" placeholder="رقم الهاتف">
+        </div>
+        <div class="form-group half-width">
+          <label>رقم الموبايل</label>
+          <input type="text" id="mobile" placeholder="رقم الموبايل">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group half-width">
+          <label>البريد الإلكتروني</label>
+          <input type="email" id="email" placeholder="البريد الإلكتروني">
+        </div>
+        <div class="form-group half-width">
+          <label>الفاكس</label>
+          <input type="text" id="fax" placeholder="رقم الفاكس">
+        </div>
+      </div>
+    </div>
+
+    <!-- بيانات الحساب البنكي -->
+    <div class="form-section">
+      <h3>بيانات الحساب البنكي</h3>
+      <div class="form-row">
+        <div class="form-group half-width">
+          <label>اسم البنك</label>
+          <input type="text" id="bankName" placeholder="اسم البنك">
+        </div>
+        <div class="form-group half-width">
+          <label>فرع البنك</label>
+          <input type="text" id="bankBranch" placeholder="فرع البنك">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group half-width">
+          <label>رقم الحساب</label>
+          <input type="text" id="accountNo" placeholder="رقم الحساب البنكي">
+        </div>
+        <div class="form-group half-width">
+          <label>رقم IBAN</label>
+          <input type="text" id="iban" placeholder="رقم الحساب الدولي IBAN">
+        </div>
+      </div>
+    </div>
+
+    <!-- بيانات الأعمال -->
+    <div class="form-section">
+      <h3>بيانات الأعمال والقيمة</h3>
+      <div class="form-row">
+        <div class="form-group full-width">
+          <label>وصف الأعمال أو الخدمات المقدمة</label>
+          <textarea id="workDescription" rows="3" placeholder="وصف تفصيلي للأعمال أو الخدمات المقدمة"></textarea>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group half-width">
+          <label>رقم عقد التوريد</label>
+          <input type="text" id="contractNo" placeholder="رقم عقد التوريد">
+        </div>
+        <div class="form-group half-width">
+          <label>تاريخ العقد</label>
+          <input type="date" id="contractDate">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group half-width">
+          <label>قيمة الأعمال (قبل الضريبة)</label>
+          <input type="number" id="workValue" placeholder="0.00" step="0.01" oninput="calculateTax()">
+        </div>
+        <div class="form-group half-width">
+          <label>نسبة الضريبة (%)</label>
+          <input type="number" id="taxRate" value="14" placeholder="14" step="0.01" oninput="calculateTax()">
+        </div>
+      </div>
+    </div>
+
+    <!-- حساب الضرائب -->
+    <div class="form-section">
+      <h3>حساب الضرائب</h3>
+      <div class="tax-calculation">
+        <div class="tax-row">
+          <span>قيمة الأعمال الأساسية:</span>
+          <span id="baseValue">0.00 جنيه</span>
+        </div>
+        <div class="tax-row">
+          <span>ضريبة القيمة المضافة (<span id="taxRateDisplay">14</span>%):</span>
+          <span id="taxValue">0.00 جنيه</span>
+        </div>
+        <div class="tax-row">
+          <span>الإجمالي شامل الضريبة:</span>
+          <span id="totalValue">0.00 جنيه</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- إقرار وتوقيع -->
+    <div class="form-section">
+      <h3>إقرار وتوقيع</h3>
+      <div class="form-row">
+        <div class="form-group full-width">
+          <label>أقر أنا المورد الموقع أدناه بأن جميع البيانات المذكورة أعلاه صحيحة ودقيقة</label>
+          <textarea id="declaration" rows="2" placeholder="نص الإقرار الرسمي"></textarea>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group half-width">
+          <label>الاسم الكامل</label>
+          <input type="text" id="fullName" placeholder="الاسم الكامل للمورد">
+        </div>
+        <div class="form-group half-width">
+          <label>التوقيع</label>
+          <input type="text" id="signature" placeholder="التوقيع">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group half-width">
+          <label>التاريخ</label>
+          <input type="date" id="signatureDate">
+        </div>
+        <div class="form-group half-width">
+          <label>الختم الرسمي</label>
+          <input type="text" id="officialStamp" placeholder="ختم الشركة أو المورد">
+        </div>
+      </div>
+    </div>
+
+    <!-- ختم الجهة -->
+    <div class="stamp-section">
+      <div class="stamp">
+        ختم الجهة المختصة
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      document.querySelector('.nav-links').classList.toggle('active');
+    }
+
+    function calculateTax() {
+      const workValue = parseFloat(document.getElementById('workValue').value) || 0;
+      const taxRate = parseFloat(document.getElementById('taxRate').value) || 14;
+      
+      const taxValue = (workValue * taxRate) / 100;
+      const totalValue = workValue + taxValue;
+      
+      document.getElementById('baseValue').textContent = workValue.toFixed(2) + ' جنيه';
+      document.getElementById('taxValue').textContent = taxValue.toFixed(2) + ' جنيه';
+      document.getElementById('totalValue').textContent = totalValue.toFixed(2) + ' جنيه';
+      document.getElementById('taxRateDisplay').textContent = taxRate;
+      
+      saveForm();
+    }
+
+    function saveForm() {
+      const formData = {};
+      const inputs = document.querySelectorAll('input, textarea, select');
+      inputs.forEach(input => {
+        formData[input.id] = input.value;
+      });
+      
+      localStorage.setItem('customFormData', JSON.stringify(formData));
+      alert('تم حفظ البيانات بنجاح!');
+    }
+
+    function loadForm() {
+      const savedData = localStorage.getItem('customFormData');
+      if (savedData) {
+        const formData = JSON.parse(savedData);
+        const inputs = document.querySelectorAll('input, textarea, select');
+        inputs.forEach(input => {
+          if (formData[input.id]) {
+            input.value = formData[input.id];
+          }
+        });
+        calculateTax();
+      }
+    }
+
+    function clearForm() {
+      if (confirm('هل أنت متأكد من مسح جميع البيانات؟')) {
+        const inputs = document.querySelectorAll('input, textarea, select');
+        inputs.forEach(input => {
+          input.value = '';
+        });
+        document.getElementById('taxRate').value = '14';
+        calculateTax();
+        localStorage.removeItem('customFormData');
+      }
+    }
+
+    function printForm() {
+      window.print();
+    }
+
+    // Auto-save on input change
+    document.addEventListener('input', function(e) {
+      if (e.target.id === 'workValue' || e.target.id === 'taxRate') {
+        calculateTax();
+      }
+    });
+
+    // Set default date
+    document.getElementById('signatureDate').value = new Date().toISOString().split('T')[0];
+    document.getElementById('contractDate').value = new Date().toISOString().split('T')[0];
+
+    // Load saved data on page load
+    window.addEventListener('load', loadForm);
+  </script>
+
+</body>
+</html>
