@@ -114,6 +114,112 @@
     }
   </style>
 </head>
+
+
+
+
+
+<!-- ضع هذا الكود أسفل وسم <body> مباشرة قبل <header> -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-logo"> تطبيق المشتريات</div>
+    <ul class="nav-links">
+      <li><a href="taw.html">التوريد</a></li>
+      <li><a href="taf.html">تفريغ</a></li>
+      <li><a href="mahdr.html">محضر</a></li>
+      <li><a href="talab.html">طلب</a></li>
+      <li><a href="moka.html">مقايسه</a></li>
+      <li><a href="tash.html">تشكيل</a></li>
+      <li><a href="custom.html">الضرايب</a></li>
+    </ul>
+    <div class="nav-toggle" onclick="toggleMenu()">☰</div>
+  </div>
+</nav>
+
+<style>
+/* Navbar أساسي */
+.navbar {
+  background-color: #007bff;
+  color: #fff;
+  font-family: 'Cairo', sans-serif;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.nav-logo {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 15px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.nav-links li a:hover {
+  background-color: rgba(255,255,255,0.2);
+}
+
+.nav-toggle {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* تصميم متجاوب */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #007bff;
+    padding: 10px 0;
+  }
+  .nav-links.active {
+    display: flex;
+  }
+  .nav-toggle {
+    display: block;
+  }
+}
+</style>
+
+<script>
+function toggleMenu() {
+  document.querySelector('.nav-links').classList.toggle('active');
+}
+</script>
+
+
+
+
+
+
+
+
 <body>
 
   <header>نموذج بيانات التوريدات</header>
