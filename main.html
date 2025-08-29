@@ -268,7 +268,7 @@ function toggleMenu() {
     <div class="controls">
       <button class="add" onclick="addRow()">➕ إضافة صف</button>
       <button class="clear" onclick="clearTable()">🗑️ مسح الكل</button>
-<button class="next" onclick="goToTaw()">➡️ انتقال</button>  
+<button class="next" onclick="saveAndGo()">➡️ انتقال</button>
   </div>
 
     <!-- الحقول أسفل الصفحة -->
@@ -476,7 +476,7 @@ function toggleMenu() {
 
 
     // دالة الانتقال وحفظ البيانات في localStorage
-function goToTaw() {
+function saveAndGo() {
   const data = {
     date: document.getElementById("date").value,
     supplier1: document.getElementById("supplier1").value,
@@ -484,14 +484,17 @@ function goToTaw() {
     supplier3: document.getElementById("supplier3").value,
     committeeDate: document.getElementById("committeeDate").value,
     taxRate: document.getElementById("taxRate").value,
-    footer: Array.from(document.querySelectorAll(".footer-inputs input")).map(inp => inp.value)
+    footer: Array.from(document.querySelectorAll(".footer-inputs input")).map(inp => inp.value),
+    table: Array.from(document.querySelectorAll("#itemsTable tbody tr")).map(tr => {
+      return Array.from(tr.querySelectorAll("input")).map(inp => inp.value);
+    })
   };
 
-  // حفظ البيانات في localStorage
+  // حفظ البيانات فقط في localStorage
   localStorage.setItem('mainFormData', JSON.stringify(data));
 
-  // الانتقال إلى صفحة taw.html
-  window.location.href = 'taw.html';
+  // لا حاجة للانتقال هنا، المستخدم سيفتح taw أو taf عند الحاجة
+  alert("تم حفظ البيانات بنجاح! يمكنك الآن فتح صفحات التوريد أو تفريغ الأسعار.");
 }
   </script>
 </body>

@@ -265,21 +265,42 @@ function removeRow(btn){btn.closest('tr').remove(); updateGrandTotal();}
 function clearTable(){document.querySelector("#itemsTable tbody").innerHTML=""; rowCount=0; updateGrandTotal();}
 
 // تعبئة البيانات تلقائياً إذا تم حفظها من main
-window.onload=function(){
-  const savedData=localStorage.getItem('mainFormData');
-  if(savedData){
-    const data=JSON.parse(savedData);
-    document.getElementById('supplierName').value=data.supplier1||'';
-    document.getElementById('supplierAddress').value=data.supplierAddress||'';
-    document.getElementById('supplierPhone').value=data.supplierPhone||'';
-    document.getElementById('orderDate').value=data.date||'';
-    document.getElementById('taxId').value=data.taxId||'';
-    document.getElementById('officer').value=data.officer||'';
-    document.getElementById('head').value=data.head||'';
-    document.getElementById('approved').value=data.approved||'';
-  }
-}
+window.onload = function() {
+  const savedData = localStorage.getItem('mainFormData');
+  if (savedData) {
+    const data = JSON.parse(savedData);
 
+    // تعبئة الحقول العلوية حسب الصفحة
+    document.getElementById('supplierName')?.value = data.supplier1 || '';
+    document.getElementById('supplier1')?.value = data.supplier1 || '';
+    document.getElementById('supplier2')?.value = data.supplier2 || '';
+    document.getElementById('supplier3')?.value = data.supplier3 || '';
+    document.getElementById('orderDate')?.value = data.date || '';
+    document.getElementById('committeeDate')?.value = data.committeeDate || '';
+    document.getElementById('taxRate')?.value = data.taxRate || 0;
+
+    // تعبئة التوقيعات
+    const footerInputs = document.querySelectorAll(".footer-inputs input");
+    if(footerInputs){
+      data.footer.forEach((val, i) => {
+        if(footerInputs[i]) footerInputs[i].value = val;
+      });
+    }
+
+    // تعبئة جدول الأصناف
+    if(data.table){
+      data.table.forEach(row => {
+        // استخدم الدالة المناسبة لكل صفحة لإضافة الصف
+        // مثال: addRow(row[1], row[2], row[3], row[4], row[5], row[6]);
+        addRowFromMain(row);
+      });
+    }
+
+    // تحديث أي عناوين أو إجماليات حسب الصفحة
+    updateTotals?.();
+    updateSupplierHeaders?.();
+  }
+};
 function saveData(){
   const data={
     supplierName:document.getElementById('supplierName').value,
