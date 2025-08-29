@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>محضر البت في عروض الأسعار - mahdr</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  body { 
+    font-family: 'Cairo', sans-serif; 
+    margin: 0; 
+    background: #f0f2f5; 
+    color: #333; 
+    line-height: 1.6;
+  }
+  
+  /* Navbar Styles */
+  .navbar {
+    background-color: #007bff;
+    color: #fff;
+    font-family: 'Cairo', sans-serif;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  }
+
+  .nav-container {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+  }
+
+  .nav-logo {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-links li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background 0.2s;
+  }
+
+  .nav-links li a:hover {
+    background-color: rgba(255,255,255,0.2);
+  }
+
+  .nav-toggle {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  .container {
+    max-width: 1000px;
+    margin: 20px auto;
+    background: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: relative;
+  }
+
+  /* Header Section */
+  .header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 20px;
+  }
+
+  .logo-section {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo-circle {
+    width: 100px;
+    height: 100px;
+    border: 4px solid #dc3545;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    position: relative;
+  }
+
+  .logo-inner {
+    width: 70px;
+    height: 70px;
+    background: #007bff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 10px;
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  .eagle-symbol {
+    position: absolute;
+    top: -10px;
+    width: 20px;
+    height: 20px;
+    background: #28a745;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  }
+
+  .title-section {
+    flex: 1;
+    text-align: center;
+    margin: 0 20px;
+  }
+
+  .main-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 10px;
+    text-decoration: underline;
+  }
+
+  .hospital-header {
+    background: #ffd700;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+  }
+
+  .contracts-header {
+    background: #9e9e9e;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .document-info {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 5px;
+  }
+
+  .document-title {
+    background: #9e9e9e;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    margin: 20px 0;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  /* Controls */
+  .controls-section {
+    text-align: center;
+    margin: 30px 0;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+  }
+
+  button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'Cairo', sans-serif;
+    transition: all 0.2s;
+  }
+
+  button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  }
+
+  .btn-primary { background: #007bff; color: #fff; }
+  .btn-success { background: #28a745; color: #fff; }
+  .btn-warning { background: #ffc107; color: #333; }
+  .btn-danger { background: #dc3545; color: #fff; }
+
+  /* Committee Table */
+  .committee-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    border: 2px solid #333;
+  }
+
+  .committee-table th,
+  .committee-table td {
+    border: 1px solid #333;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .committee-table th {
+    background: #f8f9fa;
+  }
+
+  .committee-table input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  /* Main Items Table */
+  .items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    border: 2px solid #333;
+  }
+
+  .items-table th,
+  .items-table td {
+    border: 1px solid #333;
+    padding: 8px;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  .items-table th {
+    background: #f8f9fa;
+    font-weight: bold;
+  }
+
+  .items-table input,
+  .items-table select {
+    width: 100%;
+    border: none;
+    background: transparent;
+    text-align: center;
+    padding: 2px;
+  }
+
+  .yellow-header {
+    background: #ffd700 !important;
+    font-weight: bold;
+  }
+
+  .gray-header {
+    background: #9e9e9e !important;
+    color: white;
+    font-weight: bold;
+  }
+
+  /* Summary Section */
+  .summary-section {
+    margin: 30px 0;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+  }
+
+  .summary-text {
+    margin: 15px 0;
+    font-weight: bold;
+    line-height: 2;
+  }
+
+  .summary-input {
+    border: none;
+    border-bottom: 2px solid #333;
+    background: transparent;
+    font-weight: bold;
+    text-align: center;
+    margin: 0 5px;
+    width: 100px;
+  }
+
+  .price-fraction {
+    display: inline-block;
+    margin: 0 10px;
+  }
+
+  /* Decision Section */
+  .decision-section {
+    margin: 30px 0;
+  }
+
+  .decision-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    border: 2px solid #333;
+  }
+
+  .decision-table th,
+  .decision-table td {
+    border: 1px solid #333;
+    padding: 15px;
+    text-align: center;
+  }
+
+  .decision-table th {
+    background: #f8f9fa;
+    font-weight: bold;
+  }
+
+  .decision-table input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  /* Final Section */
+  .final-section {
+    margin: 30px 0;
+    text-align: center;
+  }
+
+  .final-text {
+    font-weight: bold;
+    margin: 15px 0;
+  }
+
+  .signature-section {
+    background: #9e9e9e;
+    color: white;
+    padding: 10px;
+    margin: 20px 0;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 5px;
+  }
+
+  /* Print Styles */
+  @media print {
+    .navbar, .controls-section {
+      display: none !important;
+    }
+    
+    body {
+      background: white;
+      font-size: 12pt;
+    }
+    
+    .container {
+      box-shadow: none;
+      padding: 20px;
+      margin: 0;
+      max-width: none;
+    }
+    
+    .logo-circle {
+      border-color: #dc3545 !important;
+    }
+    
+    .logo-inner {
+      background: #007bff !important;
+      color: white !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    
+    .hospital-header {
+      background: #ffd700 !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    
+    .contracts-header, .document-title, .signature-section, .gray-header {
+      background: #666 !important;
+      color: white !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    
+    .yellow-header {
+      background: #ffd700 !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      background-color: #007bff;
+      padding: 10px 0;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+    }
+    
+    .nav-links.active {
+      display: flex;
+    }
+    
+    .nav-toggle {
+      display: block;
+    }
+
+    .container {
+      margin: 10px;
+      padding: 20px;
+    }
+
+    .header-section {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .logo-section {
+      margin-bottom: 20px;
+    }
+
+    .items-table,
+    .committee-table,
+    .decision-table {
+      font-size: 12px;
+    }
+
+    .items-table th,
+    .items-table td,
+    .committee-table th,
+    .committee-table td,
+    .decision-table th,
+    .decision-table td {
+      padding: 5px;
+    }
+  }
+</style>
+</head>
+
+<body>
+<!-- Navigation Bar -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-logo">تطبيق المشتريات</div>
+    <ul class="nav-links">
+      <li><a href="main.html">الرئيسية</a></li>
+      <li><a href="taw.html">التوريد</a></li>
+      <li><a href="taf.html">تفريغ</a></li>
+      <li><a href="mahdr.html" style="background-color: rgba(255,255,255,0.2);">محضر</a></li>
+      <li><a href="talab.html">طلب</a></li>
+      <li><a href="moka.html">مقايسه</a></li>
+      <li><a href="tash.html">تشكيل</a></li>
+      <li><a href="custom.html">الضرايب</a></li>
+    </ul>
+    <div class="nav-toggle" onclick="toggleMenu()">☰</div>
+  </div>
+</nav>
+
+<div class="container">
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="logo-section">
+      <div class="logo-circle">
+        <div class="eagle-symbol"></div>
+        <div class="logo-inner">
+          <div>وزارة<br>الصحة<br>والسكان</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="title-section">
+      <div class="hospital-header">الإدارة الصحية بسمنود</div>
+      <div class="contracts-header">التعاقدات</div>
+      <div class="main-title">محضر البت في عروض الأسعار</div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls-section">
+    <button class="btn-primary" onclick="loadFromTafSystem()">📋 تحميل من نظام التفريغ</button>
+    <button class="btn-success" onclick="saveReport()">💾 حفظ المحضر</button>
+    <button class="btn-warning" onclick="clearForm()">🗑️ مسح الكل</button>
+    <button class="btn-success" onclick="window.print()">🖨️ طباعة</button>
+  </div>
+
+  <!-- Document Info -->
+  <div class="document-title">
+    محضر البت في عروض الأسعار المقدمة في
+    <input type="text" id="documentLocation" placeholder="المكان" style="width: 150px; margin: 0 5px;">
+    إنه في يوم
+    <input type="date" id="meetingDate" style="width: 150px; margin: 0 5px;">
+    الموافق
+    <input type="text" id="hijriDate" placeholder="التاريخ الهجري" style="width: 150px; margin: 0 5px;">
+  </div>
+
+  <!-- Committee Members Table -->
+  <div style="text-align: center; margin: 20px 0;">
+    <strong>اجتمعت اللجنة المشكلة من:</strong>
+  </div>
+
+  <table class="committee-table">
+    <thead>
+      <tr>
+        <th>الاسم</th>
+        <th>الوظيفة</th>
+        <th>صفته باللجنة</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><input type="text" id="member1Name" placeholder="الاسم"></td>
+        <td><input type="text" id="member1Job" placeholder="الوظيفة"></td>
+        <td><input type="text" id="member1Role" value="رئيساً"></td>
+      </tr>
+      <tr>
+        <td><input type="text" id="member2Name" placeholder="الاسم"></td>
+        <td><input type="text" id="member2Job" placeholder="الوظيفة"></td>
+        <td><input type="text" id="member2Role" value="عضو"></td>
+      </tr>
+      <tr>
+        <td><input type="text" id="member3Name" placeholder="الاسم"></td>
+        <td><input type="text" id="member3Job" placeholder="الوظيفة"></td>
+        <td><input type="text" id="member3Role" value="عضو"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Main Content -->
+  <div style="text-align: center; margin: 20px 0;">
+    <strong>وذلك للبت في العروض المقدمة من الشركات المرشحة للحصول على الأسعار المقدمة</strong>
+  </div>
+
+  <!-- Items Table -->
+  <table class="items-table">
+    <thead>
+      <tr>
+        <th>اسم العملية</th>
+        <th>القيمة</th>
+        <th>الوحدة</th>
+        <th>اسم المورد</th>
+        <th>الإجمالي</th>
+      </tr>
+    </thead>
+    <tbody id="itemsTableBody">
+      <tr>
+        <td><input type="text" placeholder="اسم الصنف"></td>
+        <td><input type="number" placeholder="0" step="0.01" oninput="calculateTotal(this)"></td>
+        <td><input type="number" value="1" min="1" oninput="calculateTotal(this)"></td>
+        <td><input type="text" placeholder="اسم المورد"></td>
+        <td class="total-cell">0.00</td>
+      </tr>
+      <tr>
+        <td><input type="text" placeholder="اسم الصنف"></td>
+        <td><input type="number" placeholder="0" step="0.01" oninput="calculateTotal(this)"></td>
+        <td><input type="number" value="2" min="1" oninput="calculateTotal(this)"></td>
+        <td><input type="text" placeholder="اسم المورد"></td>
+        <td class="total-cell">0.00</td>
+      </tr>
+      <tr>
+        <td><input type="text" placeholder="اسم الصنف"></td>
+        <td><input type="number" placeholder="0" step="0.01" oninput="calculateTotal(this)"></td>
+        <td><input type="number" value="3" min="1" oninput="calculateTotal(this)"></td>
+        <td><input type="text" placeholder="اسم المورد"></td>
+        <td class="total-cell">0.00</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="text-align: center; margin: 20px 0;">
+    <button class="btn-primary" onclick="addItemRow()">➕ إضافة صف</button>
+  </div>
+
+  <!-- Summary Section -->
+  <div class="summary-section">
+    <div class="summary-text">
+      ضريبة: <span class="yellow-header" style="display: inline-block; padding: 5px 10px; border-radius: 3px;">قيمة</span>
+      <span class="gray-header" style="display: inline-block; padding: 5px 10px; border-radius: 3px; color: white;">غير شامل</span>
+      الإجمالي
+    </div>
+
+    <div class="summary-text">
+      * واستعراض العروض المسلمة من الناحية القانونية وجد أن :
+    </div>
+
+    <div class="summary-text">
+      جميع الأصناف المذكورة عاليه مطابقة فنياً بناء على الرأي الفني بالجهة
+    </div>
+
+    <div class="summary-text">
+      ** واستعراضها من الناحية القانونية وجد أن :
+    </div>
+
+    <div class="summary-text">
+      أقل العروض سعراً في العرض 
+      <input type="text" class="summary-input" id="lowestBidNum" placeholder="1/3">
+      الخاص من المورد 
+      <input type="text" class="summary-input" id="selectedSupplier" placeholder="اسم المورد" style="width: 200px;">
+    </div>
+
+    <div class="summary-text">
+      <span class="yellow-header" style="display: inline-block; padding: 5px 15px; border-radius: 3px;">
+        وقد أقر أن السعر التقديري المقدر بمبلغ 
+        <input type="number" class="summary-input" id="estimatedAmount" placeholder="0.00" step="0.01" style="width: 120px;">
+      </span>
+      <span class="gray-header" style="display: inline-block; padding: 5px 10px; border-radius: 3px; color: white; margin-right: 10px;">
+        <input type="text" placeholder="التوقيع" style="color: white; background: transparent; border: none; text-align: center;">
+      </span>
+    </div>
+
+    <div class="summary-text">
+      *** لذا نقرر باللجنة :
+    </div>
+
+    <div class="summary-text">
+      الترسية وإصدار أمر التوريد بقيم المورد 
+      <input type="text" class="summary-input" id="finalSupplier" placeholder="اسم المورد" style="width: 200px;">
+    </div>
+
+    <div class="summary-text">
+      وهذا إقرار من اللجنة بذلك ،
+    </div>
+  </div>
+
+  <!-- Decision Table -->
+  <table class="decision-table">
+    <thead>
+      <tr>
+        <th>الاسم</th>
+        <th>التوقيع</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><input type="text" id="signatory1" placeholder="الاسم الأول"></td>
+        <td><input type="text" placeholder="التوقيع"></td>
+      </tr>
+      <tr>
+        <td><input type="text" id="signatory2" placeholder="الاسم الثاني"></td>
+        <td><input type="text" placeholder="التوقيع"></td>
+      </tr>
+      <tr>
+        <td><input type="text" id="signatory3" placeholder="الاسم الثالث"></td>
+        <td><input type="text" placeholder="التوقيع"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Final Section -->
+  <div class="final-section">
+    <div class="final-text">يُعتمد ،</div>
+    
+    <div class="signature-section">
+      <input type="text" id="finalApprover" placeholder="اسم المعتمد النهائي" 
+             style="background: transparent; border: none; color: white; text-align: center; font-weight: bold; width: 300px;">
+    </div>
+  </div>
+</div>
+
+<script>
+// تبديل القائمة في الهاتف
+function toggleMenu() {
+  document.querySelector('.nav-links').classList.toggle('active');
+}
+
+// تعيين التاريخ الحالي عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', function() {
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('meetingDate').value = today;
+  
+  // تحميل البيانات المحفوظة إن وجدت
+  loadSavedData();
+});
+
+// حساب الإجمالي لكل صف
+function calculateTotal(input) {
+  const row = input.closest('tr');
+  const valueInput = row.querySelector('input[type="number"]:nth-of-type(1)');
+  const quantityInput = row.querySelector('input[type="number"]:nth-of-type(2)');
+  const totalCell = row.querySelector('.total-cell');
+  
+  const value = parseFloat(valueInput.value) || 0;
+  const quantity = parseFloat(quantityInput.value) || 0;
+  const total = value * quantity;
+  
+  totalCell.textContent = total.toFixed(2);
+  
+  calculateGrandTotal();
+}
+
+// حساب الإجمالي العام
+function calculateGrandTotal() {
+  let grandTotal = 0;
+  document.querySelectorAll('.total-cell').forEach(cell => {
+    grandTotal += parseFloat(cell.textContent) || 0;
+  });
+  
+  // تحديث المبلغ التقديري
+  document.getElementById('estimatedAmount').value = grandTotal.toFixed(2);
+}
+
+// إضافة صف جديد للأصناف
+function addItemRow() {
+  const tbody = document.getElementById('itemsTableBody');
+  const newRow = document.createElement('tr');
+  const rowCount = tbody.children.length + 1;
+  
+  newRow.innerHTML = `
+    <td><input type="text" placeholder="اسم الصنف"></td>
+    <td><input type="number" placeholder="0" step="0.01" oninput="calculateTotal(this)"></td>
+    <td><input type="number" value="${rowCount}" min="1" oninput="calculateTotal(this)"></td>
+    <td><input type="text" placeholder="اسم المورد"></td>
+    <td class="total-cell">0.00</td>
+  `;
+  
+  tbody.appendChild(newRow);
+}
+
+// تحميل البيانات من نظام التفريغ
+function loadFromTafSystem() {
+  try {
+    // محاكاة تحميل البيانات من نظام التفريغ
+    const tafData = {
+      items: [
+        { name: "أدوية القلب والأوعية الدموية", price: 2500.00, quantity: 10, supplier: "شركة النيل للأدوية" },
+        { name: "مستلزمات طبية", price: 1200.00, quantity: 15, supplier: "شركة المستقبل الطبية" },
+        { name: "أجهزة قياس الضغط", price: 850.00, quantity: 5, supplier: "شركة التقنية المتقدمة" }
+      ],
+      date: new Date().toISOString().split('T')[0],
+      location: "مستشفى سمنود المركزي"
+    };
+    
+    if (tafData && tafData.items) {
+      // تحميل الأصناف
+      const tbody = document.getElementById('itemsTableBody');
+      tbody.innerHTML = '';
+      
+      tafData.items.forEach((item, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td><input type="text" value="${item.name}"></td>
+          <td><input type="number" value="${item.price}" step="0.01" oninput="calculateTotal(this)"></td>
+          <td><input type="number" value="${item.quantity}" min="1" oninput="calculateTotal(this)"></td>
+          <td><input type="text" value="${item.supplier}"></td>
+          <td class="total-cell">${(item.price * item.quantity).toFixed(2)}</td>
+        `;
+        tbody.appendChild(row);
+      });
+      
+      // تحميل البيانات الأساسية
+      document.getElementById('meetingDate').value = tafData.date;
+      document.getElementById('documentLocation').value = tafData.location;
+      
+      calculateGrandTotal();
+      showMessage('تم تحميل البيانات من نظام التفريغ بنجاح', 'success');
+    } else {
+      showMessage('لا توجد بيانات محفوظة في نظام التفريغ', 'info');
+    }
+  } catch (error) {
+    console.error('خطأ في تحميل البيانات:', error);
+    showMessage('حدث خطأ في تحميل البيانات', 'error');
+  }
+}
+
+// حفظ المحضر
+function saveReport() {
+  try {
+    const reportData = {
+      meetingDate: document.getElementById('meetingDate').value,
+      documentLocation: document.getElementById('documentLocation').value,
+      hijriDate: document.getElementById('hijriDate').value,
+      
+      committee: [
+        {
+          name: document.getElementById('member1Name').value,
+          job: document.getElementById('member1Job').value,
+          role: document.getElementById('member1Role').value
+        },
+        {
+          name: document.getElementById('member2Name').value,
+          job: document.getElementById('member2Job').value,
+          role: document.getElementById('member2Role').value
+        },
+        {
+          name: document.getElementById('member3Name').value,
+          job: document.getElementById('member3Job').value,
+          role: document.getElementById('member3Role').value
+        }
+      ],
+      
+      items: [],
+      
+      lowestBidNum: document.getElementById('lowestBidNum').value,
+      selectedSupplier: document.getElementById('selectedSupplier').value,
+      estimatedAmount: document.getElementById('estimatedAmount').value,
+      finalSupplier: document.getElementById('finalSupplier').value,
+      
+      signatories: [
+        document.getElementById('signatory1').value,
+        document.getElementById('signatory2').value,
+        document.getElementById('signatory3').value
+      ],
+      
+      finalApprover: document.getElementById('finalApprover').value,
+      savedAt: new Date().toISOString()
+    };
+    
+    // حفظ بيانات الأصناف
+    document.querySelectorAll('#itemsTableBody tr').forEach(row => {
+      const inputs = row.querySelectorAll('input');
+      if (inputs.length >= 4) {
+        const itemData = {
+          name: inputs[0].value,
+          price: parseFloat(inputs[1].value) || 0,
+          quantity: parseFloat(inputs[2].value) || 0,
+          supplier: inputs[3].value,
+          total: parseFloat(row.querySelector('.total-cell').textContent) || 0
+        };
+        reportData.items.push(itemData);
+      }
+    });
+    
+    // التحقق من صحة البيانات
+    const errors = validateReportData(reportData);
+    if (errors.length > 0) {
+      showMessage('يرجى إكمال البيانات المطلوبة: ' + errors.join(', '), 'error');
+      return;
+    }
+    
+    // حفظ البيانات (في تطبيق حقيقي سيتم الحفظ في قاعدة البيانات)
+    localStorage.setItem('mahdrReportData', JSON.stringify(reportData));
+    console.log('بيانات المحضر محفوظة:', reportData);
+    
+    showMessage('تم حفظ المحضر بنجاح', 'success');
+  } catch (error) {
+    console.error('خطأ في حفظ المحضر:', error);
+    showMessage('حدث خطأ في حفظ المحضر', 'error');
+  }
+}
+
+// التحقق من صحة بيانات المحضر
+function validateReportData(data) {
+  const errors = [];
+  
+  if (!data.meetingDate) {
+    errors.push('تاريخ الاجتماع');
+  }
+  
+  if (!data.documentLocation.trim()) {
+    errors.push('مكان الاجتماع');
+  }
+  
+  // التحقق من بيانات اللجنة
+  let hasCommitteeData = false;
+  data.committee.forEach((member, index) => {
+    if (member.name.trim()) {
+      hasCommitteeData = true;
+    }
+  });
+  
+  if (!hasCommitteeData) {
+    errors.push('بيانات أعضاء اللجنة');
+  }
+  
+  // التحقق من وجود أصناف
+  if (data.items.length === 0) {
+    errors.push('الأصناف المطلوبة');
+  }
+  
+  // التحقق من بيانات الأصناف
+  let hasValidItems = false;
+  data.items.forEach(item => {
+    if (item.name.trim() && item.price > 0) {
+      hasValidItems = true;
+    }
+  });
+  
+  if (!hasValidItems) {
+    errors.push('بيانات الأصناف صحيحة');
+  }
+  
+  return errors;
+}
+
+// مسح النموذج
+function clearForm() {
+  if (confirm('هل أنت متأكد من مسح جميع البيانات؟')) {
+    // مسح البيانات الأساسية
+    document.getElementById('documentLocation').value = '';
+    document.getElementById('hijriDate').value = '';
+    
+    // مسح بيانات اللجنة
+    document.getElementById('member1Name').value = '';
+    document.getElementById('member1Job').value = '';
+    document.getElementById('member2Name').value = '';
+    document.getElementById('member2Job').value = '';
+    document.getElementById('member3Name').value = '';
+    document.getElementById('member3Job').value = '';
+    
+    // مسح جدول الأصناف
+    const tbody = document.getElementById('itemsTableBody');
+    tbody.innerHTML = `
+      <tr>
+        <td><input type="text" placeholder="اسم الصنف"></td>
+        <td><input type="number" placeholder="0" step="0.01" oninput="calculateTotal(this)"></td>
+        <td><input type="number" value="1" min="1" oninput="calculateTotal(this)"></td>
+        <td><input type="text" placeholder="اسم المورد"></td>
+        <td class="total-cell">0.00</td>
+      </tr>
+      <tr>
+        <td><input type="text" placeholder="اسم الصنف"></td>
+        <td><input type="number" placeholder="0" step="0.01" oninput="calculateTotal(this)"></td>
+        <td><input type="number" value="2" min="1" oninput="calculateTotal(this)"></td>
+        <td><input type="text" placeholder="اسم المورد"></td>
+        <td class="total-cell">0.00</td>
+      </tr>
+      <tr>
+        <td><input type="text" placeholder="اسم الصنف"></td>
+        <td><input type="number" placeholder="0" step="0.01" oninput="calculateTotal(this)"></td>
+        <td><input type="number" value="3" min="1" oninput="calculateTotal(this)"></td>
+        <td><input type="text" placeholder="اسم المورد"></td>
+        <td class="total-cell">0.00</td>
+      </tr>
+    `;
+    
+    // مسح بيانات القرار
+    document.getElementById('lowestBidNum').value = '';
+    document.getElementById('selectedSupplier').value = '';
+    document.getElementById('estimatedAmount').value = '';
+    document.getElementById('finalSupplier').value = '';
+    
+    // مسح التوقيعات
+    document.getElementById('signatory1').value = '';
+    document.getElementById('signatory2').value = '';
+    document.getElementById('signatory3').value = '';
+    document.getElementById('finalApprover').value = '';
+    
+    // إعادة تعيين التاريخ الحالي
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('meetingDate').value = today;
+    
+    calculateGrandTotal();
+    showMessage('تم مسح جميع البيانات', 'success');
+  }
+}
+
+// تحميل البيانات المحفوظة
+function loadSavedData() {
+  try {
+    const savedData = localStorage.getItem('mahdrReportData');
+    
+    if (savedData) {
+      const data = JSON.parse(savedData);
+      
+      // تحميل البيانات الأساسية
+      document.getElementById('meetingDate').value = data.meetingDate || '';
+      document.getElementById('documentLocation').value = data.documentLocation || '';
+      document.getElementById('hijriDate').value = data.hijriDate || '';
+      
+      // تحميل بيانات اللجنة
+      if (data.committee && data.committee.length >= 3) {
+        document.getElementById('member1Name').value = data.committee[0].name || '';
+        document.getElementById('member1Job').value = data.committee[0].job || '';
+        document.getElementById('member2Name').value = data.committee[1].name || '';
+        document.getElementById('member2Job').value = data.committee[1].job || '';
+        document.getElementById('member3Name').value = data.committee[2].name || '';
+        document.getElementById('member3Job').value = data.committee[2].job || '';
+      }
+      
+      // تحميل بيانات الأصناف
+      if (data.items && data.items.length > 0) {
+        const tbody = document.getElementById('itemsTableBody');
+        tbody.innerHTML = '';
+        
+        data.items.forEach(item => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td><input type="text" value="${item.name || ''}"></td>
+            <td><input type="number" value="${item.price || 0}" step="0.01" oninput="calculateTotal(this)"></td>
+            <td><input type="number" value="${item.quantity || 1}" min="1" oninput="calculateTotal(this)"></td>
+            <td><input type="text" value="${item.supplier || ''}"></td>
+            <td class="total-cell">${(item.total || 0).toFixed(2)}</td>
+          `;
+          tbody.appendChild(row);
+        });
+      }
+      
+      // تحميل بيانات القرار
+      document.getElementById('lowestBidNum').value = data.lowestBidNum || '';
+      document.getElementById('selectedSupplier').value = data.selectedSupplier || '';
+      document.getElementById('estimatedAmount').value = data.estimatedAmount || '';
+      document.getElementById('finalSupplier').value = data.finalSupplier || '';
+      
+      // تحميل التوقيعات
+      if (data.signatories && data.signatories.length >= 3) {
+        document.getElementById('signatory1').value = data.signatories[0] || '';
+        document.getElementById('signatory2').value = data.signatories[1] || '';
+        document.getElementById('signatory3').value = data.signatories[2] || '';
+      }
+      
+      document.getElementById('finalApprover').value = data.finalApprover || '';
+      
+      calculateGrandTotal();
+    }
+  } catch (error) {
+    console.error('خطأ في تحميل البيانات المحفوظة:', error);
+  }
+}
+
+// عرض الرسائل
+function showMessage(message, type = 'success') {
+  const messageDiv = document.createElement('div');
+  messageDiv.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    border-radius: 6px;
+    font-weight: bold;
+    z-index: 10000;
+    max-width: 400px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  `;
+  
+  if (type === 'success') {
+    messageDiv.style.backgroundColor = '#d4edda';
+    messageDiv.style.color = '#155724';
+    messageDiv.style.border = '1px solid #c3e6cb';
+  } else if (type === 'error') {
+    messageDiv.style.backgroundColor = '#f8d7da';
+    messageDiv.style.color = '#721c24';
+    messageDiv.style.border = '1px solid #f5c6cb';
+  } else {
+    messageDiv.style.backgroundColor = '#d1ecf1';
+    messageDiv.style.color = '#0c5460';
+    messageDiv.style.border = '1px solid #bee5eb';
+  }
+  
+  messageDiv.textContent = message;
+  document.body.appendChild(messageDiv);
+  
+  setTimeout(() => {
+    if (messageDiv.parentNode) {
+      messageDiv.parentNode.removeChild(messageDiv);
+    }
+  }, 4000);
+}
+
+// إنشاء تقرير ملخص
+function generateSummaryReport() {
+  const reportData = {
+    items: [],
+    grandTotal: 0,
+    committeeMembers: []
+  };
+  
+  // جمع بيانات الأصناف
+  document.querySelectorAll('#itemsTableBody tr').forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    if (inputs.length >= 4 && inputs[0].value.trim()) {
+      const item = {
+        name: inputs[0].value,
+        price: parseFloat(inputs[1].value) || 0,
+        quantity: parseFloat(inputs[2].value) || 0,
+        supplier: inputs[3].value,
+        total: parseFloat(row.querySelector('.total-cell').textContent) || 0
+      };
+      reportData.items.push(item);
+      reportData.grandTotal += item.total;
+    }
+  });
+  
+  // جمع بيانات اللجنة
+  const memberNames = [
+    document.getElementById('member1Name').value,
+    document.getElementById('member2Name').value,
+    document.getElementById('member3Name').value
+  ];
+  
+  memberNames.forEach(name => {
+    if (name.trim()) {
+      reportData.committeeMembers.push(name);
+    }
+  });
+  
+  return reportData;
+}
+
+// طباعة محسنة
+function enhancedPrint() {
+  // التأكد من اكتمال البيانات قبل الطباعة
+  const reportData = generateSummaryReport();
+  
+  if (reportData.items.length === 0) {
+    showMessage('يرجى إدخال بيانات الأصناف قبل الطباعة', 'error');
+    return;
+  }
+  
+  if (reportData.committeeMembers.length === 0) {
+    showMessage('يرجى إدخال بيانات أعضاء اللجنة قبل الطباعة', 'error');
+    return;
+  }
+  
+  // تحديث الملخص قبل الطباعة
+  calculateGrandTotal();
+  
+  // طباعة الصفحة
+  window.print();
+}
+
+// تحسين تجربة المستخدم - اختصارات لوحة المفاتيح
+document.addEventListener('keydown', function(event) {
+  // Ctrl + S للحفظ
+  if (event.ctrlKey && event.key === 's') {
+    event.preventDefault();
+    saveReport();
+  }
+  
+  // Ctrl + P للطباعة
+  if (event.ctrlKey && event.key === 'p') {
+    event.preventDefault();
+    enhancedPrint();
+  }
+  
+  // Ctrl + Enter لإضافة صف جديد
+  if (event.ctrlKey && event.key === 'Enter') {
+    event.preventDefault();
+    addItemRow();
+  }
+});
+
+// تنسيق الأرقام تلقائياً
+document.addEventListener('input', function(event) {
+  if (event.target.type === 'number' && event.target.step === '0.01') {
+    const value = parseFloat(event.target.value);
+    if (!isNaN(value)) {
+      event.target.value = value.toFixed(2);
+    }
+  }
+});
+
+// حساب تلقائي للمجاميع عند تحميل الصفحة
+window.addEventListener('load', function() {
+  setTimeout(() => {
+    calculateGrandTotal();
+  }, 100);
+});
+
+// إضافة تلميحات للمستخدم
+function showTooltips() {
+  const tooltips = {
+    'meetingDate': 'تاريخ اجتماع اللجنة',
+    'documentLocation': 'مكان انعقاد الاجتماع',
+    'member1Name': 'اسم رئيس اللجنة',
+    'selectedSupplier': 'المورد الذي تم اختياره',
+    'estimatedAmount': 'المبلغ الإجمالي المقدر'
+  };
+  
+  Object.keys(tooltips).forEach(id => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.title = tooltips[id];
+    }
+  });
+}
+
+// تفعيل التلميحات عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', showTooltips);
+
+// دالة للتحقق من اكتمال البيانات المهمة
+function checkDataCompleteness() {
+  const requiredFields = [
+    'meetingDate',
+    'documentLocation', 
+    'member1Name',
+    'selectedSupplier'
+  ];
+  
+  let missingFields = [];
+  
+  requiredFields.forEach(fieldId => {
+    const field = document.getElementById(fieldId);
+    if (!field.value.trim()) {
+      missingFields.push(field.placeholder || fieldId);
+    }
+  });
+  
+  return missingFields;
+}
+
+// تحديث دوري للبيانات (حفظ تلقائي كل دقيقتين)
+setInterval(() => {
+  const missingFields = checkDataCompleteness();
+  if (missingFields.length === 0) {
+    saveReport();
+    console.log('تم الحفظ التلقائي:', new Date().toLocaleTimeString('ar-EG'));
+  }
+}, 120000); // كل دقيقتين
+
+console.log('نظام محضر البت في عروض الأسعار جاهز للاستخدام');
+console.log('استخدم Ctrl+S للحفظ، Ctrl+P للطباعة، Ctrl+Enter لإضافة صف');
+
+</script>
+
+</body>
+</html>

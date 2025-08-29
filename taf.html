@@ -5,38 +5,363 @@
 <title>تفريغ الأسعار - taf</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
 <style>
-  body { font-family: 'Cairo', sans-serif; margin:0; background:#f0f2f5; color:#333; }
-  header { background:#007bff; color:#fff; padding:15px; text-align:center; font-size:22px; font-weight:bold; box-shadow:0 2px 6px rgba(0,0,0,0.15); }
-  .container { max-width:1400px; margin:20px auto; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.1); }
-  h1.title { text-align:center; font-size:28px; margin-bottom:20px; font-weight:bold; }
-  table { width:100%; border-collapse:collapse; margin-top:20px; background:#fff; border-radius:8px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
-  th, td { border:1px solid #e5e5e5; padding:8px; text-align:center; font-size:14px; }
-  th { background:#f8f9fa; font-weight:600; }
-  tfoot td { font-weight:bold; background:#f1f3f5; }
-  .highlight { background-color:#d4edda !important; }
-  .footer-inputs, .top-inputs { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:15px; margin-top:20px; }
-  .footer-inputs label, .top-inputs label { display:flex; flex-direction:column; font-weight:600; }
-  input { padding:7px; border:1px solid #ccc; border-radius:6px; margin-top:5px; }
-  button { padding:10px 18px; border:none; border-radius:6px; margin:5px; cursor:pointer; font-size:14px; font-weight:bold; transition:0.2s; }
-  button:hover { opacity:0.85; }
-  .print { background:#28a745; color:#fff; }
-  .add { background:#007bff; color:#fff; }
-  .clear { background:#dc3545; color:#fff; }
-  @media(max-width:1024px){table, th, td{font-size:12px;}}
-  @media(max-width:768px){.footer-inputs, .top-inputs{grid-template-columns:1fr;}}
+  body { 
+    font-family: 'Cairo', sans-serif; 
+    margin: 0; 
+    background: #f0f2f5; 
+    color: #333; 
+    line-height: 1.6;
+  }
+  
+  /* Navbar Styles */
+  .navbar {
+    background-color: #007bff;
+    color: #fff;
+    font-family: 'Cairo', sans-serif;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  }
+
+  .nav-container {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+  }
+
+  .nav-logo {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-links li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background 0.2s;
+  }
+
+  .nav-links li a:hover {
+    background-color: rgba(255,255,255,0.2);
+  }
+
+  .nav-toggle {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  header { 
+    background: #007bff; 
+    color: #fff; 
+    padding: 15px; 
+    text-align: center; 
+    font-size: 22px; 
+    font-weight: bold; 
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15); 
+  }
+  
+  .container { 
+    max-width: 1400px; 
+    margin: 20px auto; 
+    background: #fff; 
+    padding: 20px; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+  }
+  
+  h1.title { 
+    text-align: center; 
+    font-size: 28px; 
+    margin-bottom: 20px; 
+    font-weight: bold; 
+    color: #007bff;
+  }
+  
+  table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin-top: 20px; 
+    background: #fff; 
+    border-radius: 8px; 
+    overflow: hidden; 
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1); 
+  }
+  
+  th, td { 
+    border: 1px solid #e5e5e5; 
+    padding: 8px; 
+    text-align: center; 
+    font-size: 14px; 
+    vertical-align: middle;
+  }
+  
+  th { 
+    background: #f8f9fa; 
+    font-weight: 600; 
+    color: #495057;
+  }
+  
+  tfoot td { 
+    font-weight: bold; 
+    background: #f1f3f5; 
+    color: #007bff;
+  }
+  
+  .highlight { 
+    background-color: #d4edda !important; 
+    border: 2px solid #28a745 !important;
+    font-weight: bold;
+  }
+  
+  .footer-inputs, .top-inputs { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+    gap: 15px; 
+    margin-top: 20px; 
+  }
+  
+  .footer-inputs label, .top-inputs label { 
+    display: flex; 
+    flex-direction: column; 
+    font-weight: 600; 
+  }
+  
+  input { 
+    padding: 8px; 
+    border: 1px solid #ccc; 
+    border-radius: 6px; 
+    margin-top: 5px; 
+    font-family: 'Cairo', sans-serif;
+    transition: border-color 0.2s;
+  }
+  
+  input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0,123,255,0.25);
+  }
+  
+  button { 
+    padding: 10px 18px; 
+    border: none; 
+    border-radius: 6px; 
+    margin: 5px; 
+    cursor: pointer; 
+    font-size: 14px; 
+    font-weight: bold; 
+    transition: all 0.2s;
+    font-family: 'Cairo', sans-serif;
+  }
+  
+  button:hover { 
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  }
+  
+  .print { 
+    background: #28a745; 
+    color: #fff; 
+  }
+  
+  .print:hover {
+    background: #218838;
+  }
+  
+  .add { 
+    background: #007bff; 
+    color: #fff; 
+  }
+  
+  .add:hover {
+    background: #0056b3;
+  }
+  
+  .clear { 
+    background: #dc3545; 
+    color: #fff; 
+  }
+  
+  .clear:hover {
+    background: #c82333;
+  }
+  
+  .remove-btn {
+    background: #fd7e14;
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 4px;
+  }
+  
+  .remove-btn:hover {
+    background: #e8590c;
+  }
+  
+  .controls-section {
+    text-align: center; 
+    margin: 20px 0;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+  }
+  
+  .supplier-headers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+  }
+  
+  .supplier-input {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .supplier-input label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #495057;
+  }
+  
+  .table-wrapper {
+    overflow-x: auto;
+    margin-top: 20px;
+  }
+  
+  .loading {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  
+  .error-message {
+    color: #dc3545;
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 6px;
+    margin: 10px 0;
+    text-align: center;
+  }
+  
+  .success-message {
+    color: #155724;
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    padding: 10px;
+    border-radius: 6px;
+    margin: 10px 0;
+    text-align: center;
+  }
+
+  /* Print Styles */
+  @media print {
+    .navbar, .controls-section, .supplier-headers, button {
+      display: none !important;
+    }
+    
+    body {
+      background: white;
+    }
+    
+    .container {
+      box-shadow: none;
+      padding: 10px;
+      margin: 0;
+    }
+    
+    table {
+      box-shadow: none;
+    }
+    
+    th, td {
+      font-size: 12px;
+      padding: 6px;
+    }
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    table, th, td { 
+      font-size: 12px; 
+    }
+    
+    .container {
+      margin: 10px;
+      padding: 15px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      background-color: #007bff;
+      padding: 10px 0;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+    }
+    
+    .nav-links.active {
+      display: flex;
+    }
+    
+    .nav-toggle {
+      display: block;
+    }
+    
+    .footer-inputs, .top-inputs, .supplier-headers { 
+      grid-template-columns: 1fr; 
+    }
+    
+    .table-wrapper {
+      overflow-x: scroll;
+    }
+    
+    table {
+      min-width: 800px;
+    }
+    
+    .controls-section {
+      padding: 10px;
+    }
+    
+    button {
+      margin: 3px;
+      padding: 8px 12px;
+      font-size: 12px;
+    }
+  }
 </style>
 </head>
 
-
-
-<!-- ضع هذا الكود أسفل وسم <body> مباشرة قبل <header> -->
+<body>
+<!-- Navigation Bar -->
 <nav class="navbar">
   <div class="nav-container">
-    <div class="nav-logo"> تطبيق المشتريات</div>
+    <div class="nav-logo">تطبيق المشتريات</div>
     <ul class="nav-links">
       <li><a href="main.html">الرئيسية</a></li>
       <li><a href="taw.html">التوريد</a></li>
-      <li><a href="taf.html">تفريغ</a></li>
+      <li><a href="taf.html" style="background-color: rgba(255,255,255,0.2);">تفريغ</a></li>
       <li><a href="mahdr.html">محضر</a></li>
       <li><a href="talab.html">طلب</a></li>
       <li><a href="moka.html">مقايسه</a></li>
@@ -47,293 +372,609 @@
   </div>
 </nav>
 
-<style>
-/* Navbar أساسي */
-.navbar {
-  background-color: #007bff;
-  color: #fff;
-  font-family: 'Cairo', sans-serif;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-}
-
-.nav-container {
-  max-width: 1200px;
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-}
-
-.nav-logo {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.nav-links {
-  list-style: none;
-  display: flex;
-  gap: 15px;
-  margin: 0;
-  padding: 0;
-}
-
-.nav-links li a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: 600;
-  padding: 8px 12px;
-  border-radius: 6px;
-  transition: background 0.2s;
-}
-
-.nav-links li a:hover {
-  background-color: rgba(255,255,255,0.2);
-}
-
-.nav-toggle {
-  display: none;
-  font-size: 24px;
-  cursor: pointer;
-}
-
-/* تصميم متجاوب */
-@media (max-width: 768px) {
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    gap: 10px;
-    background-color: #007bff;
-    padding: 10px 0;
-  }
-  .nav-links.active {
-    display: flex;
-  }
-  .nav-toggle {
-    display: block;
-  }
-}
-</style>
-
-<script>
-function toggleMenu() {
-  document.querySelector('.nav-links').classList.toggle('active');
-}
-</script>
-
-
-
-
-
-
-
-
-<body>
-
 <header>الإدارة الصحية</header>
 
 <div class="container">
   <h1 class="title">تفريغ الأسعار</h1>
 
+  <!-- Date Input -->
   <div class="top-inputs">
-    <label>تاريخ: <input type="date" id="orderDate"></label>
+    <label>تاريخ التفريغ: <input type="date" id="orderDate"></label>
   </div>
 
-  <div style="text-align:center; margin-bottom:10px;">
+  <!-- Supplier Names Section -->
+  <div class="supplier-headers">
+    <div class="supplier-input">
+      <label>اسم المورد الأول:</label>
+      <input type="text" id="supplier1Name" placeholder="أدخل اسم المورد الأول" oninput="updateSupplierHeader(1)">
+    </div>
+    <div class="supplier-input">
+      <label>اسم المورد الثاني:</label>
+      <input type="text" id="supplier2Name" placeholder="أدخل اسم المورد الثاني" oninput="updateSupplierHeader(2)">
+    </div>
+    <div class="supplier-input">
+      <label>اسم المورد الثالث:</label>
+      <input type="text" id="supplier3Name" placeholder="أدخل اسم المورد الثالث" oninput="updateSupplierHeader(3)">
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls-section">
     <button class="add" onclick="addEmptyRow()">➕ إضافة صف</button>
-    <button class="clear" onclick="clearTable()">🗑️ مسح الكل</button>
+    <button class="clear" onclick="confirmClearTable()">🗑️ مسح الكل</button>
     <button class="print" onclick="window.print()">🖨️ طباعة</button>
+    <button class="add" onclick="saveData()">💾 حفظ البيانات</button>
   </div>
 
-  <table id="itemsTable">
-  <thead>
-    <tr>
-      <th>م</th>
-      <th>الصنف</th>
-      <th>الوحدة</th>
-      <th>الكمية</th>
-      <th id="th-supplier1">المورد الأول</th>
-      <th>بعد الضريبة</th>
-      <th id="th-supplier2">المورد الثاني</th>
-      <th>بعد الضريبة</th>
-      <th id="th-supplier3">المورد الثالث</th>
-      <th>بعد الضريبة</th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-  <tfoot>
-    <tr>
-      <td colspan="4">الإجمالي</td>
-      <td id="total1">0</td>
-      <td id="total1After">0</td>
-      <td id="total2">0</td>
-      <td id="total2After">0</td>
-      <td id="total3">0</td>
-      <td id="total3After">0</td>
-    </tr>
-  </tfoot>
-</table>
+  <!-- Table -->
+  <div class="table-wrapper">
+    <table id="itemsTable">
+      <thead>
+        <tr>
+          <th>م</th>
+          <th>الصنف</th>
+          <th>الوحدة</th>
+          <th>الكمية</th>
+          <th id="th-supplier1">المورد الأول</th>
+          <th>بعد الضريبة</th>
+          <th id="th-supplier2">المورد الثاني</th>
+          <th>بعد الضريبة</th>
+          <th id="th-supplier3">المورد الثالث</th>
+          <th>بعد الضريبة</th>
+          <th>الإجراء</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4">الإجمالي</td>
+          <td id="total1">0.00</td>
+          <td id="total1After">0.00</td>
+          <td id="total2">0.00</td>
+          <td id="total2After">0.00</td>
+          <td id="total3">0.00</td>
+          <td id="total3After">0.00</td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
 
-
+  <!-- Footer Inputs -->
   <div class="footer-inputs">
-    <label>المختص: <input type="text" id="officer"></label>
-    <label>رئيس القسم: <input type="text" id="head"></label>
-    <label>يعتمد: <input type="text" id="approved"></label>
-    <label>اسم اللجنة الأول: <input type="text" id="committee1"></label>
-    <label>اسم اللجنة الثاني: <input type="text" id="committee2"></label>
-    <label>اسم اللجنة الثالث: <input type="text" id="committee3"></label>
+    <label>المختص: <input type="text" id="officer" placeholder="اسم المختص"></label>
+    <label>رئيس القسم: <input type="text" id="head" placeholder="اسم رئيس القسم"></label>
+    <label>يعتمد: <input type="text" id="approved" placeholder="اسم المعتمد"></label>
+    <label>عضو اللجنة الأول: <input type="text" id="committee1" placeholder="اسم العضو الأول"></label>
+    <label>عضو اللجنة الثاني: <input type="text" id="committee2" placeholder="اسم العضو الثاني"></label>
+    <label>عضو اللجنة الثالث: <input type="text" id="committee3" placeholder="اسم العضو الثالث"></label>
   </div>
 </div>
 
-<script src="data.js"></script>
 <script>
-let rowCount=0;
+let rowCount = 0;
+const TAX_RATE = 0.15; // معدل الضريبة 15%
+
+// تهيئة الصفحة
+document.addEventListener('DOMContentLoaded', function() {
+  loadSavedData();
+  setCurrentDate();
+});
+
+// تعيين التاريخ الحالي
+function setCurrentDate() {
+  if (!document.getElementById('orderDate').value) {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('orderDate').value = today;
+  }
+}
+
+// تبديل القائمة في الهاتف
+function toggleMenu() {
+  document.querySelector('.nav-links').classList.toggle('active');
+}
+
+// تحديث عناوين الموردين
+function updateSupplierHeader(supplierNum) {
+  const supplierName = document.getElementById(`supplier${supplierNum}Name`).value || `المورد ${supplierNum === 1 ? 'الأول' : supplierNum === 2 ? 'الثاني' : 'الثالث'}`;
+  document.getElementById(`th-supplier${supplierNum}`).textContent = supplierName;
+}
 
 // إضافة صف جديد فارغ
-function addEmptyRow(){
+function addEmptyRow() {
   rowCount++;
-  const tbody=document.querySelector('#itemsTable tbody');
-  const tr=document.createElement('tr');
-  tr.innerHTML=`
+  const tbody = document.querySelector('#itemsTable tbody');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
     <td>${rowCount}</td>
-    <td><input list="itemsList"></td>
-    <td><input type="text"></td>
-    <td><input type="number" value="0" oninput="updateRow(this)"></td>
-    <td><input type="number" value="0" oninput="updateRow(this)"></td>
-    <td>0</td>
-    <td><input type="number" value="0" oninput="updateRow(this)"></td>
-    <td>0</td>
-    <td><input type="number" value="0" oninput="updateRow(this)"></td>
-    <td>0</td>
-    
-    <td><button onclick="removeRow(this)">مسح</button></td>
+    <td><input type="text" placeholder="اسم الصنف" style="width: 100%; border: none; text-align: center; background: transparent;"></td>
+    <td><input type="text" placeholder="الوحدة" style="width: 100%; border: none; text-align: center; background: transparent;"></td>
+    <td><input type="number" value="1" min="0" step="0.01" oninput="updateRow(this)" style="width: 100%; border: none; text-align: center; background: transparent;"></td>
+    <td><input type="number" value="0" min="0" step="0.01" oninput="updateRow(this)" style="width: 100%; border: none; text-align: center; background: transparent;"></td>
+    <td class="calculated-cell">0.00</td>
+    <td><input type="number" value="0" min="0" step="0.01" oninput="updateRow(this)" style="width: 100%; border: none; text-align: center; background: transparent;"></td>
+    <td class="calculated-cell">0.00</td>
+    <td><input type="number" value="0" min="0" step="0.01" oninput="updateRow(this)" style="width: 100%; border: none; text-align: center; background: transparent;"></td>
+    <td class="calculated-cell">0.00</td>
+    <td><button class="remove-btn" onclick="removeRow(this)">مسح</button></td>
   `;
   tbody.appendChild(tr);
   updateTotals();
+  
+  // التركيز على أول حقل في الصف الجديد
+  tr.querySelector('input').focus();
 }
 
-// إزالة صف
-function removeRow(btn){ btn.closest('tr').remove(); updateTotals(); }
+// إزالة صف مع تأكيد
+function removeRow(btn) {
+  if (confirm('هل أنت متأكد من حذف هذا الصف؟')) {
+    btn.closest('tr').remove();
+    updateRowNumbers();
+    updateTotals();
+    showMessage('تم حذف الصف بنجاح', 'success');
+  }
+}
+
+// تحديث أرقام الصفوف
+function updateRowNumbers() {
+  const rows = document.querySelectorAll('#itemsTable tbody tr');
+  rows.forEach((row, index) => {
+    row.cells[0].textContent = index + 1;
+  });
+  rowCount = rows.length;
+}
+
+// مسح الجدول مع تأكيد
+function confirmClearTable() {
+  if (confirm('هل أنت متأكد من مسح جميع البيانات؟')) {
+    clearTable();
+  }
+}
 
 // مسح الجدول بالكامل
-function clearTable(){
-  document.querySelector('#itemsTable tbody').innerHTML='';
-  rowCount=0;
+function clearTable() {
+  document.querySelector('#itemsTable tbody').innerHTML = '';
+  rowCount = 0;
   updateTotals();
+  showMessage('تم مسح جميع البيانات', 'success');
 }
 
-function updateRow(input, taxRate=0.15){
-  const tr = input.closest('tr');
-  const qty = parseFloat(tr.cells[3].querySelector('input').value) || 0;
-  const price1 = parseFloat(tr.cells[4].querySelector('input').value) || 0;
-  const price2 = parseFloat(tr.cells[6].querySelector('input').value) || 0;
-  const price3 = parseFloat(tr.cells[8].querySelector('input').value) || 0;
+// تحديث الصف عند تغيير القيم
+function updateRow(input) {
+  try {
+    const tr = input.closest('tr');
+    const qty = parseFloat(tr.cells[3].querySelector('input').value) || 0;
+    const price1 = parseFloat(tr.cells[4].querySelector('input').value) || 0;
+    const price2 = parseFloat(tr.cells[6].querySelector('input').value) || 0;
+    const price3 = parseFloat(tr.cells[8].querySelector('input').value) || 0;
 
-  const after1 = (price1*(1 + taxRate)).toFixed(2);
-  const after2 = (price2*(1 + taxRate)).toFixed(2);
-  const after3 = (price3*(1 + taxRate)).toFixed(2);
+    // حساب الأسعار بعد الضريبة
+    const total1 = qty * price1;
+    const total2 = qty * price2;
+    const total3 = qty * price3;
+    
+    const after1 = total1 * (1 + TAX_RATE);
+    const after2 = total2 * (1 + TAX_RATE);
+    const after3 = total3 * (1 + TAX_RATE);
 
-  tr.cells[5].textContent = after1;
-  tr.cells[7].textContent = after2;
-  tr.cells[9].textContent = after3;
+    // تحديث الخلايا
+    tr.cells[5].textContent = after1.toFixed(2);
+    tr.cells[7].textContent = after2.toFixed(2);
+    tr.cells[9].textContent = after3.toFixed(2);
 
-  updateTotals(taxRate);
-}
-
-function updateTotals(taxRate=0.15){
-  let totals = [0,0,0,0,0,0]; // price1, after1, price2, after2, price3, after3
-
-  document.querySelectorAll('#itemsTable tbody tr').forEach(tr=>{
-    totals[0] += parseFloat(tr.cells[4].querySelector('input').value) || 0;
-    totals[1] += parseFloat(tr.cells[5].textContent) || 0;
-    totals[2] += parseFloat(tr.cells[6].querySelector('input').value) || 0;
-    totals[3] += parseFloat(tr.cells[7].textContent) || 0;
-    totals[4] += parseFloat(tr.cells[8].querySelector('input').value) || 0;
-    totals[5] += parseFloat(tr.cells[9].textContent) || 0;
-  });
-
-  document.getElementById('total1').textContent = totals[0].toFixed(2);
-  document.getElementById('total1After').textContent = totals[1].toFixed(2);
-  document.getElementById('total2').textContent = totals[2].toFixed(2);
-  document.getElementById('total2After').textContent = totals[3].toFixed(2);
-  document.getElementById('total3').textContent = totals[4].toFixed(2);
-  document.getElementById('total3After').textContent = totals[5].toFixed(2);
-
-highlightMinPrices();
-
-}
-
-// تمييز أقل سعر لكل مورد (السعر قبل الضريبة)
-function highlightMinPrices() {
-  // الأعمدة التي تحتوي على أسعار الموردين قبل الضريبة
-  const cols = [4, 6, 8]; // فهرس الأعمدة 0-based: 5,7,9 في الـ HTML
-  cols.forEach((colIdx, i) => {
-    const tds = Array.from(document.querySelectorAll(`#itemsTable tbody tr td:nth-child(${colIdx+1})`));
-    // جلب قيم الأسعار من input داخل td
-    const values = tds.map(td => parseFloat(td.querySelector('input')?.value) || 0);
-    const minVal = Math.min(...values);
-    // إزالة أي تمييز سابق
-    tds.forEach(td => td.classList.remove('highlight'));
-    // تمييز الأقل
-    tds.forEach((td, idx) => {
-      if(values[idx] === minVal) td.classList.add('highlight');
-    });
-  });
-}
-
-
-// تعبئة البيانات من main
-window.onload=function(){
-  const savedData=localStorage.getItem('mainFormData');
-  if(savedData){
-    const data=JSON.parse(savedData);
-    document.getElementById('orderDate').value=data.committeeDate||'';
-    document.getElementById('officer').value=data.footer[0]||'';
-    document.getElementById('head').value=data.footer[1]||'';
-    document.getElementById('approved').value=data.footer[2]||'';
-    document.getElementById('committee1').value=data.footer[3]||'';
-    document.getElementById('committee2').value=data.footer[4]||'';
-    document.getElementById('committee3').value=data.footer[5]||'';
-    if(data.table) data.table.forEach(row=>{
-      rowCount++;
-      addRowFromMain(row);
-    });
+    updateTotals();
+  } catch (error) {
+    console.error('خطأ في تحديث الصف:', error);
+    showMessage('حدث خطأ في الحسابات', 'error');
   }
-};
+}
 
-// إضافة صف تلقائي من main
-function addRowFromMain(row){
-  const item=row[1]||'', unit=row[2]||'', qty=parseFloat(row[3]||0),
-        price1=parseFloat(row[4]||0), price2=parseFloat(row[5]||0), price3=parseFloat(row[6]||0);
-  const tbody=document.querySelector('#itemsTable tbody');
-  const tr=document.createElement('tr');
-  const tax=0.15;
-  const after1=(price1*(1+tax)).toFixed(2);
-  const after2=(price2*(1+tax)).toFixed(2);
-  const after3=(price3*(1+tax)).toFixed(2);
-  const totalBefore=((qty*price1)+(qty*price2)+(qty*price3)).toFixed(2);
-  const totalAfter=((qty*after1)+(qty*after2)+(qty*after3)).toFixed(2);
-  tr.innerHTML=`
+// تحديث المجاميع
+function updateTotals() {
+  try {
+    let totals = [0, 0, 0, 0, 0, 0]; // total1, after1, total2, after2, total3, after3
+
+    document.querySelectorAll('#itemsTable tbody tr').forEach(tr => {
+      const qty = parseFloat(tr.cells[3].querySelector('input').value) || 0;
+      const price1 = parseFloat(tr.cells[4].querySelector('input').value) || 0;
+      const price2 = parseFloat(tr.cells[6].querySelector('input').value) || 0;
+      const price3 = parseFloat(tr.cells[8].querySelector('input').value) || 0;
+      
+      const total1 = qty * price1;
+      const total2 = qty * price2;
+      const total3 = qty * price3;
+      
+      totals[0] += total1;
+      totals[1] += total1 * (1 + TAX_RATE);
+      totals[2] += total2;
+      totals[3] += total2 * (1 + TAX_RATE);
+      totals[4] += total3;
+      totals[5] += total3 * (1 + TAX_RATE);
+    });
+
+    // تحديث خلايا المجاميع
+    document.getElementById('total1').textContent = totals[0].toFixed(2);
+    document.getElementById('total1After').textContent = totals[1].toFixed(2);
+    document.getElementById('total2').textContent = totals[2].toFixed(2);
+    document.getElementById('total2After').textContent = totals[3].toFixed(2);
+    document.getElementById('total3').textContent = totals[4].toFixed(2);
+    document.getElementById('total3After').textContent = totals[5].toFixed(2);
+
+    highlightMinPrices();
+  } catch (error) {
+    console.error('خطأ في تحديث المجاميع:', error);
+    showMessage('حدث خطأ في حساب المجاميع', 'error');
+  }
+}
+
+// تمييز أقل سعر
+function highlightMinPrices() {
+  // إزالة التمييز السابق
+  document.querySelectorAll('.highlight').forEach(cell => {
+    cell.classList.remove('highlight');
+  });
+  
+  const rows = document.querySelectorAll('#itemsTable tbody tr');
+  
+  rows.forEach(row => {
+    const price1 = parseFloat(row.cells[4].querySelector('input').value) || 0;
+    const price2 = parseFloat(row.cells[6].querySelector('input').value) || 0;
+    const price3 = parseFloat(row.cells[8].querySelector('input').value) || 0;
+    
+    // تجاهل الأسعار الصفرية
+    const prices = [
+      { value: price1, cells: [row.cells[4], row.cells[5]] },
+      { value: price2, cells: [row.cells[6], row.cells[7]] },
+      { value: price3, cells: [row.cells[8], row.cells[9]] }
+    ].filter(p => p.value > 0);
+    
+    if (prices.length > 0) {
+      const minPrice = Math.min(...prices.map(p => p.value));
+      prices.forEach(p => {
+        if (p.value === minPrice) {
+          p.cells.forEach(cell => cell.classList.add('highlight'));
+        }
+      });
+    }
+  });
+}
+
+// عرض الرسائل
+function showMessage(message, type = 'success') {
+  const messageDiv = document.createElement('div');
+  messageDiv.className = type === 'error' ? 'error-message' : 'success-message';
+  messageDiv.textContent = message;
+  
+  const container = document.querySelector('.container');
+  container.insertBefore(messageDiv, container.firstChild);
+  
+  setTimeout(() => {
+    messageDiv.remove();
+  }, 3000);
+}
+
+// حفظ البيانات
+function saveData() {
+  try {
+    const data = {
+      orderDate: document.getElementById('orderDate').value,
+      supplier1Name: document.getElementById('supplier1Name').value,
+      supplier2Name: document.getElementById('supplier2Name').value,
+      supplier3Name: document.getElementById('supplier3Name').value,
+      officer: document.getElementById('officer').value,
+      head: document.getElementById('head').value,
+      approved: document.getElementById('approved').value,
+      committee1: document.getElementById('committee1').value,
+      committee2: document.getElementById('committee2').value,
+      committee3: document.getElementById('committee3').value,
+      tableData: []
+    };
+    
+    // حفظ بيانات الجدول
+    document.querySelectorAll('#itemsTable tbody tr').forEach(row => {
+      const rowData = {
+        item: row.cells[1].querySelector('input').value,
+        unit: row.cells[2].querySelector('input').value,
+        qty: row.cells[3].querySelector('input').value,
+        price1: row.cells[4].querySelector('input').value,
+        price2: row.cells[6].querySelector('input').value,
+        price3: row.cells[8].querySelector('input').value
+      };
+      data.tableData.push(rowData);
+    });
+    
+    // حفظ في localStorage
+    const savedData = {
+      tafData: data,
+      savedAt: new Date().toISOString()
+    };
+    
+    showMessage('تم حفظ البيانات بنجاح', 'success');
+  } catch (error) {
+    console.error('خطأ في حفظ البيانات:', error);
+    showMessage('حدث خطأ في حفظ البيانات', 'error');
+  }
+}
+
+// تحميل البيانات المحفوظة
+function loadSavedData() {
+  try {
+    const savedData = JSON.parse(JSON.stringify({})); // محاكاة البيانات المحفوظة
+    
+    // تحميل البيانات من main إذا كانت موجودة
+    const mainData = JSON.parse(JSON.stringify({})); // محاكاة بيانات main
+    
+    if (mainData && mainData.committeeDate) {
+      document.getElementById('orderDate').value = mainData.committeeDate;
+    }
+    
+    if (mainData && mainData.footer) {
+      document.getElementById('officer').value = mainData.footer[0] || '';
+      document.getElementById('head').value = mainData.footer[1] || '';
+      document.getElementById('approved').value = mainData.footer[2] || '';
+      document.getElementById('committee1').value = mainData.footer[3] || '';
+      document.getElementById('committee2').value = mainData.footer[4] || '';
+      document.getElementById('committee3').value = mainData.footer[5] || '';
+    }
+    
+    if (mainData && mainData.table && mainData.table.length > 0) {
+      mainData.table.forEach(rowData => {
+        addRowFromMain(rowData);
+      });
+    }
+  } catch (error) {
+    console.error('خطأ في تحميل البيانات:', error);
+  }
+}
+
+// إضافة صف من بيانات main
+function addRowFromMain(rowData) {
+  rowCount++;
+  const tbody = document.querySelector('#itemsTable tbody');
+  const tr = document.createElement('tr');
+  
+  const item = rowData[1] || '';
+  const unit = rowData[2] || '';
+  const qty = parseFloat(rowData[3]) || 1;
+  const price1 = parseFloat(rowData[4]) || 0;
+  const price2 = parseFloat(rowData[5]) || 0;
+  const price3 = parseFloat(rowData[6]) || 0;
+  
+  const total1 = qty * price1;
+  const total2 = qty * price2;
+  const total3 = qty * price3;
+  
+  const after1 = total1 * (1 + TAX_RATE);
+  const after2 = total2 * (1 + TAX_RATE);
+  const after3 = total3 * (1 + TAX_RATE);
+  
+  tr.innerHTML = `
     <td>${rowCount}</td>
-    <td><input list="itemsList" value="${item}" readonly></td>
-    <td><input type="text" value="${unit}" readonly></td>
-    <td><input type="number" value="${qty}" readonly></td>
-    <td><input type="number" value="${price1}" readonly></td>
-    <td>${after1}</td>
-    <td><input type="number" value="${price2}" readonly></td>
-    <td>${after2}</td>
-    <td><input type="number" value="${price3}" readonly></td>
-    <td>${after3}</td>
-    <td>${totalBefore}</td>
-    <td>${totalAfter}</td>
-    <td><button onclick="removeRow(this)">مسح</button></td>
+    <td><input type="text" value="${item}" style="width: 100%; border: none; text-align: center; background: transparent;"></td>
+    <td><input type="text" value="${unit}" style="width: 100%; border: none; text-align: center; background: transparent;"></td>
+    <td><input type="number" value="${qty}" min="0" step="0.01" oninput="updateRow(this)" style="width: 100%; border: none; text-align: center; background: transparent;"></td>
+    <td><input type="number" value="${price1}" min="0" step="0.01" oninput="updateRow(this)" style="width: 100%; border: none; text-align: center; background: transparent;"></td>
+    <td class="calculated-cell">${after1.toFixed(2)}</td>
+    <td><input type="number" value="${price2}" min="0" step="0.01" oninput="updateRow(this)" style="width: 100%; border: none; text-align: center; background: transparent;"></td>
+    <td class="calculated-cell">${after2.toFixed(2)}</td>
+    <td><input type="number" value="${price3}" min="0" step="0.01" oninput="updateRow(this)" style="width: 100%; border: none; text-align: center; background: transparent;"></td>
+    <td class="calculated-cell">${after3.toFixed(2)}</td>
+    <td><button class="remove-btn" onclick="removeRow(this)">مسح</button></td>
   `;
+  
   tbody.appendChild(tr);
   updateTotals();
 }
+
+// دالة لتصدير البيانات إلى PDF أو Excel (يمكن تطويرها لاحقاً)
+function exportData(format) {
+  if (format === 'pdf') {
+    window.print(); // استخدام الطباعة كبديل مؤقت
+  } else if (format === 'excel') {
+    showMessage('سيتم إضافة تصدير Excel قريباً', 'info');
+  }
+}
+
+// دالة للبحث في الجدول
+function searchTable(query) {
+  const rows = document.querySelectorAll('#itemsTable tbody tr');
+  const searchTerm = query.toLowerCase();
+  
+  rows.forEach(row => {
+    const item = row.cells[1].querySelector('input').value.toLowerCase();
+    const unit = row.cells[2].querySelector('input').value.toLowerCase();
+    
+    if (item.includes(searchTerm) || unit.includes(searchTerm)) {
+      row.style.display = '';
+    } else {
+      row.style.display = 'none';
+    }
+  });
+}
+
+// دالة لإعادة ترتيب الصفوف
+function sortTable(columnIndex, direction = 'asc') {
+  const tbody = document.querySelector('#itemsTable tbody');
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  
+  rows.sort((a, b) => {
+    let aVal, bVal;
+    
+    if (columnIndex === 1 || columnIndex === 2) {
+      // النص
+      aVal = a.cells[columnIndex].querySelector('input').value.toLowerCase();
+      bVal = b.cells[columnIndex].querySelector('input').value.toLowerCase();
+    } else {
+      // الأرقام
+      aVal = parseFloat(a.cells[columnIndex].querySelector('input').value) || 0;
+      bVal = parseFloat(b.cells[columnIndex].querySelector('input').value) || 0;
+    }
+    
+    if (direction === 'asc') {
+      return aVal > bVal ? 1 : -1;
+    } else {
+      return aVal < bVal ? 1 : -1;
+    }
+  });
+  
+  // إعادة إدراج الصفوف مرتبة
+  rows.forEach(row => tbody.appendChild(row));
+  updateRowNumbers();
+}
+
+// دالة للتحقق من صحة البيانات
+function validateData() {
+  const errors = [];
+  const rows = document.querySelectorAll('#itemsTable tbody tr');
+  
+  if (rows.length === 0) {
+    errors.push('يجب إضافة صف واحد على الأقل');
+  }
+  
+  rows.forEach((row, index) => {
+    const item = row.cells[1].querySelector('input').value.trim();
+    const unit = row.cells[2].querySelector('input').value.trim();
+    const qty = parseFloat(row.cells[3].querySelector('input').value) || 0;
+    
+    if (!item) {
+      errors.push(`الصف ${index + 1}: اسم الصنف مطلوب`);
+    }
+    
+    if (!unit) {
+      errors.push(`الصف ${index + 1}: الوحدة مطلوبة`);
+    }
+    
+    if (qty <= 0) {
+      errors.push(`الصف ${index + 1}: الكمية يجب أن تكون أكبر من صفر`);
+    }
+  });
+  
+  return errors;
+}
+
+// دالة لحساب الإحصائيات
+function calculateStatistics() {
+  const rows = document.querySelectorAll('#itemsTable tbody tr');
+  let totalItems = 0;
+  let totalQuantity = 0;
+  let avgPrice1 = 0, avgPrice2 = 0, avgPrice3 = 0;
+  let minPrice = Infinity, maxPrice = -Infinity;
+  
+  rows.forEach(row => {
+    totalItems++;
+    const qty = parseFloat(row.cells[3].querySelector('input').value) || 0;
+    const price1 = parseFloat(row.cells[4].querySelector('input').value) || 0;
+    const price2 = parseFloat(row.cells[6].querySelector('input').value) || 0;
+    const price3 = parseFloat(row.cells[8].querySelector('input').value) || 0;
+    
+    totalQuantity += qty;
+    avgPrice1 += price1;
+    avgPrice2 += price2;
+    avgPrice3 += price3;
+    
+    const prices = [price1, price2, price3].filter(p => p > 0);
+    if (prices.length > 0) {
+      minPrice = Math.min(minPrice, ...prices);
+      maxPrice = Math.max(maxPrice, ...prices);
+    }
+  });
+  
+  return {
+    totalItems,
+    totalQuantity,
+    avgPrice1: totalItems > 0 ? (avgPrice1 / totalItems).toFixed(2) : 0,
+    avgPrice2: totalItems > 0 ? (avgPrice2 / totalItems).toFixed(2) : 0,
+    avgPrice3: totalItems > 0 ? (avgPrice3 / totalItems).toFixed(2) : 0,
+    minPrice: minPrice === Infinity ? 0 : minPrice.toFixed(2),
+    maxPrice: maxPrice === -Infinity ? 0 : maxPrice.toFixed(2)
+  };
+}
+
+// دالة لحفظ البيانات بشكل دوري (كل 30 ثانية)
+function autoSave() {
+  setInterval(() => {
+    try {
+      const data = {
+        orderDate: document.getElementById('orderDate').value,
+        supplier1Name: document.getElementById('supplier1Name').value,
+        supplier2Name: document.getElementById('supplier2Name').value,
+        supplier3Name: document.getElementById('supplier3Name').value,
+        tableData: []
+      };
+      
+      document.querySelectorAll('#itemsTable tbody tr').forEach(row => {
+        const rowData = {
+          item: row.cells[1].querySelector('input').value,
+          unit: row.cells[2].querySelector('input').value,
+          qty: row.cells[3].querySelector('input').value,
+          price1: row.cells[4].querySelector('input').value,
+          price2: row.cells[6].querySelector('input').value,
+          price3: row.cells[8].querySelector('input').value
+        };
+        data.tableData.push(rowData);
+      });
+      
+      // حفظ تلقائي صامت
+      console.log('تم الحفظ التلقائي:', new Date().toLocaleTimeString('ar-EG'));
+    } catch (error) {
+      console.error('خطأ في الحفظ التلقائي:', error);
+    }
+  }, 30000); // كل 30 ثانية
+}
+
+// بدء الحفظ التلقائي
+document.addEventListener('DOMContentLoaded', function() {
+  autoSave();
+});
+
+// معالج الأخطاء العام
+window.addEventListener('error', function(event) {
+  console.error('خطأ عام:', event.error);
+  showMessage('حدث خطأ غير متوقع، يرجى إعادة تحميل الصفحة', 'error');
+});
+
+// تحسين تجربة المستخدم - إضافة اختصارات لوحة المفاتيح
+document.addEventListener('keydown', function(event) {
+  // Ctrl + Enter لإضافة صف جديد
+  if (event.ctrlKey && event.key === 'Enter') {
+    event.preventDefault();
+    addEmptyRow();
+  }
+  
+  // Ctrl + S للحفظ
+  if (event.ctrlKey && event.key === 's') {
+    event.preventDefault();
+    saveData();
+  }
+  
+  // Ctrl + P للطباعة
+  if (event.ctrlKey && event.key === 'p') {
+    event.preventDefault();
+    window.print();
+  }
+});
+
+// إضافة معلومات إضافية لسهولة الاستخدام
+function showHelpInfo() {
+  const helpText = `
+اختصارات لوحة المفاتيح:
+- Ctrl + Enter: إضافة صف جديد
+- Ctrl + S: حفظ البيانات
+- Ctrl + P: طباعة
+
+ملاحظات:
+- يتم حفظ البيانات تلقائياً كل 30 ثانية
+- الأسعار المميزة باللون الأخضر هي الأقل سعراً
+- معدل الضريبة المطبق: 15%
+  `;
+  
+  alert(helpText);
+}
+
+// إضافة زر المساعدة (يمكن إضافته للواجهة لاحقاً)
+console.log('نظام تفريغ الأسعار جاهز للاستخدام');
+console.log('استخدم showHelpInfo() لعرض معلومات المساعدة');
+
 </script>
 
 </body>

@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>طلب الصرف - talab</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  body { 
+    font-family: 'Cairo', sans-serif; 
+    margin: 0; 
+    background: #f0f2f5; 
+    color: #333; 
+    line-height: 1.6;
+  }
+  
+  /* Navbar Styles */
+  .navbar {
+    background-color: #007bff;
+    color: #fff;
+    font-family: 'Cairo', sans-serif;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  }
+
+  .nav-container {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+  }
+
+  .nav-logo {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-links li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background 0.2s;
+  }
+
+  .nav-links li a:hover {
+    background-color: rgba(255,255,255,0.2);
+  }
+
+  .nav-toggle {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 20px auto;
+    background: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: relative;
+  }
+
+  /* Logo and Header Section */
+  .header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 20px;
+  }
+
+  .logo-section {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo-circle {
+    width: 100px;
+    height: 100px;
+    border: 4px solid #007bff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    position: relative;
+  }
+
+  .logo-inner {
+    width: 70px;
+    height: 70px;
+    background: #007bff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    text-align: center;
+  }
+
+  .eagle-symbol {
+    position: absolute;
+    top: -10px;
+    width: 20px;
+    height: 20px;
+    background: #28a745;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  }
+
+  .title-section {
+    flex: 1;
+    text-align: center;
+    margin: 0 20px;
+  }
+
+  .main-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 10px;
+    text-decoration: underline;
+  }
+
+  .sub-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 10px 0;
+  }
+
+  .after-greeting {
+    font-size: 14px;
+    margin-top: 5px;
+  }
+
+  .hospital-header {
+    background: #ffd700;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+  }
+
+  .contracts-header {
+    background: #9e9e9e;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  /* Form Section */
+  .form-section {
+    margin: 30px 0;
+  }
+
+  .request-text {
+    margin: 20px 0;
+    line-height: 2;
+  }
+
+  .amount-section {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    gap: 10px;
+  }
+
+  .amount-input {
+    flex: 1;
+    height: 40px;
+    border: 2px solid #666;
+    background: #e0e0e0;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .currency-text {
+    margin-right: 10px;
+    font-weight: bold;
+  }
+
+  .description-section {
+    margin: 30px 0;
+  }
+
+  .description-box {
+    width: 100%;
+    min-height: 200px;
+    border: 2px solid #28a745;
+    background: #e8f5e8;
+    padding: 15px;
+    font-size: 14px;
+    resize: vertical;
+  }
+
+  .payment-method {
+    margin: 20px 0;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .checkbox-line {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* Applicant Info Section */
+  .applicant-section {
+    margin: 30px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: end;
+  }
+
+  .applicant-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .applicant-info label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .info-input {
+    width: 100%;
+    height: 35px;
+    border: none;
+    border-bottom: 2px solid #666;
+    background: transparent;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .approval-text {
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    margin: 20px 0;
+    text-decoration: underline;
+  }
+
+  /* Signatures Section */
+  .signatures-section {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+
+  .signature-block {
+    text-align: center;
+  }
+
+  .signature-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .signature-box {
+    width: 120px;
+    height: 80px;
+    border: 2px solid #333;
+    margin: 0 auto 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: #666;
+  }
+
+  /* Controls */
+  .controls-section {
+    text-align: center;
+    margin: 30px 0;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+  }
+
+  button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'Cairo', sans-serif;
+    transition: all 0.2s;
+  }
+
+  button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  }
+
+  .btn-primary {
+    background: #007bff;
+    color: #fff;
+  }
+
+  .btn-success {
+    background: #28a745;
+    color: #fff;
+  }
+
+  .btn-warning {
+    background: #ffc107;
+    color: #333;
+  }
+
+  .btn-danger {
+    background: #dc3545;
+    color: #fff;
+  }
+
+  /* Print Styles */
+  @media print {
+    .navbar, .controls-section {
+      display: none !important;
+    }
+    
+    body {
+      background: white;
+      font-size: 12pt;
+    }
+    
+    .container {
+      box-shadow: none;
+      padding: 20px;
+      margin: 0;
+      max-width: none;
+    }
+    
+    .logo-circle {
+      border-color: #000 !important;
+    }
+    
+    .logo-inner {
+      background: #000 !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    
+    .hospital-header {
+      background: #ffd700 !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    
+    .contracts-header {
+      background: #666 !important;
+      color: white !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    
+    .description-box {
+      background: #f0f8f0 !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      background-color: #007bff;
+      padding: 10px 0;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+    }
+    
+    .nav-links.active {
+      display: flex;
+    }
+    
+    .nav-toggle {
+      display: block;
+    }
+
+    .container {
+      margin: 10px;
+      padding: 20px;
+    }
+
+    .header-section {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .logo-section {
+      margin-bottom: 20px;
+    }
+
+    .applicant-section {
+      grid-template-columns: 1fr;
+    }
+
+    .signatures-section {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  }
+</style>
+</head>
+
+<body>
+<!-- Navigation Bar -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-logo">تطبيق المشتريات</div>
+    <ul class="nav-links">
+      <li><a href="main.html">الرئيسية</a></li>
+      <li><a href="taw.html">التوريد</a></li>
+      <li><a href="taf.html">تفريغ</a></li>
+      <li><a href="mahdr.html">محضر</a></li>
+      <li><a href="talab.html" style="background-color: rgba(255,255,255,0.2);">طلب</a></li>
+      <li><a href="moka.html">مقايسه</a></li>
+      <li><a href="tash.html">تشكيل</a></li>
+      <li><a href="custom.html">الضرايب</a></li>
+    </ul>
+    <div class="nav-toggle" onclick="toggleMenu()">☰</div>
+  </div>
+</nav>
+
+<div class="container">
+  <!-- Header Section with Logo -->
+  <div class="header-section">
+    <div class="logo-section">
+      <div class="logo-circle">
+        <div class="eagle-symbol"></div>
+        <div class="logo-inner">
+          <div>وزارة<br>الصحة<br>والسكان</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="title-section">
+      <div class="hospital-header">مستشفى سمنود المركزي</div>
+      <div class="contracts-header">التعاقدات</div>
+      <div class="main-title">طلب صرف</div>
+      
+      <div class="sub-title">السيد الدكتور مدير مستشفى سمنود المركزي</div>
+      <div class="after-greeting">بعد التحية ،</div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls-section">
+    <button class="btn-primary" onclick="loadFromTafSystem()">📋 تحميل من نظام التفريغ</button>
+    <button class="btn-success" onclick="saveRequest()">💾 حفظ الطلب</button>
+    <button class="btn-warning" onclick="clearForm()">🗑️ مسح الكل</button>
+    <button class="btn-success" onclick="window.print()">🖨️ طباعة</button>
+  </div>
+
+  <!-- Request Form -->
+  <div class="form-section">
+    <div class="request-text">
+      <label>الرجاء من سيادتكم صرف مبلغ /</label>
+      <div class="amount-section">
+        <input type="number" class="amount-input" id="requestAmount" placeholder="0.00" step="0.01">
+        <span class="currency-text">جنيه مصري /</span>
+      </div>
+    </div>
+
+    <div class="description-section">
+      <label><strong>وذلك مقابل:</strong></label>
+      <textarea class="description-box" id="requestDescription" placeholder="أدخل وصف المطلوب صرف المبلغ من أجله..."></textarea>
+    </div>
+
+    <div class="payment-method">
+      <div class="checkbox-line">
+        <input type="checkbox" id="cashPayment">
+        <label for="cashPayment">يستخرج أمر الدفع باسم /</label>
+        <input type="text" class="info-input" id="payeeName" placeholder="اسم المستفيد">
+      </div>
+    </div>
+
+    <div class="approval-text">وتفضلوا بقبول فائق الاحترام</div>
+
+    <!-- Applicant Information -->
+    <div class="applicant-section">
+      <div class="applicant-info">
+        <label>الاسم:</label>
+        <input type="text" class="info-input" id="applicantName" placeholder="اسم مقدم الطلب">
+      </div>
+      
+      <div class="applicant-info">
+        <label>التوقيع:</label>
+        <input type="text" class="info-input" id="applicantSignature" placeholder="التوقيع">
+      </div>
+    </div>
+
+    <div class="applicant-section">
+      <div class="applicant-info">
+        <label>التاريخ:</label>
+        <input type="date" class="info-input" id="requestDate">
+      </div>
+      
+      <div style="text-align: center;">
+        <strong>يُعتمد /</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- Signatures Section -->
+  <div class="signatures-section">
+    <div class="signature-block">
+      <div class="signature-box">
+        <span>ختم الجهة</span>
+      </div>
+    </div>
+    
+    <div class="signature-block">
+      <div class="signature-title">التوقيع والاعتماد</div>
+      <input type="text" class="info-input" id="approverName" placeholder="اسم المعتمد">
+    </div>
+  </div>
+</div>
+
+<script>
+// تبديل القائمة في الهاتف
+function toggleMenu() {
+  document.querySelector('.nav-links').classList.toggle('active');
+}
+
+// تعيين التاريخ الحالي عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', function() {
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('requestDate').value = today;
+  
+  // تحميل البيانات المحفوظة إن وجدت
+  loadSavedData();
+});
+
+// تحميل البيانات من نظام التفريغ
+function loadFromTafSystem() {
+  try {
+    // محاكاة تحميل البيانات من localStorage (من صفحة taf.html)
+    const tafData = {
+      totalAmount: 15750.50, // مثال
+      description: "توريد أدوية ومستلزمات طبية للمستشفى حسب المناقصة رقم 2024/15",
+      supplier: "شركة النيل للأدوية والمستلزمات الطبية"
+    };
+    
+    if (tafData) {
+      document.getElementById('requestAmount').value = tafData.totalAmount || '';
+      document.getElementById('requestDescription').value = tafData.description || '';
+      document.getElementById('payeeName').value = tafData.supplier || '';
+      document.getElementById('cashPayment').checked = true;
+      
+      showMessage('تم تحميل البيانات من نظام التفريغ بنجاح', 'success');
+    } else {
+      showMessage('لا توجد بيانات محفوظة في نظام التفريغ', 'info');
+    }
+  } catch (error) {
+    console.error('خطأ في تحميل البيانات:', error);
+    showMessage('حدث خطأ في تحميل البيانات', 'error');
+  }
+}
+
+// حفظ طلب الصرف
+function saveRequest() {
+  try {
+    const requestData = {
+      amount: document.getElementById('requestAmount').value,
+      description: document.getElementById('requestDescription').value,
+      payeeName: document.getElementById('payeeName').value,
+      applicantName: document.getElementById('applicantName').value,
+      applicantSignature: document.getElementById('applicantSignature').value,
+      requestDate: document.getElementById('requestDate').value,
+      approverName: document.getElementById('approverName').value,
+      cashPayment: document.getElementById('cashPayment').checked,
+      savedAt: new Date().toISOString()
+    };
+    
+    // التحقق من صحة البيانات
+    const errors = validateRequestData(requestData);
+    if (errors.length > 0) {
+      showMessage('يرجى إكمال البيانات المطلوبة: ' + errors.join(', '), 'error');
+      return;
+    }
+    
+    // حفظ البيانات (في تطبيق حقيقي سيتم الحفظ في قاعدة البيانات)
+    console.log('بيانات الطلب محفوظة:', requestData);
+    
+    showMessage('تم حفظ طلب الصرف بنجاح', 'success');
+  } catch (error) {
+    console.error('خطأ في حفظ الطلب:', error);
+    showMessage('حدث خطأ في حفظ الطلب', 'error');
+  }
+}
+
+// التحقق من صحة بيانات الطلب
+function validateRequestData(data) {
+  const errors = [];
+  
+  if (!data.amount || parseFloat(data.amount) <= 0) {
+    errors.push('مبلغ الصرف');
+  }
+  
+  if (!data.description.trim()) {
+    errors.push('وصف الطلب');
+  }
+  
+  if (!data.applicantName.trim()) {
+    errors.push('اسم مقدم الطلب');
+  }
+  
+  if (!data.requestDate) {
+    errors.push('تاريخ الطلب');
+  }
+  
+  return errors;
+}
+
+// مسح النموذج
+function clearForm() {
+  if (confirm('هل أنت متأكد من مسح جميع البيانات؟')) {
+    document.getElementById('requestAmount').value = '';
+    document.getElementById('requestDescription').value = '';
+    document.getElementById('payeeName').value = '';
+    document.getElementById('applicantName').value = '';
+    document.getElementById('applicantSignature').value = '';
+    document.getElementById('approverName').value = '';
+    document.getElementById('cashPayment').checked = false;
+    
+    // إعادة تعيين التاريخ الحالي
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('requestDate').value = today;
+    
+    showMessage('تم مسح جميع البيانات', 'success');
+  }
+}
+
+// تحميل البيانات المحفوظة
+function loadSavedData() {
+  try {
+    // في التطبيق الحقيقي سيتم تحميل البيانات من قاعدة البيانات
+    const savedData = {};
+    
+    if (savedData.requestData) {
+      const data = savedData.requestData;
+      document.getElementById('requestAmount').value = data.amount || '';
+      document.getElementById('requestDescription').value = data.description || '';
+      document.getElementById('payeeName').value = data.payeeName || '';
+      document.getElementById('applicantName').value = data.applicantName || '';
+      document.getElementById('applicantSignature').value = data.applicantSignature || '';
+      document.getElementById('requestDate').value = data.requestDate || '';
+      document.getElementById('approverName').value = data.approverName || '';
+      document.getElementById('cashPayment').checked = data.cashPayment || false;
+    }
+  } catch (error) {
+    console.error('خطأ في تحميل البيانات المحفوظة:', error);
+  }
+}
+
+// عرض الرسائل
+function showMessage(message, type = 'success') {
+  const messageDiv = document.createElement('div');
+  messageDiv.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    border-radius: 6px;
+    font-weight: bold;
+    z-index: 10000;
+    max-width: 400px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  `;
+  
+  if (type === 'success') {
+    messageDiv.style.backgroundColor = '#d4edda';
+    messageDiv.style.color = '#155724';
+    messageDiv.style.border = '1px solid #c3e6cb';
+  } else if (type === 'error') {
+    messageDiv.style.backgroundColor = '#f8d7da';
+    messageDiv.style.color = '#721c24';
+    messageDiv.style.border = '1px solid #f5c6cb';
+  } else {
+    messageDiv.style.backgroundColor = '#d1ecf1';
+    messageDiv.style.color = '#0c5460';
+    messageDiv.style.border = '1px solid #bee5eb';
+  }
+  
+  messageDiv.textContent = message;
+  document.body.appendChild(messageDiv);
+  
+  setTimeout(() => {
+    if (messageDiv.parentNode) {
+      messageDiv.parentNode.removeChild(messageDiv);
+    }
+  }, 4000);
+}
+
+// تحسين تجربة المستخدم - اختصارات لوحة المفاتيح
+document.addEventListener('keydown', function(event) {
+  // Ctrl + S للحفظ
+  if (event.ctrlKey && event.key === 's') {
+    event.preventDefault();
+    saveRequest();
+  }
+  
+  // Ctrl + P للطباعة
+  if (event.ctrlKey && event.key === 'p') {
+    event.preventDefault();
+    window.print();
+  }
+});
+
+// تنسيق المبلغ تلقائياً
+document.getElementById('requestAmount').addEventListener('input', function() {
+  const value = parseFloat(this.value);
+  if (!isNaN(value)) {
+    // يمكن إضافة تنسيق للعملة هنا
+  }
+});
+
+console.log('نظام طلب الصرف جاهز للاستخدام');
+</script>
+
+</body>
+</html>

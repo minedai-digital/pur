@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>المقايسة التقديرية لأسعار الأصناف - moka</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  body { 
+    font-family: 'Cairo', sans-serif; 
+    margin: 0; 
+    background: #f0f2f5; 
+    color: #333; 
+    line-height: 1.6;
+  }
+  
+  /* Navbar Styles */
+  .navbar {
+    background-color: #007bff;
+    color: #fff;
+    font-family: 'Cairo', sans-serif;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  }
+
+  .nav-container {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+  }
+
+  .nav-logo {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-links li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background 0.2s;
+  }
+
+  .nav-links li a:hover {
+    background-color: rgba(255,255,255,0.2);
+  }
+
+  .nav-toggle {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 20px auto;
+    background: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: relative;
+  }
+
+  /* Header Section */
+  .header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 20px;
+  }
+
+  .logo-section {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo-circle {
+    width: 100px;
+    height: 100px;
+    border: 4px solid #dc3545;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    position: relative;
+  }
+
+  .logo-inner {
+    width: 70px;
+    height: 70px;
+    background: #007bff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 10px;
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  .eagle-symbol {
+    position: absolute;
+    top: -10px;
+    width: 20px;
+    height: 20px;
+    background: #28a745;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  }
+
+  .title-section {
+    flex: 1;
+    text-align: center;
+    margin: 0 20px;
+  }
+
+  .main-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 15px;
+    text-decoration: underline;
+  }
+
+  .hospital-header {
+    background: #ffd700;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+  }
+
+  .contracts-header {
+    background: #9e9e9e;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  /* Document Info Section */
+  .document-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+  }
+
+  .info-field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .info-field label {
+    font-weight: bold;
+    min-width: 100px;
+  }
+
+  .info-field input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-family: 'Cairo', sans-serif;
+  }
+
+  /* Controls */
+  .controls-section {
+    text-align: center;
+    margin: 30px 0;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+  }
+
+  button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'Cairo', sans-serif;
+    transition: all 0.2s;
+  }
+
+  button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  }
+
+  .btn-primary { background: #007bff; color: #fff; }
+  .btn-success { background: #28a745; color: #fff; }
+  .btn-warning { background: #ffc107; color: #333; }
+  .btn-danger { background: #dc3545; color: #fff; }
+  .btn-info { background: #17a2b8; color: #fff; }
+
+  /* Main Table */
+  .estimation-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    border: 2px solid #333;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+
+  .estimation-table th,
+  .estimation-table td {
+    border: 1px solid #333;
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+    vertical-align: middle;
+  }
+
+  .estimation-table th {
+    background: #007bff;
+    color: white;
+    font-weight: bold;
+    font-size: 13px;
+  }
+
+  .estimation-table input,
+  .estimation-table select {
+    width: 100%;
+    border: none;
+    background: transparent;
+    text-align: center;
+    padding: 5px;
+    font-size: 13px;
+    font-family: 'Cairo', sans-serif;
+  }
+
+  .estimation-table input:focus,
+  .estimation-table select:focus {
+    outline: 2px solid #007bff;
+    background: rgba(0,123,255,0.05);
+  }
+
+  .calculated-cell {
+    background: #e8f4fd;
+    font-weight: bold;
+    color: #007bff;
+  }
+
+  .total-row {
+    background: #f8f9fa;
+    font-weight: bold;
+    font-size: 15px;
+  }
+
+  .total-row td {
+    background: #007bff;
+    color: white;
+    font-weight: bold;
+  }
+
+  .highlight-best {
+    background: #d4edda !important;
+    border: 2px solid #28a745 !important;
+    font-weight: bold;
+  }
+
+  /* Summary Section */
+  .summary-section {
+    margin: 30px 0;
+    padding: 25px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 10px;
+    border: 2px solid #007bff;
+  }
+
+  .summary-title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 20px;
+    text-decoration: underline;
+  }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .summary-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    border-left: 4px solid #007bff;
+  }
+
+  .summary-card h4 {
+    margin: 0 0 15px 0;
+    color: #007bff;
+    font-size: 16px;
+  }
+
+  .summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    padding: 8px 0;
+    border-bottom: 1px solid #e9ecef;
+  }
+
+  .summary-item:last-child {
+    border-bottom: none;
+    font-weight: bold;
+    font-size: 16px;
+    color: #007bff;
+  }
+
+  /* Recommendations Section */
+  .recommendations-section {
+    margin: 30px 0;
+    padding: 20px;
+    background: #fff3cd;
+    border: 2px solid #ffc107;
+    border-radius: 8px;
+  }
+
+  .recommendations-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #856404;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  .recommendation-item {
+    background: white;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 6px;
+    border-left: 4px solid #ffc107;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+
+  /* Approval Section */
+  .approval-section {
+    margin: 40px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+  }
+
+  .approval-card {
+    text-align: center;
+    padding: 25px;
+    background: white;
+    border: 2px solid #007bff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+
+  .approval-title {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #007bff;
+  }
+
+  .signature-box {
+    width: 200px;
+    height: 80px;
+    border: 2px solid #007bff;
+    margin: 15px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fa;
+    border-radius: 5px;
+  }
+
+  .approval-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+
+  /* Print Styles */
+  @media print {
+    .navbar, .controls-section {
+      display: none !important;
+    }
+    
+    body {
+      background: white;
+      font-size: 11pt;
+    }
+    
+    .container {
+      box-shadow: none;
+      padding: 15px;
+      margin: 0;
+      max-width: none;
+    }
+    
+    .estimation-table {
+      font-size: 10pt;
+    }
+    
+    .estimation-table th {
+      background: #007bff !important;
+      color: white !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    
+    .calculated-cell {
+      background: #e8f4fd !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    
+    .total-row td {
+      background: #007bff !important;
+      color: white !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    
+    .highlight-best {
+      background: #d4edda !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    
+    .hospital-header {
+      background: #ffd700 !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    
+    .contracts-header {
+      background: #666 !important;
+      color: white !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    
+    .summary-section {
+      break-inside: avoid;
+    }
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      background-color: #007bff;
+      padding: 10px 0;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+    }
+    
+    .nav-links.active {
+      display: flex;
+    }
+    
+    .nav-toggle {
+      display: block;
+    }
+
+    .container {
+      margin: 10px;
+      padding: 20px;
+    }
+
+    .header-section {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .logo-section {
+      margin-bottom: 20px;
+    }
+
+    .estimation-table {
+      font-size: 12px;
+      overflow-x: auto;
+      display: block;
+      white-space: nowrap;
+    }
+
+    .estimation-table thead,
+    .estimation-table tbody,
+    .estimation-table th,
+    .estimation-table td,
+    .estimation-table tr {
+      display: block;
+    }
+
+    .estimation-table thead tr {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+
+    .estimation-table tr {
+      border: 2px solid #333;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      background: #f8f9fa;
+    }
+
+    .estimation-table td {
+      border: none;
+      position: relative;
+      padding-right: 50%;
+      text-align: right;
+    }
+
+    .estimation-table td:before {
+      content: attr(data-label) ": ";
+      position: absolute;
+      right: 6px;
+      width: 45%;
+      padding-left: 10px;
+      white-space: nowrap;
+      font-weight: bold;
+      color: #007bff;
+    }
+  }
+</style>
+</head>
+
+<body>
+<!-- Navigation Bar -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-logo">تطبيق المشتريات</div>
+    <ul class="nav-links">
+      <li><a href="main.html">الرئيسية</a></li>
+      <li><a href="taw.html">التوريد</a></li>
+      <li><a href="taf.html">تفريغ</a></li>
+      <li><a href="mahdr.html">محضر</a></li>
+      <li><a href="talab.html">طلب</a></li>
+      <li><a href="moka.html" style="background-color: rgba(255,255,255,0.2);">مقايسه</a></li>
+      <li><a href="tash.html">تشكيل</a></li>
+      <li><a href="custom.html">الضرايب</a></li>
+    </ul>
+    <div class="nav-toggle" onclick="toggleMenu()">☰</div>
+  </div>
+</nav>
+
+<div class="container">
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="logo-section">
+      <div class="logo-circle">
+        <div class="eagle-symbol"></div>
+        <div class="logo-inner">
+          <div>وزارة<br>الصحة<br>والسكان</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="title-section">
+      <div class="hospital-header">مستشفى سمنود المركزي</div>
+      <div class="contracts-header">التعاقدات</div>
+      <div class="main-title">المقايسة التقديرية لأسعار الأصناف</div>
+    </div>
+  </div>
+
+  <!-- Document Info -->
+  <div class="document-info">
+    <div class="info-field">
+      <label>رقم المقايسة:</label>
+      <input type="text" id="estimationNumber" placeholder="رقم المقايسة">
+    </div>
+    <div class="info-field">
+      <label>التاريخ:</label>
+      <input type="date" id="estimationDate">
+    </div>
+    <div class="info-field">
+      <label>نوع المناقصة:</label>
+      <select id="tenderType">
+        <option value="">اختر نوع المناقصة</option>
+        <option value="عامة">مناقصة عامة</option>
+        <option value="محدودة">مناقصة محدودة</option>
+        <option value="محلية">مناقصة محلية</option>
+        <option value="عاجلة">مناقصة عاجلة</option>
+      </select>
+    </div>
+    <div class="info-field">
+      <label>الجهة المختصة:</label>
+      <input type="text" id="responsibleDepartment" value="قسم التعاقدات - مستشفى سمنود">
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls-section">
+    <button class="btn-primary" onclick="loadFromSystem()">📋 تحميل البيانات</button>
+    <button class="btn-success" onclick="addEstimationRow()">➕ إضافة صنف</button>
+    <button class="btn-info" onclick="calculateEstimation()">🧮 حساب المقايسة</button>
+    <button class="btn-warning" onclick="generateRecommendations()">💡 توليد التوصيات</button>
+    <button class="btn-success" onclick="saveEstimation()">💾 حفظ المقايسة</button>
+    <button class="btn-danger" onclick="clearForm()">🗑️ مسح الكل</button>
+    <button class="btn-success" onclick="window.print()">🖨️ طباعة</button>
+  </div>
+
+  <!-- Main Estimation Table -->
+  <table class="estimation-table">
+    <thead>
+      <tr>
+        <th>م</th>
+        <th>اسم الصنف</th>
+        <th>الوحدة</th>
+        <th>الكمية المطلوبة</th>
+        <th>السعر التقديري (الوحدة)</th>
+        <th>إجمالي السعر التقديري</th>
+        <th>متوسط السوق</th>
+        <th>أقل سعر متوقع</th>
+        <th>أعلى سعر متوقع</th>
+        <th>درجة المخاطرة</th>
+        <th>ملاحظات</th>
+      </tr>
+    </thead>
+    <tbody id="estimationTableBody">
+      <tr>
+        <td data-label="م">1</td>
+        <td data-label="اسم الصنف"><input type="text" placeholder="اسم الصنف"></td>
+        <td data-label="الوحدة"><input type="text" placeholder="الوحدة"></td>
+        <td data-label="الكمية"><input type="number" value="1" min="1" step="1" oninput="calculateRow(this)"></td>
+        <td data-label="السعر التقديري"><input type="number" placeholder="0.00" step="0.01" oninput="calculateRow(this)"></td>
+        <td data-label="الإجمالي" class="calculated-cell">0.00</td>
+        <td data-label="متوسط السوق"><input type="number" placeholder="0.00" step="0.01" oninput="calculateRow(this)"></td>
+        <td data-label="أقل سعر" class="calculated-cell">0.00</td>
+        <td data-label="أعلى سعر" class="calculated-cell">0.00</td>
+        <td data-label="درجة المخاطرة"><select onchange="updateRiskColor(this)"><option value="منخفضة">منخفضة</option><option value="متوسطة">متوسطة</option><option value="عالية">عالية</option></select></td>
+        <td data-label="ملاحظات"><input type="text" placeholder="ملاحظات"></td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr class="total-row">
+        <td colspan="5">الإجمالي العام</td>
+        <td id="grandTotal">0.00</td>
+        <td id="avgMarketTotal">0.00</td>
+        <td id="minExpectedTotal">0.00</td>
+        <td id="maxExpectedTotal">0.00</td>
+        <td colspan="2">جنيه مصري</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <!-- Summary Section -->
+  <div class="summary-section">
+    <div class="summary-title">ملخص المقايسة التقديرية</div>
+    
+    <div class="summary-grid">
+      <div class="summary-card">
+        <h4>📊 الإحصائيات الأساسية</h4>
+        <div class="summary-item">
+          <span>عدد الأصناف:</span>
+          <span id="totalItems">0</span>
+        </div>
+        <div class="summary-item">
+          <span>إجمالي الكمية:</span>
+          <span id="totalQuantity">0</span>
+        </div>
+        <div class="summary-item">
+          <span>متوسط السعر للوحدة:</span>
+          <span id="avgUnitPrice">0.00 ج.م</span>
+        </div>
+        <div class="summary-item">
+          <span>إجمالي التقدير:</span>
+          <span id="estimationTotal">0.00 ج.م</span>
+        </div>
+      </div>
+      
+      <div class="summary-card">
+        <h4>📈 تحليل المخاطر</h4>
+        <div class="summary-item">
+          <span>أصناف منخفضة المخاطر:</span>
+          <span id="lowRiskItems">0</span>
+        </div>
+        <div class="summary-item">
+          <span>أصناف متوسطة المخاطر:</span>
+          <span id="mediumRiskItems">0</span>
+        </div>
+        <div class="summary-item">
+          <span>أصناف عالية المخاطر:</span>
+          <span id="highRiskItems">0</span>
+        </div>
+        <div class="summary-item">
+          <span>درجة المخاطرة العامة:</span>
+          <span id="overallRisk">-</span>
+        </div>
+      </div>
+      
+      <div class="summary-card">
+        <h4>💰 التحليل المالي</h4>
+        <div class="summary-item">
+          <span>أقل تكلفة متوقعة:</span>
+          <span id="minTotalCost">0.00 ج.م</span>
+        </div>
+        <div class="summary-item">
+          <span>أعلى تكلفة متوقعة:</span>
+          <span id="maxTotalCost">0.00 ج.م</span>
+        </div>
+        <div class="summary-item">
+          <span>نسبة التوفير المحتملة:</span>
+          <span id="savingsPercentage">0%</span>
+        </div>
+        <div class="summary-item">
+          <span>الميزانية المقترحة:</span>
+          <span id="recommendedBudget">0.00 ج.م</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recommendations Section -->
+  <div class="recommendations-section" id="recommendationsSection" style="display: none;">
+    <div class="recommendations-title">🎯 التوصيات والاقتراحات</div>
+    <div id="recommendationsList"></div>
+  </div>
+
+  <!-- Approval Section -->
+  <div class="approval-section">
+    <div class="approval-card">
+      <div class="approval-title">إعداد</div>
+      <input type="text" class="approval-input" id="preparedBy" placeholder="اسم معد المقايسة">
+      <div class="signature-box">التوقيع</div>
+      <input type="date" class="approval-input" id="preparedDate">
+    </div>
+    
+    <div class="approval-card">
+      <div class="approval-title">مراجعة</div>
+      <input type="text" class="approval-input" id="reviewedBy" placeholder="اسم المراجع">
+      <div class="signature-box">التوقيع</div>
+      <input type="date" class="approval-input" id="reviewedDate">
+    </div>
+    
+    <div class="approval-card">
+      <div class="approval-title">اعتماد</div>
+      <input type="text" class="approval-input" id="approvedBy" placeholder="اسم المعتمد">
+      <div class="signature-box">التوقيع</div>
+      <input type="date" class="approval-input" id="approvedDate">
+    </div>
+  </div>
+</div>
+
+<script>
+let rowCount = 0;
+
+// تبديل القائمة في الهاتف
+function toggleMenu() {
+  document.querySelector('.nav-links').classList.toggle('active');
+}
+
+// تهيئة الصفحة
+document.addEventListener('DOMContentLoaded', function() {
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('estimationDate').value = today;
+  document.getElementById('preparedDate').value = today;
+  
+  // تحميل البيانات المحفوظة
+  loadSavedData();
+  
+  // حساب المقايسة عند التحميل
+  calculateEstimation();
+});
+
+// إضافة صف جديد للمقايسة
+function addEstimationRow() {
+  rowCount = document.querySelectorAll('#estimationTableBody tr').length + 1;
+  const tbody = document.getElementById('estimationTableBody');
+  const newRow = document.createElement('tr');
+  
+  newRow.innerHTML = `
+    <td data-label="م">${rowCount}</td>
+    <td data-label="اسم الصنف"><input type="text" placeholder="اسم الصنف"></td>
+    <td data-label="الوحدة"><input type="text" placeholder="الوحدة"></td>
+    <td data-label="الكمية"><input type="number" value="1" min="1" step="1" oninput="calculateRow(this)"></td>
+    <td data-label="السعر التقديري"><input type="number" placeholder="0.00" step="0.01" oninput="calculateRow(this)"></td>
+    <td data-label="الإجمالي" class="calculated-cell">0.00</td>
+    <td data-label="متوسط السوق"><input type="number" placeholder="0.00" step="0.01" oninput="calculateRow(this)"></td>
+    <td data-label="أقل سعر" class="calculated-cell">0.00</td>
+    <td data-label="أعلى سعر" class="calculated-cell">0.00</td>
+    <td data-label="درجة المخاطرة">
+      <select onchange="updateRiskColor(this)">
+        <option value="منخفضة">منخفضة</option>
+        <option value="متوسطة">متوسطة</option>
+        <option value="عالية">عالية</option>
+            </select>
+    </td>
+    <td data-label="ملاحظات"><input type="text" placeholder="ملاحظات"></td>
+  `;
+  tbody.appendChild(newRow);
+  calculateEstimation();
+}
+
+// حساب صف واحد
+function calculateRow(input) {
+  const row = input.closest('tr');
+  const qty = parseFloat(row.querySelector('td[data-label="الكمية"] input').value) || 0;
+  const price = parseFloat(row.querySelector('td[data-label="السعر التقديري"] input').value) || 0;
+  const marketAvg = parseFloat(row.querySelector('td[data-label="متوسط السوق"] input').value) || 0;
+
+  const total = qty * price;
+  row.querySelector('td[data-label="الإجمالي"]').textContent = total.toFixed(2);
+
+  // حساب أقل وأعلى سعر بناءً على السوق ±10%
+  row.querySelector('td[data-label="أقل سعر"]').textContent = (marketAvg * 0.9).toFixed(2);
+  row.querySelector('td[data-label="أعلى سعر"]').textContent = (marketAvg * 1.1).toFixed(2);
+
+  calculateEstimation();
+}
+
+// حساب المقايسة بالكامل
+function calculateEstimation() {
+  let totalQty = 0, totalPrice = 0, totalMarket = 0, totalMin = 0, totalMax = 0;
+  let low = 0, medium = 0, high = 0;
+  const rows = document.querySelectorAll('#estimationTableBody tr');
+
+  rows.forEach(row => {
+    const qty = parseFloat(row.querySelector('td[data-label="الكمية"] input').value) || 0;
+    const total = parseFloat(row.querySelector('td[data-label="الإجمالي"]').textContent) || 0;
+    const marketAvg = parseFloat(row.querySelector('td[data-label="متوسط السوق"] input').value) || 0;
+    const minVal = parseFloat(row.querySelector('td[data-label="أقل سعر"]').textContent) || 0;
+    const maxVal = parseFloat(row.querySelector('td[data-label="أعلى سعر"]').textContent) || 0;
+    const risk = row.querySelector('td[data-label="درجة المخاطرة"] select').value;
+
+    totalQty += qty;
+    totalPrice += total;
+    totalMarket += marketAvg;
+    totalMin += minVal;
+    totalMax += maxVal;
+
+    if (risk === "منخفضة") low++;
+    else if (risk === "متوسطة") medium++;
+    else if (risk === "عالية") high++;
+  });
+
+  // تحديث المجاميع بالجدول
+  document.getElementById("grandTotal").textContent = totalPrice.toFixed(2);
+  document.getElementById("avgMarketTotal").textContent = totalMarket.toFixed(2);
+  document.getElementById("minExpectedTotal").textContent = totalMin.toFixed(2);
+  document.getElementById("maxExpectedTotal").textContent = totalMax.toFixed(2);
+
+  // ملخص
+  document.getElementById("totalItems").textContent = rows.length;
+  document.getElementById("totalQuantity").textContent = totalQty;
+  document.getElementById("avgUnitPrice").textContent = (totalPrice / (totalQty || 1)).toFixed(2) + " ج.م";
+  document.getElementById("estimationTotal").textContent = totalPrice.toFixed(2) + " ج.م";
+
+  document.getElementById("lowRiskItems").textContent = low;
+  document.getElementById("mediumRiskItems").textContent = medium;
+  document.getElementById("highRiskItems").textContent = high;
+
+  let overallRisk = "-";
+  if (high > 0) overallRisk = "عالية";
+  else if (medium > 0) overallRisk = "متوسطة";
+  else overallRisk = "منخفضة";
+  document.getElementById("overallRisk").textContent = overallRisk;
+
+  document.getElementById("minTotalCost").textContent = totalMin.toFixed(2) + " ج.م";
+  document.getElementById("maxTotalCost").textContent = totalMax.toFixed(2) + " ج.م";
+  const saving = ((totalMax - totalMin) / (totalMax || 1)) * 100;
+  document.getElementById("savingsPercentage").textContent = saving.toFixed(1) + "%";
+  document.getElementById("recommendedBudget").textContent = ((totalPrice + totalMarket) / 2).toFixed(2) + " ج.م";
+
+  saveData();
+}
+
+// تحديث ألوان حسب المخاطرة
+function updateRiskColor(select) {
+  const cell = select.closest('td');
+  cell.style.background = "";
+  if (select.value === "منخفضة") cell.style.background = "#d4edda";
+  if (select.value === "متوسطة") cell.style.background = "#fff3cd";
+  if (select.value === "عالية") cell.style.background = "#f8d7da";
+  calculateEstimation();
+}
+
+// توليد توصيات
+function generateRecommendations() {
+  const total = parseFloat(document.getElementById("grandTotal").textContent) || 0;
+  const overallRisk = document.getElementById("overallRisk").textContent;
+
+  const recSection = document.getElementById("recommendationsSection");
+  const recList = document.getElementById("recommendationsList");
+  recList.innerHTML = "";
+
+  if (total > 100000) recList.innerHTML += `<div class="recommendation-item">💡 يفضل تقسيم المناقصة إلى مراحل لتقليل المخاطر.</div>`;
+  if (overallRisk === "عالية") recList.innerHTML += `<div class="recommendation-item">⚠️ يجب مراجعة الأصناف ذات المخاطر العالية بعناية قبل الاعتماد.</div>`;
+  if (total < 5000) recList.innerHTML += `<div class="recommendation-item">✅ يمكن إتمام الشراء مباشرة لعدم تجاوز الحد المالي.</div>`;
+
+  recSection.style.display = "block";
+}
+
+// مسح الكل
+function clearForm() {
+  localStorage.removeItem("estimationData");
+  document.getElementById("estimationTableBody").innerHTML = "";
+  addEstimationRow();
+  calculateEstimation();
+}
+
+// حفظ البيانات
+function saveData() {
+  const data = document.querySelector('.container').innerHTML;
+  localStorage.setItem("estimationData", data);
+}
+
+// تحميل البيانات
+function loadSavedData() {
+  const saved = localStorage.getItem("estimationData");
+  if (saved) {
+    document.querySelector('.container').innerHTML = saved;
+  }
+}
+
+// زر تحميل بيانات (placeholder)
+function loadFromSystem() {
+  alert("📋 سيتم ربط تحميل البيانات من النظام لاحقًا.");
+}
+
+function saveEstimation() {
+  alert("💾 تم حفظ المقايسة بنجاح!");
+}
+</script>
+</body>
+</html>
