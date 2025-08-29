@@ -266,8 +266,8 @@ function toggleMenu() {
     <div class="controls">
       <button class="add" onclick="addRow()">➕ إضافة صف</button>
       <button class="clear" onclick="clearTable()">🗑️ مسح الكل</button>
-      <button class="next">➡️ انتقال</button>
-    </div>
+<button class="next" onclick="goToTaw()">➡️ انتقال</button>  
+  </div>
 
     <!-- الحقول أسفل الصفحة -->
     <div class="footer-inputs">
@@ -471,6 +471,26 @@ function toggleMenu() {
       };
       input.click();
     }
+
+
+    // دالة الانتقال وحفظ البيانات في localStorage
+function goToTaw() {
+  const data = {
+    date: document.getElementById("date").value,
+    supplier1: document.getElementById("supplier1").value,
+    supplier2: document.getElementById("supplier2").value,
+    supplier3: document.getElementById("supplier3").value,
+    committeeDate: document.getElementById("committeeDate").value,
+    taxRate: document.getElementById("taxRate").value,
+    footer: Array.from(document.querySelectorAll(".footer-inputs input")).map(inp => inp.value)
+  };
+
+  // حفظ البيانات في localStorage
+  localStorage.setItem('mainFormData', JSON.stringify(data));
+
+  // الانتقال إلى صفحة taw.html
+  window.location.href = 'taw.html';
+}
   </script>
 </body>
 </html>

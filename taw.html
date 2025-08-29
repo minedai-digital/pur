@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>أمر التوريد - taw</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  body { font-family: 'Cairo', sans-serif; margin:0; background:#f0f2f5; color:#333; }
+  header { background:#007bff; color:#fff; padding:15px; text-align:center; font-size:22px; font-weight:bold; box-shadow:0 2px 6px rgba(0,0,0,0.15); }
+  .container { max-width:1200px; margin:20px auto; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.1); }
+  h1.title { text-align:center; font-size:28px; margin-bottom:20px; font-weight:bold; }
+  .supplier-info, .footer-inputs { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:15px; margin-bottom:20px; }
+  .supplier-info label, .footer-inputs label { display:flex; flex-direction:column; font-weight:600; font-size:14px; }
+  .supplier-info input, .footer-inputs input { padding:7px; border:1px solid #ccc; border-radius:6px; margin-top:5px; }
+  table { width:100%; border-collapse:collapse; margin-top:20px; background:#fff; border-radius:8px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
+  th, td { border:1px solid #e5e5e5; padding:10px; text-align:center; font-size:14px; }
+  th { background:#f8f9fa; font-weight:600; }
+  tfoot td { font-weight:bold; background:#f1f3f5; }
+  button { padding:10px 18px; border:none; border-radius:6px; margin:5px; cursor:pointer; font-size:14px; font-weight:bold; transition:0.2s; }
+  button:hover { opacity:0.85; }
+  .add { background:#007bff; color:#fff; }
+  .clear { background:#dc3545; color:#fff; }
+  .save { background:#17a2b8; color:#fff; }
+  .load { background:#6f42c1; color:#fff; }
+  .print { background:#28a745; color:#fff; }
+</style>
+</head>
+<body>
+
+<header>الإدارة الصحية</header>
+
+<div class="container">
+  <h1 class="title">أمر التوريد</h1>
+
+  <div class="supplier-info">
+    <label>اسم المورد: <input list="suppliersList" id="supplierName"></label>
+    <label>عنوان المورد: <input type="text" id="supplierAddress"></label>
+    <label>رقم التليفون: <input type="text" id="supplierPhone"></label>
+    <label>تاريخ: <input type="date" id="orderDate"></label>
+    <label>رقم التسجيل الضريبي: <input type="text" id="taxId"></label>
+  </div>
+
+  <table id="itemsTable">
+    <thead>
+      <tr>
+        <th>م</th>
+        <th>الصنف</th>
+        <th>الوحدة</th>
+        <th>الكمية</th>
+        <th>سعر الوحدة</th>
+        <th>الإجمالي قبل الضريبة</th>
+        <th>الضريبة</th>
+        <th>الإجمالي بعد الضريبة</th>
+        <th>ملاحظات</th>
+        <th>إجراءات</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+    <tfoot>
+      <tr>
+        <td colspan="7">الإجمالي النهائي</td>
+        <td id="grandTotal">0</td>
+        <td colspan="2"></td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <div class="footer-inputs">
+    <label>المختص: <input list="staffList" id="officer"></label>
+    <label>رئيس القسم: <input list="staffList" id="head"></label>
+    <label>يعتمد: <input list="staffList" id="approved"></label>
+  </div>
+
+  <div style="text-align:center; margin-top:20px;">
+    <button class="add" onclick="addRow()">➕ إضافة صف</button>
+    <button class="clear" onclick="clearTable()">🗑️ مسح الكل</button>
+    <button class="save" onclick="saveData()">💾 حفظ البيانات</button>
+    <button class="load" onclick="loadData()">📂 استرجاع البيانات</button>
+    <button class="print" onclick="printPage()">🖨️ طباعة</button>
+  </div>
+</div>
+
+<!-- datalists -->
+<datalist id="suppliersList"></datalist>
+<datalist id="itemsList"></datalist>
+<datalist id="staffList"></datalist>
+
+<script src="data.js"></script>
+<script>
+let rowCount=0;
+
+// تحميل البيانات من data.js
+Object.keys(suppliers).forEach(name=>{
+  let opt=document.createElement('option'); opt.value=name;
+  document.getElementById('suppliersList').appendChild(opt);
+});
+
+Object.keys(itemsDB).forEach(item=>{
+  let opt=document.createElement('option'); opt.value=item;
+  document.getElementById('itemsList').appendChild(opt);
+});
+
+staffDB.forEach(staff=>{
+  let opt=document.createElement('option'); opt.value=staff;
+  document.getElementById('staffList').appendChild(opt);
+});
+
+function addRow(item='', unit='', qty=0, price=0, note=''){
+  rowCount++;
+  const tbody=document.querySelector("#itemsTable tbody");
+  const tr=document.createElement("tr");
+  const totalBeforeTax=(qty*price).toFixed(2);
+  const tax=(totalBeforeTax*0.15).toFixed(2);
+  const totalAfterTax=(parseFloat(totalBeforeTax)+parseFloat(tax)).toFixed(2);
+
+  tr.innerHTML=`
+    <td>${rowCount}</td>
+    <td><input list="itemsList" value="${item}" oninput="fillUnit(this)"></td>
+    <td><input type="text" value="${unit}"></td>
+    <td><input type="number" value="${qty}" oninput="updateRow(this)"></td>
+    <td><input type="number" value="${price}" oninput="updateRow(this)"></td>
+    <td class="beforeTax">${totalBeforeTax}</td>
+    <td class="tax">${tax}</td>
+    <td class="afterTax">${totalAfterTax}</td>
+    <td><input type="text" value="${note}"></td>
+    <td><button onclick="removeRow(this)">مسح</button></td>
+  `;
+  tbody.appendChild(tr);
+  updateGrandTotal();
+}
+
+function fillUnit(input){
+  const val=input.value;
+  if(itemsDB[val]){
+    input.parentElement.nextElementSibling.querySelector('input').value=itemsDB[val].unit;
+  }
+}
+
+function updateRow(input){
+  const tr=input.closest('tr');
+  const qty=parseFloat(tr.cells[3].querySelector('input').value)||0;
+  const price=parseFloat(tr.cells[4].querySelector('input').value)||0;
+  const beforeTax=(qty*price).toFixed(2);
+  const tax=(beforeTax*0.15).toFixed(2);
+  const afterTax=(parseFloat(beforeTax)+parseFloat(tax)).toFixed(2);
+  tr.querySelector('.beforeTax').textContent=beforeTax;
+  tr.querySelector('.tax').textContent=tax;
+  tr.querySelector('.afterTax').textContent=afterTax;
+  updateGrandTotal();
+}
+
+function updateGrandTotal(){
+  let total=0;
+  document.querySelectorAll('.afterTax').forEach(td=>{total+=parseFloat(td.textContent)||0;});
+  document.getElementById('grandTotal').textContent=total.toFixed(2);
+}
+
+function removeRow(btn){btn.closest('tr').remove(); updateGrandTotal();}
+function clearTable(){document.querySelector("#itemsTable tbody").innerHTML=""; rowCount=0; updateGrandTotal();}
+
+// تعبئة البيانات تلقائياً إذا تم حفظها من main
+window.onload=function(){
+  const savedData=localStorage.getItem('mainFormData');
+  if(savedData){
+    const data=JSON.parse(savedData);
+    document.getElementById('supplierName').value=data.supplier1||'';
+    document.getElementById('supplierAddress').value=data.supplierAddress||'';
+    document.getElementById('supplierPhone').value=data.supplierPhone||'';
+    document.getElementById('orderDate').value=data.date||'';
+    document.getElementById('taxId').value=data.taxId||'';
+    document.getElementById('officer').value=data.officer||'';
+    document.getElementById('head').value=data.head||'';
+    document.getElementById('approved').value=data.approved||'';
+  }
+}
+
+function saveData(){
+  const data={
+    supplierName:document.getElementById('supplierName').value,
+    supplierAddress:document.getElementById('supplierAddress').value,
+    supplierPhone:document.getElementById('supplierPhone').value,
+    orderDate:document.getElementById('orderDate').value,
+    taxId:document.getElementById('taxId').value,
+    officer:document.getElementById('officer').value,
+    head:document.getElementById('head').value,
+    approved:document.getElementById('approved').value,
+    table:[]
+  };
+  document.querySelectorAll('#itemsTable tbody tr').forEach(tr=>{
+    const row=[];
+    tr.querySelectorAll('input').forEach(inp=>row.push(inp.value));
+    data.table.push(row);
+  });
+  const fileName=`${data.orderDate}_${data.supplierName}.json`;
+  const blob=new Blob([JSON.stringify(data)],{type:"application/json"});
+  const link=document.createElement('a');
+  link.href=URL.createObjectURL(blob);
+  link.download=fileName;
+  link.click();
+}
+
+function loadData(){
+  const input=document.createElement('input');
+  input.type='file'; input.accept='.json';
+  input.onchange=e=>{
+    const file=e.target.files[0];
+    const reader=new FileReader();
+    reader.onload=ev=>{
+      const data=JSON.parse(ev.target.result);
+      document.getElementById('supplierName').value=data.supplierName||'';
+      document.getElementById('supplierAddress').value=data.supplierAddress||'';
+      document.getElementById('supplierPhone').value=data.supplierPhone||'';
+      document.getElementById('orderDate').value=data.orderDate||'';
+      document.getElementById('taxId').value=data.taxId||'';
+      document.getElementById('officer').value=data.officer||'';
+      document.getElementById('head').value=data.head||'';
+      document.getElementById('approved').value=data.approved||'';
+      clearTable();
+      data.table.forEach(row=>addRow(...row));
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
+function printPage(){window.print();}
+</script>
+
+</body>
+</html>
