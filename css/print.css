@@ -30,7 +30,7 @@
   /* Reset and base styles */
   * {
     -webkit-print-color-adjust: exact !important;
-    color-adjust: exact !important;
+    print-color-adjust: exact !important;
     box-sizing: border-box;
   }
 
@@ -53,9 +53,21 @@
   }
 
   /* Landscape orientation for specific pages */
-  .supply-form @page,
-  .analysis-form @page,
-  .estimation-form @page {
+  @media print {
+    .supply-form {
+      page: landscape;
+    }
+    
+    .analysis-form {
+      page: landscape;
+    }
+    
+    .estimation-form {
+      page: landscape;
+    }
+  }
+  
+  @page landscape {
     size: A4 landscape;
     margin: 1.5cm 2cm;
   }
@@ -312,6 +324,7 @@
     text-align: center !important;
     page-break-inside: avoid !important;
     -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
   /* Table Footer - Repeat on each page */
@@ -327,6 +340,7 @@
     font-size: 14px !important;
     text-align: center !important;
     -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
   /* Table Body */
@@ -358,6 +372,7 @@
   .best-price {
     background: #e8f4f8 !important;
     -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
   .calculated-cell {
@@ -462,37 +477,35 @@
   }
 
   /* Print-specific signatures layout */
-  @media print {
-    .print-signatures {
-      position: fixed;
-      bottom: 2cm;
-      left: 2cm;
-      right: 2cm;
-      display: flex !important;
-      justify-content: space-between;
-      border-top: 1px solid #333;
-      padding-top: 15px;
-      font-size: 14px !important;
-    }
+  .print-signatures {
+    position: fixed;
+    bottom: 2cm;
+    left: 2cm;
+    right: 2cm;
+    display: flex !important;
+    justify-content: space-between;
+    border-top: 1px solid #333;
+    padding-top: 15px;
+    font-size: 14px !important;
+  }
 
-    .print-signature-item {
-      text-align: center;
-      flex: 1;
-    }
+  .print-signature-item {
+    text-align: center;
+    flex: 1;
+  }
 
-    .print-signature-label {
-      font-weight: bold;
-      display: block;
-      margin-bottom: 30px;
-    }
+  .print-signature-label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 30px;
+  }
 
-    .print-signature-name {
-      border-bottom: 1px solid #333;
-      width: 120px;
-      display: inline-block;
-      text-align: center;
-      padding: 2px;
-    }
+  .print-signature-name {
+    border-bottom: 1px solid #333;
+    width: 120px;
+    display: inline-block;
+    text-align: center;
+    padding: 2px;
   }
 
   /* Ensure proper spacing */
