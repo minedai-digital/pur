@@ -7,6 +7,7 @@
   <meta name="description" content="نموذج بيانات المورد للهيئة العامة للضرائب وحساب قيمة الضريبة">
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/shared.css">
+  <link rel="stylesheet" href="css/print.css">
   <style>
     /* Tax Information Specific Styles */
     .tax-header {
@@ -345,7 +346,7 @@
         <li><a href="custom.html" class="active">📊 الضرائب</a></li>
       </ul>
       <div class="nav-login">
-        <button class="btn-login" onclick="logout()" title="تسجيل الخروج">
+        <button class="btn-login" onclick="if(confirm('هل أنت متأكد من تسجيل الخروج؟')) window.location.href='index.html'" title="تسجيل الخروج">
           <span>🚪</span> تسجيل الخروج
         </button>
       </div>
@@ -391,15 +392,15 @@
     <div class="tax-header">
       <div class="document-logo">
         <div class="logo-inner">
-          المملكة العربية<br>السعودية
+          مصر<br>
         </div>
       </div>
       <h1 class="section-title">📊 بيانات المورد للهيئة العامة للضرائب</h1>
       <div class="entity-info">
-        <div class="info-badge green-bg">مستشفى الملك فهد المركزي بجازان</div>
+        <div class="info-badge green-bg">الادارة الصحية بسمنود</div>
         <div class="info-badge blue-bg">إدارة العقود والمشتريات</div>
         <div class="enhanced-input" style="max-width: 300px;">
-          <input type="text" id="entityName" class="form-control" placeholder="اسم الجهة" value="مستشفى الملك فهد">
+          <input type="text" id="entityName" class="form-control" placeholder="اسم الجهة" value="  الادارة الصحية بسمنود">
         </div>
       </div>
     </div>
@@ -543,7 +544,7 @@
         <div class="enhanced-input">
           <label class="form-label">💰 قيمة الأعمال (قبل الضريبة):</label>
           <input type="number" id="workValue" class="form-control" placeholder="0.00" step="0.01" required>
-          <span class="input-addon">ريال سعودي</span>
+          <span class="input-addon">جنيه مصري</span>
         </div>
         <div class="enhanced-input">
           <label class="form-label">📈 نسبة الضريبة (%):</label>
@@ -561,15 +562,15 @@
       <div class="tax-calculation">
         <div class="tax-row">
           <span class="tax-label">قيمة الأعمال الأساسية:</span>
-          <span class="tax-value" id="baseValue">0.00 ريال سعودي</span>
+          <span class="tax-value" id="baseValue">0.00 جنيه مصري</span>
         </div>
         <div class="tax-row">
           <span class="tax-label">ضريبة القيمة المضافة (<span id="taxRateDisplay">15</span>%):</span>
-          <span class="tax-value" id="taxValue">0.00 ريال سعودي</span>
+          <span class="tax-value" id="taxValue">0.00 جنيه مصري</span>
         </div>
         <div class="tax-row">
           <span class="tax-label">💵 الإجمالي شامل الضريبة:</span>
-          <span class="tax-value" id="totalValue">0.00 ريال سعودي</span>
+          <span class="tax-value" id="totalValue">0.00 جنيه مصري</span>
         </div>
       </div>
     </div>

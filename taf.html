@@ -8,6 +8,7 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/shared.css">
+<link rel="stylesheet" href="css/print.css">
 
 <style>
   .analysis-header {
@@ -221,7 +222,7 @@
         <li><a href="custom.html">📊 الضرائب</a></li>
       </ul>
       <div class="nav-login">
-        <button class="btn-login" onclick="logout()" title="تسجيل الخروج">
+        <button class="btn-login" onclick="if(confirm('هل أنت متأكد من تسجيل الخروج؟')) window.location.href='index.html'" title="تسجيل الخروج">
           <span>🚪</span> تسجيل الخروج
         </button>
       </div>
@@ -242,21 +243,20 @@
 <div id="alertError" class="validation-message validation-error"></div>
 <div id="alertWarning" class="validation-message validation-warning"></div>
 
-<div class="container">
-  <!-- Print Header (hidden on screen, visible in print) -->
+  <!-- Print Header (repeats on each page) -->
   <div class="print-header print-only" style="display: none;">
-    <div class="print-entity-name">
-      الإدارة الصحية بسمنود<br>
-      إدارة العقود والمشتريات
-    </div>
-    <div class="print-page-title">
-      تفريغ وتحليل الأسعار
-    </div>
     <div class="print-logo">
       <img src="images/logo.png" alt="شعار الجهة">
     </div>
+    <div class="print-entity-info">
+      <div class="print-entity-name" id="printEntityName">الإدارة الصحية بسمنود</div>
+      <div class="print-department" id="printDepartment">إدارة العقود والمشتريات</div>
+      <div class="print-page-title">تفريغ وتحليل الأسعار</div>
+    </div>
+    <div class="print-date" id="printDate"></div>
   </div>
 
+<div class="container analysis-form">
   <!-- Entity Configuration Section -->
   <div class="entity-config-section">
     <h3 class="entity-config-title">
@@ -305,6 +305,10 @@
         <label class="form-label">تاريخ التفريغ:</label>
         <input type="date" id="orderDate" class="form-control" required>
       </div>
+      <div class="enhanced-input">
+        <label class="form-label">📊 نسبة الضريبة (%):</label>
+        <input type="number" id="taxRate" class="form-control" value="14" min="0" max="100" step="0.1" placeholder="14">
+      </div>
     </div>
   </div>
 
@@ -340,11 +344,11 @@
           <th>الوحدة</th>
           <th>الكمية</th>
           <th id="th-supplier1">المورد الأول</th>
-          <th>بعد الضريبة</th>
+          <th>بعد الضريبة <span id="taxRateHeader"></span></th>
           <th id="th-supplier2">المورد الثاني</th>
-          <th>بعد الضريبة</th>
+          <th>بعد الضريبة <span id="taxRateHeader"></span></th>
           <th id="th-supplier3">المورد الثالث</th>
-          <th>بعد الضريبة</th>
+          <th>بعد الضريبة <span id="taxRateHeader"></span></th>
           <th>الإجراء</th>
         </tr>
       </thead>
@@ -404,6 +408,11 @@
     </div>
   </div>
 </div>
+
+  <!-- Print Stamp Area -->
+  <div class="print-stamp print-only" style="display: none;">
+    🏥 ختم الجهة المختصة
+  </div>
 
   <script src="js/data.js"></script>
   <script src="js/utils.js"></script>

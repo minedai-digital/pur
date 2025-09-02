@@ -6,6 +6,7 @@
   <title>طلب الصرف - نظام إدارة المشتريات</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/shared.css">
+  <link rel="stylesheet" href="css/print.css">
   
   <style>
     .request-header {
@@ -278,7 +279,7 @@
         <li><a href="custom.html">📊 الضرائب</a></li>
       </ul>
       <div class="nav-login">
-        <button class="btn-login" onclick="logout()" title="تسجيل الخروج">
+        <button class="btn-login" onclick="if(confirm('هل أنت متأكد من تسجيل الخروج؟')) window.location.href='index.html'" title="تسجيل الخروج">
           <span>🚪</span> تسجيل الخروج
         </button>
       </div>
@@ -324,7 +325,7 @@
     <div class="request-header">
       <div class="document-logo">
         <div class="logo-inner">
-          المملكة العربية<br>السعودية
+          مصر<br>العربية
         </div>
       </div>
       <h1 class="section-title">📄 طلب الشراء</h1>
@@ -357,7 +358,7 @@
           <div class="enhanced-input">
             <label class="form-label">💰 مبلغ الصرف المطلوب:</label>
             <input type="number" id="requestAmount" class="form-control" placeholder="0.00" step="0.01" required>
-            <span class="input-addon">ريال سعودي</span>
+            <span class="input-addon">جنيه مصري</span>
           </div>
           <div class="enhanced-input">
             <label class="form-label">📅 تاريخ الطلب:</label>

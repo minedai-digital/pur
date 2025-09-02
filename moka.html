@@ -6,6 +6,7 @@
   <title>المقايسة التقديرية - نظام إدارة المشتريات</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/shared.css">
+  <link rel="stylesheet" href="css/print.css">
   
   <style>
     .estimation-header {
@@ -241,7 +242,7 @@
         <li><a href="custom.html">📊 الضرائب</a></li>
       </ul>
       <div class="nav-login">
-        <button class="btn-login" onclick="logout()" title="تسجيل الخروج">
+        <button class="btn-login" onclick="if(confirm('هل أنت متأكد من تسجيل الخروج؟')) window.location.href='index.html'" title="تسجيل الخروج">
           <span>🚪</span> تسجيل الخروج
         </button>
       </div>
@@ -251,7 +252,20 @@
     </div>
   </nav>
 
-  <div class="container">
+    <!-- Print Header (repeats on each page) -->
+  <div class="print-header print-only" style="display: none;">
+    <div class="print-logo">
+      <img src="images/logo.png" alt="شعار الجهة">
+    </div>
+    <div class="print-entity-info">
+      <div class="print-entity-name" id="printEntityName">الإدارة الصحية بسمنود</div>
+      <div class="print-department" id="printDepartment">إدارة العقود والمشتريات</div>
+      <div class="print-page-title">مقايسة وتقدير التكاليف</div>
+    </div>
+    <div class="print-date" id="printDate"></div>
+  </div>
+
+<div class="container estimation-form">
     <!-- Entity Configuration Section -->
     <div class="entity-config-section">
       <h3 class="entity-config-title">
@@ -269,25 +283,11 @@
       </div>
     </div>
 
-    <!-- Print Header (hidden on screen, visible in print) -->
-    <div class="print-header print-only" style="display: none;">
-      <div class="print-entity-name">
-        الإدارة الصحية بسمنود<br>
-        إدارة العقود والمشتريات
-      </div>
-      <div class="print-page-title">
-        المقايسة والتقدير
-      </div>
-      <div class="print-logo">
-        <img src="images/logo.png" alt="شعار الجهة">
-      </div>
-    </div>
-
     <!-- Estimation Header -->
     <div class="estimation-header">
       <div class="document-logo">
         <div class="logo-inner">
-          المملكة العربية<br>السعودية
+          مصر<br>العربية
         </div>
       </div>
       <h1 class="section-title">📈 المقايسة التقديرية للأسعار</h1>
@@ -321,6 +321,10 @@
         <div class="enhanced-input">
           <label class="form-label">🏢 الجهة المختصة:</label>
           <input type="text" id="responsibleDepartment" class="form-control" value="قسم التعاقدات - مستشفى الملك فهد">
+        </div>
+        <div class="enhanced-input">
+          <label class="form-label">📊 نسبة الضريبة (%):</label>
+          <input type="number" id="taxRate" class="form-control" value="14" min="0" max="100" step="0.1" placeholder="14">
         </div>
       </div>
     </div>

@@ -8,8 +8,12 @@ class EstimationManager {
     this.rowCount = 0;
     this.autoSaveInterval = null;
     this.statistics = { totalItems: 0, totalValue: 0, lastSaved: null };
-    this.taxRate = 0.15; // 15% VAT
     this.init();
+  }
+
+  // Get current tax rate from input field
+  get TAX_RATE() {
+    return (parseFloat(document.getElementById('taxRate')?.value) || 14) / 100;
   }
 
   async init() {
@@ -23,6 +27,15 @@ class EstimationManager {
   }
 
   setupEventListeners() {
+    // Tax rate change listener
+    const taxRateInput = document.getElementById('taxRate');
+    if (taxRateInput) {
+      taxRateInput.addEventListener('input', () => {
+        this.updateAllCalculations();
+        this.updateTaxDisplay();
+      });
+    }
+
     // Input validation and calculations
     document.addEventListener('input', (e) => {
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
@@ -309,8 +322,8 @@ class EstimationManager {
     // Update summary statistics
     this.updateElement('totalItems', rows.length);
     this.updateElement('totalQuantity', totalQty);
-    this.updateElement('avgUnitPrice', totalQty > 0 ? (totalPrice / totalQty).toFixed(2) + ' ريال' : '0.00 ريال');
-    this.updateElement('estimationTotal', totalPrice.toFixed(2) + ' ريال');
+    this.updateElement('avgUnitPrice', totalQty > 0 ? (totalPrice / totalQty).toFixed(2) + ' ج.م' : '0.00 ج.م');
+    this.updateElement('estimationTotal', totalPrice.toFixed(2) + ' ج.م');
     
     // Update risk analysis
     this.updateElement('lowRiskItems', lowRisk);
@@ -325,14 +338,14 @@ class EstimationManager {
     this.updateElement('overallRisk', overallRisk);
     
     // Update financial analysis
-    this.updateElement('minTotalCost', totalMin.toFixed(2) + ' ريال');
-    this.updateElement('maxTotalCost', totalMax.toFixed(2) + ' ريال');
+    this.updateElement('minTotalCost', totalMin.toFixed(2) + ' ج.م');
+    this.updateElement('maxTotalCost', totalMax.toFixed(2) + ' ج.م');
     
     const savingsPercentage = totalMax > 0 ? ((totalMax - totalMin) / totalMax) * 100 : 0;
     this.updateElement('savingsPercentage', savingsPercentage.toFixed(1) + '%');
     
-    const recommendedBudget = (totalPrice * (1 + this.taxRate) + totalMarket) / 2;
-    this.updateElement('recommendedBudget', recommendedBudget.toFixed(2) + ' ريال');
+    const recommendedBudget = (totalPrice * (1 + this.TAX_RATE) + totalMarket) / 2;
+    this.updateElement('recommendedBudget', recommendedBudget.toFixed(2) + ' ج.م');
     
     this.updateStatistics();
   }
@@ -656,6 +669,29 @@ class EstimationManager {
         overlay.style.display = 'none';
       }
     }, 1000);
+  }
+
+  updateAllCalculations() {
+    // Recalculate all rows when tax rate changes
+    const tbody = document.getElementById('estimationTableBody');
+    if (tbody) {
+      const rows = tbody.querySelectorAll('tr');
+      rows.forEach(row => {
+        const firstInput = row.querySelector('input[type="number"]');
+        if (firstInput) {
+          this.calculateRow(firstInput);
+        }
+      });
+    }
+    this.updateTotals();
+  }
+
+  updateTaxDisplay() {
+    // Update any tax rate displays in the UI
+    const taxRatePercent = (this.TAX_RATE * 100).toFixed(1);
+    document.querySelectorAll('.tax-display').forEach(element => {
+      element.textContent = `${taxRatePercent}%`;
+    });
   }
 
   showMessage(message, type = 'success') {

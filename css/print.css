@@ -1,0 +1,614 @@
+/* Print Styles for A4 Format */
+@media print {
+  /* Override any existing font sizes to ensure consistency */
+  * {
+    font-size: 14px !important;
+  }
+  
+  /* Exception for headers which should remain larger */
+  .print-entity-name {
+    font-size: 18px !important;
+  }
+  
+  .print-page-title {
+    font-size: 16px !important;
+  }
+  
+  /* Headers still need to be distinguishable but not too large */
+  h1 {
+    font-size: 16px !important;
+  }
+  
+  h2, h3 {
+    font-size: 15px !important;
+  }
+  
+  h4, h5, h6 {
+    font-size: 14px !important;
+  }
+
+  /* Reset and base styles */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    box-sizing: border-box;
+  }
+
+  /* A4 Page Setup */
+  @page {
+    size: A4 portrait;
+    margin: 1.5cm 2cm;
+    font-size: 14px;
+    font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+    /* Header for every page */
+    @top-center {
+      content: element(page-header);
+    }
+    
+    /* Footer for every page */
+    @bottom-center {
+      content: element(page-footer);
+    }
+  }
+
+  /* Landscape orientation for specific pages */
+  .supply-form @page,
+  .analysis-form @page,
+  .estimation-form @page {
+    size: A4 landscape;
+    margin: 1.5cm 2cm;
+  }
+
+  /* Hide non-printable elements */
+  .no-print,
+  .controls-section,
+  .action-buttons,
+  .btn:not(.print-keep),
+  nav,
+  .nav-login,
+  .nav-toggle,
+  .validation-message,
+  .enhanced-input .form-label,
+  .entity-config-section,
+  .analysis-summary,
+  .comparison-section:not(.print-keep),
+  .supplier-section .input-grid,
+  .signatures-section .signatures-grid {
+    display: none !important;
+  }
+
+  /* Show print-only elements */
+  .print-only {
+    display: block !important;
+  }
+
+  /* Body and container styles */
+  body {
+    font-size: 14px !important;
+    line-height: 1.4;
+    color: #000 !important;
+    background: #fff !important;
+    margin: 0;
+    padding: 0;
+    direction: rtl;
+    font-family: 'Cairo', 'Segoe UI', sans-serif;
+  }
+
+  .container {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* Page Header Styles */
+  .print-header {
+    position: running(page-header);
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    page-break-inside: avoid;
+  }
+
+  .print-entity-name {
+    font-size: 18px !important;
+    font-weight: bold;
+    text-align: center;
+    flex: 1;
+  }
+
+  .print-page-title {
+    font-size: 16px !important;
+    font-weight: bold;
+    text-align: center;
+    margin: 5px 0;
+  }
+
+  .print-logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .print-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  /* Page Footer/Signatures */
+  .signatures-section,
+  .print-stamp {
+    position: running(page-footer);
+    display: block !important;
+    border-top: 1px solid #333;
+    padding-top: 15px;
+    margin-top: 20px;
+    page-break-inside: avoid;
+  }
+
+  /* Signatures section layout for print */
+  .signatures-section {
+    display: flex !important;
+    justify-content: space-around !important;
+    align-items: flex-start !important;
+    font-size: 14px !important;
+    flex-wrap: nowrap !important;
+    gap: 15px !important;
+    border-top: 1px solid #333 !important;
+    padding-top: 20px !important;
+    margin-top: 30px !important;
+    page-break-inside: avoid !important;
+  }
+
+  .signature-item,
+  .signature-card {
+    text-align: center;
+    flex: 1;
+    margin: 0 5px;
+    max-width: 150px;
+    min-width: 120px;
+  }
+
+  .signature-label,
+  .form-label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
+    font-size: 13px !important;
+  }
+
+  .signature-line {
+    border-bottom: 1px solid #333;
+    width: 100px;
+    height: 35px;
+    margin: 8px auto;
+    display: block;
+  }
+
+  /* Input fields in signatures for print */
+  .signatures-section input {
+    border: none !important;
+    border-bottom: 1px solid #333 !important;
+    background: transparent !important;
+    text-align: center !important;
+    width: 100px !important;
+    font-size: 13px !important;
+    padding: 3px !important;
+    margin: 5px auto !important;
+    display: block !important;
+  }
+
+  /* Hide signature grid labels on print and make it horizontal */
+  .signatures-grid {
+    display: flex !important;
+    justify-content: space-around !important;
+    flex-wrap: nowrap !important;
+    gap: 15px !important;
+  }
+
+  .signatures-grid .signature-card {
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  /* Hide section titles in signatures for cleaner print */
+  .signatures-section .section-title {
+    display: none !important;
+  }
+
+  .print-stamp {
+    text-align: center;
+    font-size: 12px;
+    margin-top: 10px;
+    border: 2px solid #333;
+    padding: 10px;
+    width: 150px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Headers and Titles */
+  h1, h2, h3, h4, h5, h6 {
+    font-size: 14px !important;
+    font-weight: bold;
+    color: #000 !important;
+    margin: 10px 0 !important;
+    page-break-after: avoid;
+  }
+
+  .main-title {
+    font-size: 16px !important;
+    text-align: center;
+    margin: 15px 0 !important;
+  }
+
+  /* Form and Input Styles */
+  .input-grid,
+  .supplier-headers,
+  .form-row {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    margin: 10px 0;
+    page-break-inside: avoid;
+  }
+
+  .enhanced-input,
+  .supplier-card {
+    display: flex !important;
+    align-items: center;
+    font-size: 14px !important;
+    margin: 3px 0;
+  }
+
+  .enhanced-input label,
+  .supplier-card label {
+    font-weight: bold;
+    margin-left: 10px;
+    min-width: 100px;
+    display: inline-block !important;
+  }
+
+  input[type="text"],
+  input[type="date"],
+  input[type="number"],
+  input[type="tel"],
+  select {
+    border: none !important;
+    border-bottom: 1px solid #333 !important;
+    background: transparent !important;
+    font-size: 14px !important;
+    padding: 2px 5px !important;
+    color: #000 !important;
+    width: auto !important;
+    flex: 1;
+  }
+
+  /* Table Styles */
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    font-size: 14px !important;
+    margin: 15px 0 !important;
+    page-break-inside: auto;
+  }
+
+  /* Table Headers - Repeat on each page */
+  thead {
+    display: table-header-group !important;
+  }
+
+  thead th {
+    background: #f5f5f5 !important;
+    border: 1px solid #333 !important;
+    padding: 8px 4px !important;
+    font-weight: bold !important;
+    font-size: 14px !important;
+    text-align: center !important;
+    page-break-inside: avoid !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  /* Table Footer - Repeat on each page */
+  tfoot {
+    display: table-footer-group !important;
+  }
+
+  tfoot td {
+    background: #f0f0f0 !important;
+    border: 1px solid #333 !important;
+    padding: 8px 4px !important;
+    font-weight: bold !important;
+    font-size: 14px !important;
+    text-align: center !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  /* Table Body */
+  tbody tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+
+  tbody td {
+    border: 1px solid #333 !important;
+    padding: 6px 4px !important;
+    font-size: 14px !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+  }
+
+  /* Table inputs */
+  table input {
+    border: none !important;
+    background: transparent !important;
+    font-size: 14px !important;
+    text-align: center !important;
+    width: 100% !important;
+    padding: 2px !important;
+  }
+
+  /* Special table cells */
+  .highlight,
+  .best-price {
+    background: #e8f4f8 !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  .calculated-cell {
+    font-weight: bold !important;
+  }
+
+  /* Summary sections */
+  .order-summary,
+  .analysis-summary,
+  .summary-grid {
+    display: block !important;
+    margin: 15px 0 !important;
+    page-break-inside: avoid;
+  }
+
+  .summary-item {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin: 5px 0 !important;
+    font-size: 14px !important;
+    border-bottom: 1px dotted #ccc !important;
+    padding: 3px 0 !important;
+  }
+
+  .summary-value {
+    font-weight: bold !important;
+  }
+
+  /* Tax rate display */
+  .tax-rate-input {
+    display: inline-flex !important;
+    align-items: center !important;
+  }
+
+  .tax-rate-input input {
+    width: 50px !important;
+    margin-left: 5px !important;
+  }
+
+  /* Page breaks */
+  .page-break {
+    page-break-before: always !important;
+  }
+
+  .avoid-break {
+    page-break-inside: avoid !important;
+  }
+
+  /* Specific adjustments for different page types */
+  
+  /* Main Form specific */
+  .main-form .input-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Price Analysis specific */
+  .analysis-header {
+    text-align: center !important;
+    margin: 10px 0 !important;
+  }
+
+  /* Supply Order specific */
+  .supply-header {
+    text-align: center !important;
+    margin: 10px 0 !important;
+  }
+
+  /* Estimation specific */
+  .estimation-header {
+    text-align: center !important;
+    margin: 10px 0 !important;
+  }
+
+  /* Hide empty rows in tables */
+  tr:has(input[value=""]):has(input[value=""]):has(input[value=""]) {
+    display: none !important;
+  }
+
+  /* Hide empty rows in tables for cleaner print */
+  tbody tr:empty {
+    display: none !important;
+  }
+  
+  /* Hide rows where all inputs are empty */
+  tbody tr:has(input[value=""]:only-of-type) {
+    display: none !important;
+  }
+  
+  /* Better handling of table breaks */
+  table {
+    break-inside: auto;
+  }
+  
+  tr {
+    break-inside: avoid;
+    break-after: auto;
+  }
+  
+  thead {
+    break-after: avoid;
+  }
+
+  /* Print-specific signatures layout */
+  @media print {
+    .print-signatures {
+      position: fixed;
+      bottom: 2cm;
+      left: 2cm;
+      right: 2cm;
+      display: flex !important;
+      justify-content: space-between;
+      border-top: 1px solid #333;
+      padding-top: 15px;
+      font-size: 14px !important;
+    }
+
+    .print-signature-item {
+      text-align: center;
+      flex: 1;
+    }
+
+    .print-signature-label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 30px;
+    }
+
+    .print-signature-name {
+      border-bottom: 1px solid #333;
+      width: 120px;
+      display: inline-block;
+      text-align: center;
+      padding: 2px;
+    }
+  }
+
+  /* Ensure proper spacing */
+  .section-spacing {
+    margin: 15px 0 !important;
+  }
+
+  /* Currency display */
+  .currency::after {
+    content: " ج.م";
+    font-size: 12px;
+  }
+
+  /* Page numbering */
+  .page-number::after {
+    content: counter(page) " من " counter(pages);
+  }
+}
+
+/* Landscape-specific optimizations */
+.supply-form table,
+.analysis-form table,
+.estimation-form table {
+  width: 100% !important;
+  font-size: 11px !important;
+  margin: 10px 0 !important;
+}
+
+.supply-form thead th,
+.analysis-form thead th,
+.estimation-form thead th {
+  font-size: 11px !important;
+  padding: 4px 2px !important;
+  line-height: 1.2 !important;
+}
+
+.supply-form tbody td,
+.analysis-form tbody td,
+.estimation-form tbody td {
+  font-size: 11px !important;
+  padding: 3px 2px !important;
+  line-height: 1.2 !important;
+}
+
+.supply-form tfoot td,
+.analysis-form tfoot td,
+.estimation-form tfoot td {
+  font-size: 11px !important;
+  padding: 4px 2px !important;
+}
+
+.supply-form table input,
+.analysis-form table input,
+.estimation-form table input {
+  font-size: 10px !important;
+  padding: 1px !important;
+}
+
+.supply-form .print-header,
+.analysis-form .print-header,
+.estimation-form .print-header {
+  margin-bottom: 10px !important;
+}
+
+.supply-form .signatures-section,
+.analysis-form .signatures-section,
+.estimation-form .signatures-section {
+  margin-top: 15px !important;
+  padding-top: 10px !important;
+}
+
+/* Landscape signature optimizations */
+.supply-form .signature-label,
+.analysis-form .signature-label,
+.estimation-form .signature-label,
+.supply-form .form-label,
+.analysis-form .form-label,
+.estimation-form .form-label {
+  font-size: 11px !important;
+}
+
+.supply-form .signatures-section input,
+.analysis-form .signatures-section input,
+.estimation-form .signatures-section input {
+  font-size: 10px !important;
+  width: 80px !important;
+}
+
+/* Landscape header optimizations */
+.supply-form .print-entity-name,
+.analysis-form .print-entity-name,
+.estimation-form .print-entity-name {
+  font-size: 16px !important;
+}
+
+.supply-form .print-page-title,
+.analysis-form .print-page-title,
+.estimation-form .print-page-title {
+  font-size: 14px !important;
+}
+
+/* Additional print utilities */
+@media print {
+  .print-landscape {
+    size: A4 landscape !important;
+  }
+  
+  .print-portrait {
+    size: A4 portrait !important;
+  }
+  
+  .force-new-page {
+    page-break-before: always !important;
+  }
+  
+  .keep-together {
+    page-break-inside: avoid !important;
+  }
+}

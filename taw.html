@@ -8,6 +8,7 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/shared.css">
+<link rel="stylesheet" href="css/print.css">
 
 <style>
   .supply-header {
@@ -74,6 +75,25 @@
   .tax-highlight {
     background: linear-gradient(45deg, #fff3cd, #ffeaa7);
     font-weight: bold;
+  }
+  
+  .tax-rate-input {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .tax-rate-input input {
+    border: 2px solid var(--primary-color);
+    border-radius: 5px;
+    padding: 2px 5px;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .tax-rate-input input:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
   }
   
   .validation-badge {
@@ -198,7 +218,7 @@
         <li><a href="custom.html">📊 الضرائب</a></li>
       </ul>
       <div class="nav-login">
-        <button class="btn-login" onclick="logout()" title="تسجيل الخروج">
+        <button class="btn-login" onclick="if(confirm('هل أنت متأكد من تسجيل الخروج؟')) window.location.href='index.html'" title="تسجيل الخروج">
           <span>🚪</span> تسجيل الخروج
         </button>
       </div>
@@ -219,21 +239,20 @@
 <div id="alertError" class="validation-message validation-error"></div>
 <div id="alertWarning" class="validation-message validation-warning"></div>
 
-<div class="container">
-  <!-- Print Header (hidden on screen, visible in print) -->
+  <!-- Print Header (repeats on each page) -->
   <div class="print-header print-only" style="display: none;">
-    <div class="print-entity-name">
-      الإدارة الصحية بسمنود<br>
-      إدارة العقود والمشتريات
-    </div>
-    <div class="print-page-title">
-      أمر التوريد
-    </div>
     <div class="print-logo">
       <img src="images/logo.png" alt="شعار الجهة">
     </div>
+    <div class="print-entity-info">
+      <div class="print-entity-name" id="printEntityName">الإدارة الصحية بسمنود</div>
+      <div class="print-department" id="printDepartment">إدارة العقود والمشتريات</div>
+      <div class="print-page-title">أمر التوريد</div>
+    </div>
+    <div class="print-date" id="printDate"></div>
   </div>
 
+<div class="container supply-form">
   <!-- Entity Configuration Section -->
   <div class="entity-config-section">
     <h3 class="entity-config-title">
@@ -263,7 +282,14 @@
       <span id="subtotal">0.00 ج.م</span>
     </div>
     <div class="summary-item">
-      <span>قيمة الضريبة (15%):</span>
+      <span>نسبة الضريبة:</span>
+      <div class="tax-rate-input">
+        <input type="number" id="taxRate" class="form-control" value="14" min="0" max="100" step="0.1" style="width: 80px; display: inline-block;">
+        <span>%</span>
+      </div>
+    </div>
+    <div class="summary-item">
+      <span>قيمة الضريبة <span id="taxRateDisplay"></span>:</span>
       <span id="taxAmount" class="tax-highlight">0.00 ج.م</span>
     </div>
     <div class="summary-item">
@@ -328,7 +354,7 @@
           <th>الكمية</th>
           <th>سعر الوحدة</th>
           <th>إجمالي قبل الضريبة</th>
-          <th>الضريبة (15%)</th>
+          <th>الضريبة <span id="tableHeaderTaxRate"></span></th>
           <th>إجمالي بعد الضريبة</th>
           <th>ملاحظات</th>
           <th>إجراءات</th>
@@ -395,6 +421,12 @@
   </div>
 </div>
 
+  <!-- Print Stamp Area -->
+  <div class="print-stamp print-only" style="display: none;">
+    🏥 ختم الجهة المختصة
+  </div>
+
+<!-- datalists -->
 <!-- datalists -->
 <datalist id="suppliersList"></datalist>
 <datalist id="itemsList"></datalist>

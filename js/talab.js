@@ -418,7 +418,7 @@ class RequestManager {
       // Show success message with details
       const amount = parseFloat(data.requestAmount).toFixed(2);
       const applicant = data.applicantName;
-      this.showMessage(`تم إعداد طلب الشراء بنجاح: ${amount} ريال - ${applicant}`, 'success');
+      this.showMessage(`تم إعداد طلب الشراء بنجاح: ${amount} جنيه - ${applicant}`, 'success');
       
       // Auto-print after short delay
       setTimeout(() => {

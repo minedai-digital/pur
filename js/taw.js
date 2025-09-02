@@ -6,9 +6,13 @@
 class SupplyOrderManager {
   constructor() {
     this.rowCount = 0;
-    this.TAX_RATE = 0.15;
     this.statistics = { totalItems: 0, subtotal: 0, taxAmount: 0, grandTotal: 0 };
     this.init();
+  }
+
+  // Get current tax rate from input field
+  get TAX_RATE() {
+    return (parseFloat(document.getElementById('taxRate')?.value) || 14) / 100;
   }
 
   async init() {
@@ -29,6 +33,10 @@ class SupplyOrderManager {
         if (e.target.id === 'supplierName') {
           this.fillSupplierInfo(e.target.value);
         }
+        if (e.target.id === 'taxRate') {
+          this.updateTaxRateDisplay();
+          this.updateAllRows();
+        }
       }
     });
 
@@ -40,6 +48,29 @@ class SupplyOrderManager {
           case 'p': e.preventDefault(); window.print(); break;
           case 'n': e.preventDefault(); this.addRow(); break;
         }
+      }
+    });
+  }
+
+  updateTaxRateDisplay() {
+    const taxRate = parseFloat(document.getElementById('taxRate')?.value) || 14;
+    const taxRateDisplayElement = document.getElementById('taxRateDisplay');
+    const tableHeaderTaxRate = document.getElementById('tableHeaderTaxRate');
+    
+    if (taxRateDisplayElement) {
+      taxRateDisplayElement.textContent = taxRate;
+    }
+    if (tableHeaderTaxRate) {
+      tableHeaderTaxRate.textContent = taxRate;
+    }
+  }
+
+  updateAllRows() {
+    const rows = document.querySelectorAll('#itemsTable tbody tr');
+    rows.forEach(row => {
+      const firstInput = row.querySelector('input[type="number"]');
+      if (firstInput) {
+        this.updateRow(firstInput);
       }
     });
   }

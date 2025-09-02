@@ -850,7 +850,7 @@ class ProcurementUtils {
     // Update all print headers on the page
     const printEntityElements = document.querySelectorAll('.print-entity-name');
     printEntityElements.forEach(element => {
-      element.innerHTML = `المملكة العربية السعودية<br>${entityName}<br>${entityDept}`;
+      element.innerHTML = `جمهورية مصر العربية<br>${entityName}<br>${entityDept}`;
     });
   }
   
@@ -866,30 +866,19 @@ class ProcurementUtils {
    */
   
   static logout() {
-    // Clear any stored session data
-    if (typeof(Storage) !== "undefined") {
-      localStorage.removeItem('userSession');
-      sessionStorage.clear();
-    }
-    
-    // Show confirmation
-    const confirmed = confirm('هل أنت متأكد من تسجيل الخروج؟');
-    if (confirmed) {
-      this.showAlert('تم تسجيل الخروج بنجاح', 'success', 2000);
-      
-      // Redirect to login page and clear login fields
-      setTimeout(() => {
-        // Navigate to login page
-        window.location.href = 'index.html';
-        
-        // Clear login form fields after redirect
-        setTimeout(() => {
-          const usernameField = document.getElementById('username');
-          const passwordField = document.getElementById('password');
-          if (usernameField) usernameField.value = '';
-          if (passwordField) passwordField.value = '';
-        }, 100);
-      }, 1500);
+    try {
+      // Show confirmation
+      const confirmed = confirm('هل أنت متأكد من تسجيل الخروج من التطبيق؟');
+      if (!confirmed) {
+        return; // User cancelled logout
+      }
+
+      // Direct redirect to index page
+      window.location.href = 'index.html?logout=true&t=' + Date.now();
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Fallback redirect
+      window.location.href = 'index.html';
     }
   }
 
@@ -905,6 +894,81 @@ class ProcurementUtils {
   }
 
   /**
+   * Print Preparation Functions
+   */
+  
+  static preparePrintData() {
+    // Update print header with current entity information
+    const entityName = document.getElementById('entityName')?.value || 'الإدارة الصحية بسمنود';
+    const entityDepartment = document.getElementById('entityDepartment')?.value || 'إدارة العقود والمشتريات';
+    
+    // Update print entity name elements
+    document.querySelectorAll('#printEntityName, .print-entity-name').forEach(el => {
+      if (el) el.textContent = entityName;
+    });
+    
+    // Update print department elements  
+    document.querySelectorAll('#printDepartment, .print-department').forEach(el => {
+      if (el) el.textContent = entityDepartment;
+    });
+    
+    // Update print date
+    const currentDate = document.getElementById('orderDate')?.value || 
+                       document.getElementById('date')?.value || 
+                       document.getElementById('estimationDate')?.value || 
+                       new Date().toLocaleDateString('ar-EG');
+    
+    document.querySelectorAll('#printDate, .print-date').forEach(el => {
+      if (el) el.textContent = 'التاريخ: ' + currentDate;
+    });
+    
+    // Update signature fields
+    this.updatePrintSignatures();
+  }
+  
+  static updatePrintSignatures() {
+    // Get signature values from form
+    const signatures = {
+      officer: document.getElementById('officer')?.value || '',
+      head: document.getElementById('head')?.value || '',
+      approved: document.getElementById('approved')?.value || '',
+      committee1: document.getElementById('committee1')?.value || '',
+      committee2: document.getElementById('committee2')?.value || '',
+      committee3: document.getElementById('committee3')?.value || ''
+    };
+    
+    // Update print signature elements
+    Object.keys(signatures).forEach(key => {
+      const printElement = document.getElementById('print' + key.charAt(0).toUpperCase() + key.slice(1));
+      if (printElement) {
+        printElement.textContent = signatures[key];
+      }
+    });
+  }
+  
+  static setupPrintListener() {
+    // Override window.print to prepare data first
+    const originalPrint = window.print;
+    window.print = () => {
+      this.preparePrintData();
+      setTimeout(() => {
+        originalPrint.call(window);
+      }, 100);
+    };
+    
+    // Also listen for Ctrl+P
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+        e.preventDefault();
+        this.preparePrintData();
+        setTimeout(() => {
+          window.print();
+        }, 100);
+      }
+    });
+  }
+
+  /**
    * Initialization
    */
   
@@ -917,6 +981,9 @@ class ProcurementUtils {
     
     // Initialize autocomplete for all data inputs
     this.initializeAutocompleteLists();
+    
+    // Setup print functionality
+    this.setupPrintListener();
     
     // Set current date in date inputs
     const dateInputs = document.querySelectorAll('input[type="date"]');
@@ -984,10 +1051,36 @@ window.initAutocomplete = function() {
 
 // Global logout function
 window.logout = function() {
-  ProcurementUtils.logout();
+  try {
+    console.log('Logout button clicked');
+    if (typeof ProcurementUtils !== 'undefined' && ProcurementUtils.logout) {
+      ProcurementUtils.logout();
+    } else {
+      console.error('ProcurementUtils not available - using fallback');
+      // Simple fallback logout
+      const confirmed = confirm('هل أنت متأكد من تسجيل الخروج؟');
+      if (confirmed) {
+        window.location.href = 'index.html?logout=true';
+      }
+    }
+  } catch (error) {
+    console.error('Error in logout function:', error);
+    // Direct redirect on error
+    window.location.href = 'index.html?logout=true';
+  }
 };
 
 // Global menu toggle function
 window.toggleMenu = function() {
   ProcurementUtils.toggleMenu();
+};
+
+// Global print function
+window.printPage = function() {
+  if (ProcurementUtils.preparePrintData) {
+    ProcurementUtils.preparePrintData();
+  }
+  setTimeout(() => {
+    window.print();
+  }, 100);
 };

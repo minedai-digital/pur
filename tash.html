@@ -7,6 +7,7 @@
   <meta name="description" content="نموذج طلب تشكيل لجنة لفحص الأسعار والمواصفات الفنية">
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/shared.css">
+  <link rel="stylesheet" href="css/print.css">
   <style>
     /* Committee Formation Specific Styles */
     .committee-header {
@@ -334,7 +335,7 @@
         <li><a href="custom.html">📊 الضرائب</a></li>
       </ul>
       <div class="nav-login">
-        <button class="btn-login" onclick="logout()" title="تسجيل الخروج">
+        <button class="btn-login" onclick="if(confirm('هل أنت متأكد من تسجيل الخروج؟')) window.location.href='index.html'" title="تسجيل الخروج">
           <span>🚪</span> تسجيل الخروج
         </button>
       </div>
@@ -387,12 +388,12 @@
     <div class="committee-header">
       <div class="document-logo">
         <div class="logo-inner">
-          المملكة العربية<br>السعودية
+          مصر<br>العربية
         </div>
       </div>
       <h1 class="section-title">👥 طلب تشكيل لجنة</h1>
       <div class="hospital-info">
-        <div class="info-badge yellow-bg">مستشفى الملك فهد المركزي بجازان</div>
+        <div class="info-badge yellow-bg">الادارة الصحية بسمنود</div>
         <div class="info-badge gray-bg">إدارة العقود والمشتريات</div>
       </div>
     </div>
@@ -403,7 +404,7 @@
         <div class="form-grid">
           <div class="enhanced-input">
             <label class="form-label">🏥 اسم المستشفى:</label>
-            <input type="text" id="hospitalName" class="form-control" value="مستشفى الملك فهد المركزي بجازان" required>
+            <input type="text" id="hospitalName" class="form-control" value="الادارة الصحية بسمنود" required>
           </div>
           <div class="enhanced-input">
             <label class="form-label">📅 تاريخ الطلب:</label>
@@ -425,7 +426,7 @@
 
       <div class="request-description">
         <p><strong>السيد الدكتور مدير</strong> 
-          <input type="text" class="inline-input" id="hospitalName2" value="مستشفى الملك فهد المركزي بجازان">
+          <input type="text" class="inline-input" id="hospitalName2" value="الادارة الصحية بسمنود">
         </p>
         <p><strong>بعد التحية،</strong></p>
         <div class="enhanced-input">

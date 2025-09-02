@@ -8,6 +8,7 @@
   
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/shared.css">
+  <link rel="stylesheet" href="css/print.css">
   
   <style>
     .main-header {
@@ -340,7 +341,7 @@
         <li><a href="custom.html">📊 الضرائب</a></li>
       </ul>
       <div class="nav-login">
-        <button class="btn-login" onclick="logout()" title="تسجيل الخروج">
+        <button class="btn-login" onclick="if(confirm('هل أنت متأكد من تسجيل الخروج؟')) window.location.href='index.html'" title="تسجيل الخروج">
           <span>🚪</span> تسجيل الخروج
         </button>
       </div>
@@ -368,20 +369,20 @@
     </div>
   </header>
 
-  <div class="container">
-    <!-- Print Header (hidden on screen, visible in print) -->
-    <div class="print-header print-only" style="display: none;">
-      <div class="print-entity-name">
-        الإدارة الصحية بسمنود<br>
-        إدارة العقود والمشتريات
-      </div>
-      <div class="print-page-title">
-        النموذج الرئيسي لإدارة الأصناف والأسعار
-      </div>
-      <div class="print-logo">
-        <img src="images/logo.png" alt="شعار الجهة">
-      </div>
+    <!-- Print Header (repeats on each page) -->
+  <div class="print-header print-only" style="display: none;">
+    <div class="print-logo">
+      <img src="images/logo.png" alt="شعار الجهة">
     </div>
+    <div class="print-entity-info">
+      <div class="print-entity-name" id="printEntityName">الإدارة الصحية بسمنود</div>
+      <div class="print-department" id="printDepartment">إدارة العقود والمشتريات</div>
+      <div class="print-page-title">النموذج الرئيسي لمقارنة الأسعار</div>
+    </div>
+    <div class="print-date" id="printDate"></div>
+  </div>
+
+<div class="container main-form">
 
     <!-- Statistics Dashboard -->
     <div class="stats-grid">
@@ -442,7 +443,7 @@
         </div>
         <div class="enhanced-input">
           <label class="form-label">نسبة الضريبة %:</label>
-          <input type="number" id="taxRate" class="form-control" value="0" min="0" max="100" step="0.01">
+          <input type="number" id="taxRate" class="form-control" value="14" min="0" max="100" step="0.01">
         </div>
       </div>
     </div>
@@ -563,6 +564,11 @@
     </div>
   </div>
 
+  <!-- Print Stamp Area -->
+  <div class="print-stamp print-only" style="display: none;">
+    🏥 ختم الجهة المختصة
+  </div>
+
   <!-- datalists -->
   <datalist id="suppliersList"></datalist>
   <datalist id="itemsList"></datalist>
@@ -571,11 +577,94 @@
   <script src="js/data.js"></script>
   <script src="js/utils.js"></script>
   <script src="js/main.js"></script>
-
+  
+  <script>
+    class MainFormManager {
+      constructor() {
+        this.rowCount = 0;
+        this.autoSaveInterval = null;
+        this.statistics = { totalItems: 0, totalValue: 0, lastSaved: null };
+        this.init();
+      }
+      
+      async init() {
+        this.populateDataLists();
+        this.setCurrentDate();
+        this.setupEventListeners();
+        this.loadSavedData();
+        this.startAutoSave();
+        this.addInitialRows();
+        this.updateSupplierHeaders();
+        this.updateProgress();
+        this.updateStatistics();
+      }
+      
+      addInitialRows() {
+        // Add 3 empty rows
+        for (let i = 0; i < 3; i++) {
+          this.addRow();
+        }
+      }
+      
+      setupEventListeners() {
+        // Supplier name change listeners
+        ['supplier1', 'supplier2', 'supplier3'].forEach(id => {
+          const element = document.getElementById(id);
+          if (element) {
+            element.addEventListener('input', () => {
+              this.updateSupplierHeaders();
+            });
+          }
+        });
+        
+        // Tax rate change listener
+        const taxRate = document.getElementById('taxRate');
+        if (taxRate) {
+          taxRate.addEventListener('input', () => {
+            this.updateTotals();
+          });
+        }
+        
+        // Input validation
+        document.addEventListener('input', (e) => {
+          if (e.target.tagName === 'INPUT') {
+            this.validateField(e.target);
+            if (e.target.type === 'number') {
+              this.updateTotals();
+            }
+          }
+        });
+      }
+      
+      populateDataLists() {
+        try {
+          // Populate suppliers list
+          if (window.suppliersMembers) {
+            const suppliersList = document.getElementById('suppliersList');
+            if (suppliersList) {
+              suppliersList.innerHTML = '';
+              window.suppliersMembers.forEach(supplier => {
+                const option = document.createElement('option');
+                option.value = supplier.name;
+                suppliersList.appendChild(option);
               });
             }
           }
           
+          // Populate items list
+          if (window.medicalItems) {
+            const itemsList = document.getElementById('itemsList');
+            if (itemsList) {
+              itemsList.innerHTML = '';
+              Object.keys(window.medicalItems).forEach(item => {
+                const option = document.createElement('option');
+                option.value = item;
+                itemsList.appendChild(option);
+              });
+            }
+          }
+          
+          // Populate staff list
           if (window.staffMembers) {
             const staffList = document.getElementById('staffList');
             if (staffList) {

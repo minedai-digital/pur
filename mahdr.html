@@ -6,6 +6,7 @@
   <title>محضر البت في عروض الأسعار - نظام إدارة المشتريات</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/shared.css">
+  <link rel="stylesheet" href="css/print.css">
   
   <style>
     .meeting-header {
@@ -218,7 +219,7 @@
         <li><a href="custom.html">📊 الضرائب</a></li>
       </ul>
       <div class="nav-login">
-        <button class="btn-login" onclick="logout()" title="تسجيل الخروج">
+        <button class="btn-login" onclick="if(confirm('هل أنت متأكد من تسجيل الخروج؟')) window.location.href='index.html'" title="تسجيل الخروج">
           <span>🚪</span> تسجيل الخروج
         </button>
       </div>
@@ -269,7 +270,7 @@
     <div class="meeting-header">
       <div class="document-logo">
         <div class="logo-inner">
-          المملكة العربية<br>السعودية
+          مصر<br>العربية
         </div>
       </div>
       <h1 class="section-title">📝 محضر البت في عروض الأسعار</h1>
@@ -378,7 +379,7 @@
           <div class="summary-item">
             <label class="form-label">السعر التقديري المقدر:</label>
             <input type="number" id="estimatedAmount" class="form-control" placeholder="0.00" step="0.01" style="width: 150px; display: inline-block;">
-            <span>ريال</span>
+            <span>جنيه</span>
           </div>
         </div>
       </div>
@@ -406,6 +407,33 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Controls Section -->
+  <div class="controls-section">
+    <h3 class="section-title">🛠️ أدوات التحكم</h3>
+    <div class="action-buttons">
+      <button class="btn btn-primary btn-icon" onclick="meetingManager?.addItemRow?.()" title="إضافة صف جديد">
+        <span>➕</span> إضافة صف
+      </button>
+      <button class="btn btn-success btn-icon" onclick="meetingManager?.saveData?.()" title="حفظ البيانات">
+        <span>💾</span> حفظ البيانات
+      </button>
+      <button class="btn btn-info btn-icon" onclick="meetingManager?.loadFromTaf?.()" title="تحميل من تفريغ الأسعار">
+        <span>📁</span> تحميل من التفريغ
+      </button>
+      <button class="btn btn-warning btn-icon" onclick="meetingManager?.clearAllItems?.()" title="مسح جميع البيانات">
+        <span>🗑️</span> مسح الكل
+      </button>
+      <button class="btn btn-secondary btn-icon" onclick="window.print()" title="طباعة">
+        <span>🖨️</span> طباعة
+      </button>
+    </div>
+  </div>
+
+  <!-- Print Stamp Area -->
+  <div class="print-stamp print-only" style="display: none;">
+    🏥 ختم الجهة المختصة
   </div>
 
   <!-- DataLists -->

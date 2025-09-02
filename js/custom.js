@@ -137,9 +137,9 @@ class TaxManager {
     const totalValue = workValue + taxValue;
     
     // Update display elements
-    this.updateElement('baseValue', workValue.toFixed(2) + ' ريال سعودي');
-    this.updateElement('taxValue', taxValue.toFixed(2) + ' ريال سعودي');
-    this.updateElement('totalValue', totalValue.toFixed(2) + ' ريال سعودي');
+    this.updateElement('baseValue', workValue.toFixed(2) + ' جنيه مصري');
+    this.updateElement('taxValue', taxValue.toFixed(2) + ' جنيه مصري');
+    this.updateElement('totalValue', totalValue.toFixed(2) + ' جنيه مصري');
     this.updateElement('taxRateDisplay', taxRate + '%');
     
     // Update tax breakdown if elements exist
@@ -182,7 +182,7 @@ class TaxManager {
         </div>
         <div class="tax-summary-item">
           <span>مبلغ الضريبة:</span>
-          <span class="tax-amount-value">${taxValue.toFixed(2)} ريال</span>
+          <span class="tax-amount-value">${taxValue.toFixed(2)} جنيه</span>
         </div>
         <div class="tax-summary-item">
           <span>حالة الامتثال:</span>

@@ -6,10 +6,14 @@
 class PriceAnalysisManager {
   constructor() {
     this.rowCount = 0;
-    this.taxRate = 0.15;
     this.autoSaveInterval = null;
     this.statistics = { totalItems: 0, totalValue: 0, lastSaved: null };
     this.init();
+  }
+
+  // Get current tax rate from input field
+  get TAX_RATE() {
+    return (parseFloat(document.getElementById('taxRate')?.value) || 14) / 100;
   }
 
   async init() {
@@ -23,6 +27,15 @@ class PriceAnalysisManager {
   }
 
   setupEventListeners() {
+    // Tax rate change listener
+    const taxRateInput = document.getElementById('taxRate');
+    if (taxRateInput) {
+      taxRateInput.addEventListener('input', () => {
+        this.updateTotals();
+        this.updateTaxDisplay();
+      });
+    }
+
     document.addEventListener('input', (e) => {
       if (e.target.tagName === 'INPUT') {
         this.validateField(e.target);
@@ -185,7 +198,7 @@ class PriceAnalysisManager {
       const priceInput = row.cells[cellIndex].querySelector('input');
       const price = parseFloat(priceInput.value) || 0;
       const total = quantity * price;
-      const afterTax = total * (1 + this.taxRate);
+      const afterTax = total * (1 + this.TAX_RATE);
       
       const afterTaxCell = row.cells[cellIndex + 1];
       afterTaxCell.textContent = afterTax.toFixed(2);
@@ -241,11 +254,11 @@ class PriceAnalysisManager {
         const total3 = quantity * price3;
         
         totals[0] += total1;
-        totals[1] += total1 * (1 + this.taxRate);
+        totals[1] += total1 * (1 + this.TAX_RATE);
         totals[2] += total2;
-        totals[3] += total2 * (1 + this.taxRate);
+        totals[3] += total2 * (1 + this.TAX_RATE);
         totals[4] += total3;
-        totals[5] += total3 * (1 + this.taxRate);
+        totals[5] += total3 * (1 + this.TAX_RATE);
       });
 
       // Update footer totals
@@ -427,6 +440,14 @@ class PriceAnalysisManager {
     } catch (error) {
       this.showMessage('حدث خطأ في تحليل الأسعار', 'error');
     }
+  }
+
+  updateTaxDisplay() {
+    // Update any tax rate displays in the UI
+    const taxRatePercent = (this.TAX_RATE * 100).toFixed(1);
+    document.querySelectorAll('.tax-display').forEach(element => {
+      element.textContent = `${taxRatePercent}%`;
+    });
   }
 
   showMessage(message, type = 'success') {
