@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>المقايسة التقديرية - نظام إدارة المشتريات</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/shared.css">
+  
+  <style>
+    .estimation-header {
+      background: linear-gradient(135deg, var(--warning-color) 0%, #e0a800 100%);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 2rem;
+      border-radius: var(--border-radius);
+    }
+    
+    .document-logo {
+      width: 80px;
+      height: 80px;
+      border: 3px solid var(--danger-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      background: white;
+      position: relative;
+    }
+    
+    .logo-inner {
+      width: 60px;
+      height: 60px;
+      background: var(--primary-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-align: center;
+      line-height: 1.2;
+    }
+    
+    .estimation-content {
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+    
+    .estimation-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      border: 2px solid var(--border-color);
+      background: white;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+    }
+    
+    .estimation-table th,
+    .estimation-table td {
+      border: 1px solid var(--border-color);
+      padding: 0.75rem;
+      text-align: center;
+      vertical-align: middle;
+    }
+    
+    .estimation-table th {
+      background: var(--warning-color);
+      color: white;
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+    
+    .estimation-table input,
+    .estimation-table select {
+      width: 100%;
+      border: none;
+      background: transparent;
+      text-align: center;
+      font-weight: 500;
+      padding: 0.25rem;
+    }
+    
+    .calculated-cell {
+      background: var(--light-bg) !important;
+      font-weight: 600;
+      color: var(--warning-color);
+    }
+    
+    .total-row td {
+      background: var(--warning-color) !important;
+      color: white !important;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    
+    .risk-low {
+      background: rgba(40, 167, 69, 0.1) !important;
+      color: var(--success-color) !important;
+    }
+    
+    .risk-medium {
+      background: rgba(255, 193, 7, 0.1) !important;
+      color: var(--warning-color) !important;
+    }
+    
+    .risk-high {
+      background: rgba(220, 53, 69, 0.1) !important;
+      color: var(--danger-color) !important;
+    }
+    
+    .summary-section {
+      background: var(--light-bg);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border-radius: var(--border-radius);
+      border-left: 4px solid var(--warning-color);
+    }
+    
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+    
+    .summary-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-sm);
+      border-left: 4px solid var(--warning-color);
+    }
+    
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .summary-item:last-child {
+      border-bottom: none;
+      font-weight: 600;
+      color: var(--warning-color);
+    }
+    
+    .recommendations-section {
+      background: rgba(255, 193, 7, 0.1);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border-radius: var(--border-radius);
+      border: 2px solid var(--warning-color);
+    }
+    
+    .recommendation-item {
+      background: white;
+      padding: 1rem;
+      margin: 0.5rem 0;
+      border-radius: var(--border-radius);
+      border-left: 4px solid var(--warning-color);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .approval-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    
+    .approval-card {
+      text-align: center;
+      padding: 1.5rem;
+      background: white;
+      border: 2px solid var(--warning-color);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .signature-box {
+      width: 150px;
+      height: 60px;
+      border: 2px solid var(--border-color);
+      margin: 1rem auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--light-bg);
+      border-radius: var(--border-radius);
+    }
+    
+    @media print {
+      .navbar, .controls-section {
+        display: none !important;
+      }
+      
+      body {
+        background: white;
+        font-size: 11pt;
+      }
+      
+      .container {
+        box-shadow: none;
+        padding: 10px;
+        margin: 0;
+        max-width: none;
+      }
+      
+      .estimation-content {
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <span class="nav-icon">🏥</span>
+        نظام إدارة المشتريات
+      </div>
+      <ul class="nav-links">
+        <li><a href="main.html">📋 النموذج الرئيسي</a></li>
+        <li><a href="taw.html">📦 أمر التوريد</a></li>
+        <li><a href="taf.html">💰 تفريغ الأسعار</a></li>
+        <li><a href="mahdr.html">📝 المحضر</a></li>
+        <li><a href="talab.html">📄 طلب الشراء</a></li>
+        <li><a href="moka.html" class="active">📈 المقايسة</a></li>
+        <li><a href="tash.html">👥 تشكيل لجنة</a></li>
+        <li><a href="custom.html">📊 الضرائب</a></li>
+      </ul>
+      <div class="nav-login">
+        <button class="btn-login" onclick="logout()" title="تسجيل الخروج">
+          <span>🚪</span> تسجيل الخروج
+        </button>
+      </div>
+      <div class="nav-toggle" onclick="toggleMenu()">
+        <span>☰</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Entity Configuration Section -->
+    <div class="entity-config-section">
+      <h3 class="entity-config-title">
+        <span>🏥</span> إعدادات الجهة
+      </h3>
+      <div class="entity-inputs">
+        <div class="enhanced-input">
+          <label class="form-label">اسم الجهة:</label>
+          <input type="text" id="entityName" class="form-control" placeholder="اسم الجهة" value="الإدارة الصحية بسمنود">
+        </div>
+        <div class="enhanced-input">
+          <label class="form-label">القسم:</label>
+          <input type="text" id="entityDepartment" class="form-control" placeholder="اسم القسم" value="إدارة العقود والمشتريات">
+        </div>
+      </div>
+    </div>
+
+    <!-- Print Header (hidden on screen, visible in print) -->
+    <div class="print-header print-only" style="display: none;">
+      <div class="print-entity-name">
+        الإدارة الصحية بسمنود<br>
+        إدارة العقود والمشتريات
+      </div>
+      <div class="print-page-title">
+        المقايسة والتقدير
+      </div>
+      <div class="print-logo">
+        <img src="images/logo.png" alt="شعار الجهة">
+      </div>
+    </div>
+
+    <!-- Estimation Header -->
+    <div class="estimation-header">
+      <div class="document-logo">
+        <div class="logo-inner">
+          المملكة العربية<br>السعودية
+        </div>
+      </div>
+      <h1 class="section-title">📈 المقايسة التقديرية للأسعار</h1>
+      <div class="hospital-info">
+        <div class="info-badge yellow-bg">مستشفى الملك فهد المركزي بجازان</div>
+        <div class="info-badge gray-bg">إدارة العقود والمشتريات</div>
+      </div>
+    </div>
+
+    <!-- Document Info Section -->
+    <div class="document-info-section">
+      <div class="form-grid">
+        <div class="enhanced-input">
+          <label class="form-label">📝 رقم المقايسة:</label>
+          <input type="text" id="estimationNumber" class="form-control" placeholder="رقم المقايسة" required>
+        </div>
+        <div class="enhanced-input">
+          <label class="form-label">📅 تاريخ المقايسة:</label>
+          <input type="date" id="estimationDate" class="form-control" required>
+        </div>
+        <div class="enhanced-input">
+          <label class="form-label">📋 نوع المناقصة:</label>
+          <select id="tenderType" class="form-control" required>
+            <option value="">اختر نوع المناقصة</option>
+            <option value="عامة">مناقصة عامة</option>
+            <option value="محدودة">مناقصة محدودة</option>
+            <option value="محلية">مناقصة محلية</option>
+            <option value="عاجلة">مناقصة عاجلة</option>
+          </select>
+        </div>
+        <div class="enhanced-input">
+          <label class="form-label">🏢 الجهة المختصة:</label>
+          <input type="text" id="responsibleDepartment" class="form-control" value="قسم التعاقدات - مستشفى الملك فهد">
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Estimation Table -->
+    <table class="estimation-table">
+      <thead>
+        <tr>
+          <th>م</th>
+          <th>اسم الصنف</th>
+          <th>الوحدة</th>
+          <th>الكمية المطلوبة</th>
+          <th>السعر التقديري (الوحدة)</th>
+          <th>إجمالي السعر التقديري</th>
+          <th>متوسط السوق</th>
+          <th>أقل سعر متوقع</th>
+          <th>أعلى سعر متوقع</th>
+          <th>درجة المخاطرة</th>
+          <th>ملاحظات</th>
+        </tr>
+      </thead>
+      <tbody id="estimationTableBody">
+        <tr>
+          <td data-label="م">1</td>
+          <td data-label="اسم الصنف"><input type="text" placeholder="اسم الصنف"></td>
+          <td data-label="الوحدة"><input type="text" placeholder="الوحدة"></td>
+          <td data-label="الكمية"><input type="number" value="1" min="1" step="1" oninput="calculateRow(this)"></td>
+          <td data-label="السعر التقديري"><input type="number" placeholder="0.00" step="0.01" oninput="calculateRow(this)"></td>
+          <td data-label="الإجمالي" class="calculated-cell">0.00</td>
+          <td data-label="متوسط السوق"><input type="number" placeholder="0.00" step="0.01" oninput="calculateRow(this)"></td>
+          <td data-label="أقل سعر" class="calculated-cell">0.00</td>
+          <td data-label="أعلى سعر" class="calculated-cell">0.00</td>
+          <td data-label="درجة المخاطرة"><select onchange="updateRiskColor(this)"><option value="منخفضة">منخفضة</option><option value="متوسطة">متوسطة</option><option value="عالية">عالية</option></select></td>
+          <td data-label="ملاحظات"><input type="text" placeholder="ملاحظات"></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr class="total-row">
+          <td colspan="5">الإجمالي العام</td>
+          <td id="grandTotal">0.00</td>
+          <td id="avgMarketTotal">0.00</td>
+          <td id="minExpectedTotal">0.00</td>
+          <td id="maxExpectedTotal">0.00</td>
+          <td colspan="2">جنيه مصري</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <!-- Summary Section -->
+    <div class="summary-section">
+      <div class="summary-title">ملخص المقايسة التقديرية</div>
+      
+      <div class="summary-grid">
+        <div class="summary-card">
+          <h4>📊 الإحصائيات الأساسية</h4>
+          <div class="summary-item">
+            <span>عدد الأصناف:</span>
+            <span id="totalItems">0</span>
+          </div>
+          <div class="summary-item">
+            <span>إجمالي الكمية:</span>
+            <span id="totalQuantity">0</span>
+          </div>
+          <div class="summary-item">
+            <span>متوسط السعر للوحدة:</span>
+            <span id="avgUnitPrice">0.00 ج.م</span>
+          </div>
+          <div class="summary-item">
+            <span>إجمالي التقدير:</span>
+            <span id="estimationTotal">0.00 ج.م</span>
+          </div>
+        </div>
+      
+        <div class="summary-card">
+          <h4>📈 تحليل المخاطر</h4>
+          <div class="summary-item">
+            <span>أصناف منخفضة المخاطر:</span>
+            <span id="lowRiskItems">0</span>
+          </div>
+          <div class="summary-item">
+            <span>أصناف متوسطة المخاطر:</span>
+            <span id="mediumRiskItems">0</span>
+          </div>
+          <div class="summary-item">
+            <span>أصناف عالية المخاطر:</span>
+            <span id="highRiskItems">0</span>
+          </div>
+          <div class="summary-item">
+            <span>درجة المخاطرة العامة:</span>
+            <span id="overallRisk">-</span>
+          </div>
+        </div>
+      
+        <div class="summary-card">
+          <h4>💰 التحليل المالي</h4>
+          <div class="summary-item">
+            <span>أقل تكلفة متوقعة:</span>
+            <span id="minTotalCost">0.00 ج.م</span>
+          </div>
+          <div class="summary-item">
+            <span>أعلى تكلفة متوقعة:</span>
+            <span id="maxTotalCost">0.00 ج.م</span>
+          </div>
+          <div class="summary-item">
+            <span>نسبة التوفير المحتملة:</span>
+            <span id="savingsPercentage">0%</span>
+          </div>
+          <div class="summary-item">
+            <span>الميزانية المقترحة:</span>
+            <span id="recommendedBudget">0.00 ج.م</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recommendations Section -->
+    <div class="recommendations-section" id="recommendationsSection" style="display: none;">
+      <div class="recommendations-title">🎯 التوصيات والاقتراحات</div>
+      <div id="recommendationsList"></div>
+    </div>
+
+    <!-- Signatures Section -->
+    <div class="approval-section">
+      <div class="approval-card">
+        <div class="approval-title">إعداد</div>
+        <input type="text" class="approval-input" id="preparedBy" placeholder="اسم معد المقايسة">
+        <div class="signature-box">التوقيع</div>
+        <input type="date" class="approval-input" id="preparedDate">
+      </div>
+      
+      <div class="approval-card">
+        <div class="approval-title">مراجعة</div>
+        <input type="text" class="approval-input" id="reviewedBy" placeholder="اسم المراجع">
+        <div class="signature-box">التوقيع</div>
+        <input type="date" class="approval-input" id="reviewedDate">
+      </div>
+      
+      <div class="approval-card">
+        <div class="approval-title">اعتماد</div>
+        <input type="text" class="approval-input" id="approvedBy" placeholder="اسم المعتمد">
+        <div class="signature-box">التوقيع</div>
+        <input type="date" class="approval-input" id="approvedDate">
+      </div>
+    </div>
+
+    <!-- Print Stamp Area (hidden on screen, visible in print) -->
+    <div class="print-stamp print-only" style="display: none;">
+      🏥 ختم الجهة المختصة
+    </div>
+
+    <!-- Controls Section (moved to bottom) -->
+    <div class="controls-section">
+      <h3 class="section-title">🛠️ أدوات التحكم</h3>
+      <div class="action-buttons">
+        <button class="btn btn-primary btn-icon" onclick="estimationManager?.addEstimationRow?.()" title="إضافة صنف">
+          <span>➕</span> إضافة صنف
+        </button>
+        <button class="btn btn-success btn-icon" onclick="estimationManager?.saveData?.()" title="حفظ البيانات">
+          <span>💾</span> حفظ البيانات
+        </button>
+        <button class="btn btn-info btn-icon" onclick="estimationManager?.loadData?.()" title="تحميل البيانات">
+          <span>📁</span> تحميل البيانات
+        </button>
+        <button class="btn btn-warning btn-icon" onclick="estimationManager?.calculateEstimation?.()" title="حساب المقايسة">
+          <span>🧮</span> حساب المقايسة
+        </button>
+        <button class="btn btn-info btn-icon" onclick="estimationManager?.generateRecommendations?.()" title="توليد التوصيات">
+          <span>💡</span> توليد التوصيات
+        </button>
+        <button class="btn btn-danger btn-icon" onclick="estimationManager?.clearForm?.()" title="مسح جميع البيانات">
+          <span>🗑️</span> مسح الكل
+        </button>
+        <button class="btn btn-secondary btn-icon" onclick="window.print()" title="طباعة">
+          <span>🖨️</span> طباعة
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DataLists -->
+  <datalist id="suppliersList"></datalist>
+  <datalist id="itemsList"></datalist>
+  <datalist id="departmentsList"></datalist>
+
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/moka.js"></script>
+
+
+</script>
+</body>
+</html>

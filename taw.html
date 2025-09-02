@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أمر التوريد - نظام إدارة المشتريات</title>
+<meta name="description" content="نظام إدارة أوامر التوريد والمشتريات">
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/shared.css">
+
+<style>
+  .supply-header {
+    background: linear-gradient(135deg, var(--success-color) 0%, #198754 100%);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+    margin-bottom: 2rem;
+  }
+  
+  .supply-header h1 {
+    font-size: 2rem;
+    margin: 0;
+    font-weight: 700;
+  }
+  
+  .supplier-section {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    margin-bottom: 2rem;
+    border-left: 4px solid var(--success-color);
+  }
+  
+  .order-summary {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--success-color);
+    margin-bottom: 2rem;
+  }
+  
+  .summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border-light);
+  }
+  
+  .summary-item:last-child {
+    border-bottom: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: var(--success-color);
+  }
+  
+  .item-input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+  }
+  
+  .item-input:focus {
+    border-color: var(--success-color);
+    box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.15);
+  }
+  
+  .tax-highlight {
+    background: linear-gradient(45deg, #fff3cd, #ffeaa7);
+    font-weight: bold;
+  }
+  
+  .validation-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-left: 0.5rem;
+  }
+  
+  .badge-success {
+    background: var(--success-color);
+    color: white;
+  }
+  
+  .badge-warning {
+    background: var(--warning-color);
+    color: #856404;
+  }
+  
+  .badge-error {
+    background: var(--danger-color);
+    color: white;
+  }
+  
+  .print-logo {
+    display: none;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: 120px;
+    height: auto;
+    z-index: 1000;
+  }
+  
+  @media print {
+    .navbar, .controls-section, .order-summary {
+      display: none !important;
+    }
+    
+    .print-logo {
+      display: block !important;
+    }
+    
+    body {
+      background: white;
+    }
+    
+    .container {
+      margin: 0;
+      padding: 15px;
+      box-shadow: none;
+    }
+  }
+  
+  .loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+  
+  .loading-content {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    text-align: center;
+    box-shadow: var(--shadow-xl);
+  }
+  
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+</style>
+</head>
+
+<body>
+<!-- Print Logo -->
+<img src="images/logo.png" class="print-logo" alt="Logo">
+
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-content">
+    <div class="spinner"></div>
+    <p>جاري المعالجة...</p>
+  </div>
+</div>
+
+<!-- Navigation -->
+<nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <span class="nav-icon">🏥</span>
+        نظام إدارة المشتريات
+      </div>
+      <ul class="nav-links">
+        <li><a href="main.html">📋 النموذج الرئيسي</a></li>
+        <li><a href="taw.html" class="active">📦 أمر التوريد</a></li>
+        <li><a href="taf.html">💰 تفريغ الأسعار</a></li>
+        <li><a href="mahdr.html">📝 المحضر</a></li>
+        <li><a href="talab.html">📄 طلب الشراء</a></li>
+        <li><a href="moka.html">📈 المقايسة</a></li>
+        <li><a href="tash.html">👥 تشكيل لجنة</a></li>
+        <li><a href="custom.html">📊 الضرائب</a></li>
+      </ul>
+      <div class="nav-login">
+        <button class="btn-login" onclick="logout()" title="تسجيل الخروج">
+          <span>🚪</span> تسجيل الخروج
+        </button>
+      </div>
+      <div class="nav-toggle" onclick="toggleMenu()">
+        <span>☰</span>
+      </div>
+    </div>
+  </nav>
+
+<!-- Main Header -->
+<header class="supply-header">
+  <h1>أمر التوريد</h1>
+  <p>نظام إدارة أوامر التوريد والمشتريات</p>
+</header>
+
+<!-- Alert Messages -->
+<div id="alertSuccess" class="validation-message validation-success"></div>
+<div id="alertError" class="validation-message validation-error"></div>
+<div id="alertWarning" class="validation-message validation-warning"></div>
+
+<div class="container">
+  <!-- Print Header (hidden on screen, visible in print) -->
+  <div class="print-header print-only" style="display: none;">
+    <div class="print-entity-name">
+      الإدارة الصحية بسمنود<br>
+      إدارة العقود والمشتريات
+    </div>
+    <div class="print-page-title">
+      أمر التوريد
+    </div>
+    <div class="print-logo">
+      <img src="images/logo.png" alt="شعار الجهة">
+    </div>
+  </div>
+
+  <!-- Entity Configuration Section -->
+  <div class="entity-config-section">
+    <h3 class="entity-config-title">
+      <span>🏥</span> إعدادات الجهة
+    </h3>
+    <div class="entity-inputs">
+      <div class="enhanced-input">
+        <label class="form-label">اسم الجهة:</label>
+        <input type="text" id="entityName" class="form-control" placeholder="اسم الجهة" value="الإدارة الصحية بسمنود">
+      </div>
+      <div class="enhanced-input">
+        <label class="form-label">القسم:</label>
+        <input type="text" id="entityDepartment" class="form-control" placeholder="اسم القسم" value="إدارة العقود والمشتريات">
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Summary -->
+  <div class="order-summary">
+    <h3 class="section-title">📊 ملخص الطلب</h3>
+    <div class="summary-item">
+      <span>عدد الأصناف:</span>
+      <span id="totalItems" class="validation-badge badge-success">0</span>
+    </div>
+    <div class="summary-item">
+      <span>إجمالي قبل الضريبة:</span>
+      <span id="subtotal">0.00 ج.م</span>
+    </div>
+    <div class="summary-item">
+      <span>قيمة الضريبة (15%):</span>
+      <span id="taxAmount" class="tax-highlight">0.00 ج.م</span>
+    </div>
+    <div class="summary-item">
+      <span>إجمالي بعد الضريبة:</span>
+      <span id="grandTotal">0.00 ج.م</span>
+    </div>
+  </div>
+
+  <!-- Supplier Information -->
+  <div class="supplier-section">
+    <h3 class="section-title">🏢 بيانات المورد</h3>
+    <div class="input-grid">
+      <div class="enhanced-input">
+        <label class="form-label">اسم المورد:</label>
+        <input list="suppliersList" id="supplierName" class="form-control" placeholder="اختر المورد" required>
+      </div>
+      <div class="enhanced-input">
+        <label class="form-label">عنوان المورح:</label>
+        <input type="text" id="supplierAddress" class="form-control" placeholder="عنوان المورد">
+      </div>
+      <div class="enhanced-input">
+        <label class="form-label">رقم التليفون:</label>
+        <input type="tel" id="supplierPhone" class="form-control" placeholder="رقم التليفون">
+      </div>
+      <div class="enhanced-input">
+        <label class="form-label">تاريخ الطلب:</label>
+        <input type="date" id="orderDate" class="form-control" required>
+      </div>
+      <div class="enhanced-input">
+        <label class="form-label">رقم التسجيل الضريبي:</label>
+        <input type="text" id="taxId" class="form-control" placeholder="رقم التسجيل الضريبي">
+      </div>
+      <div class="enhanced-input">
+        <label class="form-label">رقم أمر التوريد:</label>
+        <input type="text" id="orderNumber" class="form-control" placeholder="رقم أمر التوريد">
+      </div>
+    </div>
+  </div>
+
+  <!-- Items Table -->
+  <div class="table-container">
+    <div class="table-header">
+      <span>📋 جدول الأصناف والأسعار</span>
+      <div class="action-buttons" style="float: left;">
+        <button class="btn btn-sm btn-primary btn-icon" onclick="addRow()" title="إضافة صف جديد">
+          <span>➕</span> إضافة
+        </button>
+        <button class="btn btn-sm btn-info btn-icon" onclick="loadFromMain()" title="تحميل من الرئيسية">
+          <span>📁</span> تحميل
+        </button>
+      </div>
+      <div style="clear: both;"></div>
+    </div>
+
+    <!-- Enhanced Table -->
+    <table class="enhanced-table" id="itemsTable">
+      <thead>
+        <tr>
+          <th>م</th>
+          <th>الصنف</th>
+          <th>الوحدة</th>
+          <th>الكمية</th>
+          <th>سعر الوحدة</th>
+          <th>إجمالي قبل الضريبة</th>
+          <th>الضريبة (15%)</th>
+          <th>إجمالي بعد الضريبة</th>
+          <th>ملاحظات</th>
+          <th>إجراءات</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+      <tfoot>
+        <tr>
+          <td colspan="7">الإجمالي النهائي</td>
+          <td id="totalFinal" class="highlight">0.00</td>
+          <td colspan="2"></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <!-- Signatures Section -->
+  <div class="signatures-section">
+    <h3 class="section-title">✍️ التوقيعات والاعتمادات</h3>
+    <div class="signatures-grid">
+      <div class="signature-card">
+        <label class="form-label">المختص:</label>
+        <input list="staffList" id="officer" class="form-control" placeholder="اسم المختص">
+      </div>
+      <div class="signature-card">
+        <label class="form-label">رئيس القسم:</label>
+        <input list="staffList" id="head" class="form-control" placeholder="اسم رئيس القسم">
+      </div>
+      <div class="signature-card">
+        <label class="form-label">يعتمد:</label>
+        <input list="staffList" id="approved" class="form-control" placeholder="اسم المعتمد">
+      </div>
+    </div>
+  </div>
+
+  <!-- Print Stamp Area (hidden on screen, visible in print) -->
+  <div class="print-stamp print-only" style="display: none;">
+    🏥 ختم الجهة المختصة
+  </div>
+
+  <!-- Controls Section -->
+  <div class="controls-section">
+    <h3 class="section-title">🛠️ أدوات التحكم</h3>
+    <div class="action-buttons">
+      <button class="btn btn-primary btn-icon" onclick="addRow()" title="إضافة صف جديد">
+        <span>➕</span> إضافة صف
+      </button>
+      <button class="btn btn-success btn-icon" onclick="saveData()" title="حفظ البيانات">
+        <span>💾</span> حفظ البيانات
+      </button>
+      <button class="btn btn-info btn-icon" onclick="loadData()" title="تحميل البيانات">
+        <span>📁</span> تحميل البيانات
+      </button>
+      <button class="btn btn-info btn-icon" onclick="loadFromMain()" title="تحميل من الرئيسية">
+        <span>📄</span> تحميل من الرئيسية
+      </button>
+      <button class="btn btn-warning btn-icon" onclick="clearTable()" title="مسح جميع البيانات">
+        <span>🗑️</span> مسح الكل
+      </button>
+      <button class="btn btn-secondary btn-icon" onclick="printOrder()" title="طباعة">
+        <span>🖨️</span> طباعة
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- datalists -->
+<datalist id="suppliersList"></datalist>
+<datalist id="itemsList"></datalist>
+<datalist id="staffList"></datalist>
+
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/taw.js"></script>
+
+</body>
+</html>

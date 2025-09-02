@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نظام إدارة المشتريات - الصفحة الرئيسية</title>
+  <meta name="description" content="نظام إدارة المشتريات والتوريدات - النموذج الرئيسي">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/shared.css">
+  
+  <style>
+    .main-header {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 2rem;
+    }
+    
+    .main-header h1 {
+      font-size: 2rem;
+      margin: 0;
+      font-weight: 700;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      text-align: center;
+      border-left: 4px solid var(--primary-color);
+    }
+    
+    .stat-card h3 {
+      color: var(--primary-color);
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-card .stat-value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--text-primary);
+    }
+    .form-section {
+      background: white;
+      padding: 2rem;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      margin-bottom: 2rem;
+    }
+    
+    .section-title {
+      color: var(--primary-color);
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--primary-color);
+    }
+    
+    .input-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .enhanced-input {
+      position: relative;
+    }
+    
+    .enhanced-input input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .enhanced-input input:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.15);
+    }
+    
+    .enhanced-input.error input {
+      border-color: var(--danger-color);
+      animation: shake 0.5s ease;
+    }
+    .table-container {
+      background: white;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 2rem;
+    }
+    
+    .table-header {
+      background: var(--primary-color);
+      color: white;
+      padding: 1rem 1.5rem;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    
+    .enhanced-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    
+    .enhanced-table th {
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      color: white;
+      padding: 1rem 0.75rem;
+      font-weight: 600;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    
+    .enhanced-table td {
+      padding: 0.75rem;
+      border: 1px solid var(--border-light);
+      text-align: center;
+      vertical-align: middle;
+    }
+    
+    .enhanced-table tbody tr {
+      transition: background-color 0.2s ease;
+    }
+    
+    .enhanced-table tbody tr:hover {
+      background-color: rgba(0, 123, 255, 0.05);
+    }
+    
+    .enhanced-table tbody tr:nth-child(even) {
+      background-color: rgba(0, 0, 0, 0.02);
+    }
+    
+    .enhanced-table tfoot td {
+      background: var(--light-color);
+      font-weight: bold;
+      color: var(--primary-color);
+      font-size: 1rem;
+    }
+    .highlight {
+      background: linear-gradient(135deg, #d4edda, #c3e6cb) !important;
+      border: 2px solid var(--success-color) !important;
+      font-weight: bold;
+      animation: pulse 2s infinite;
+    }
+    
+    .best-price {
+      background: linear-gradient(45deg, #fff3cd, #ffeaa7) !important;
+      border: 2px solid var(--warning-color) !important;
+      font-weight: bold;
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .btn-icon {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+    }
+    
+    .progress-indicator {
+      width: 100%;
+      height: 4px;
+      background: var(--border-light);
+      border-radius: 2px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary-color), var(--success-color));
+      border-radius: 2px;
+      transition: width 0.3s ease;
+      width: 0%;
+    }
+    .controls, .footer-actions {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .controls-section {
+      background: white;
+      padding: 1.5rem;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      margin-bottom: 2rem;
+    }
+    
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .control-label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+    .signatures-section {
+      background: white;
+      padding: 2rem;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      margin-top: 2rem;
+    }
+    
+    .signatures-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .signature-card {
+      background: var(--light-color);
+      padding: 1rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
+    }
+    
+    .validation-message {
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-md);
+      margin-bottom: 1rem;
+      font-weight: 500;
+      display: none;
+    }
+    
+    .validation-success {
+      background: rgba(40, 167, 69, 0.1);
+      color: var(--success-color);
+      border: 1px solid var(--success-color);
+    }
+    
+    .validation-error {
+      background: rgba(220, 53, 69, 0.1);
+      color: var(--danger-color);
+      border: 1px solid var(--danger-color);
+    }
+    
+    .validation-warning {
+      background: rgba(255, 193, 7, 0.1);
+      color: #856404;
+      border: 1px solid var(--warning-color);
+    }
+
+    @media (max-width: 768px) {
+      .main-header {
+        padding: 1rem;
+      }
+      
+      .main-header h1 {
+        font-size: 1.5rem;
+      }
+      
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .input-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .enhanced-table {
+        font-size: 0.8rem;
+      }
+      
+      .enhanced-table th,
+      .enhanced-table td {
+        padding: 0.5rem 0.25rem;
+      }
+      
+      .controls-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .signatures-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+
+
+
+
+<!-- ضع هذا الكود أسفل وسم <body> مباشرة قبل <header> -->
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <span class="nav-icon">🏥</span>
+        نظام إدارة المشتريات
+      </div>
+      <ul class="nav-links">
+        <li><a href="main.html" class="active">📋 النموذج الرئيسي</a></li>
+        <li><a href="taw.html">📦 أمر التوريد</a></li>
+        <li><a href="taf.html">💰 تفريغ الأسعار</a></li>
+        <li><a href="mahdr.html">📝 المحضر</a></li>
+        <li><a href="talab.html">📄 طلب الشراء</a></li>
+        <li><a href="moka.html">📈 المقايسة</a></li>
+        <li><a href="tash.html">👥 تشكيل لجنة</a></li>
+        <li><a href="custom.html">📊 الضرائب</a></li>
+      </ul>
+      <div class="nav-login">
+        <button class="btn-login" onclick="logout()" title="تسجيل الخروج">
+          <span>🚪</span> تسجيل الخروج
+        </button>
+      </div>
+      <div class="nav-toggle" onclick="toggleMenu()">
+        <span>☰</span>
+      </div>
+    </div>
+  </nav>
+
+
+
+
+
+
+
+
+
+<body>
+  <!-- Main Header -->
+  <header class="main-header">
+    <h1>نظام إدارة المشتريات والتوريدات</h1>
+    <p>النموذج الرئيسي لإدخال بيانات الأصناف والموردين</p>
+    <div class="progress-indicator">
+      <div class="progress-bar"></div>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Print Header (hidden on screen, visible in print) -->
+    <div class="print-header print-only" style="display: none;">
+      <div class="print-entity-name">
+        الإدارة الصحية بسمنود<br>
+        إدارة العقود والمشتريات
+      </div>
+      <div class="print-page-title">
+        النموذج الرئيسي لإدارة الأصناف والأسعار
+      </div>
+      <div class="print-logo">
+        <img src="images/logo.png" alt="شعار الجهة">
+      </div>
+    </div>
+
+    <!-- Statistics Dashboard -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3>إجمالي الأصناف</h3>
+        <div class="stat-value">0</div>
+      </div>
+      <div class="stat-card">
+        <h3>الصفوف المكتملة</h3>
+        <div class="stat-value">0</div>
+      </div>
+      <div class="stat-card">
+        <h3>إجمالي القيمة</h3>
+        <div class="stat-value">0.00 ج.م</div>
+      </div>
+    </div>
+
+    <!-- Entity Configuration Section -->
+    <div class="entity-config-section">
+      <h3 class="entity-config-title">
+        <span>🏥</span> إعدادات الجهة
+      </h3>
+      <div class="entity-inputs">
+        <div class="enhanced-input">
+          <label class="form-label">اسم الجهة:</label>
+          <input type="text" id="entityName" class="form-control" placeholder="اسم الجهة" value="الإدارة الصحية بسمنود">
+        </div>
+        <div class="enhanced-input">
+          <label class="form-label">القسم:</label>
+          <input type="text" id="entityDepartment" class="form-control" placeholder="اسم القسم" value="إدارة العقود والمشتريات">
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Section -->
+    <div class="form-section">
+      <h2 class="section-title">📋 البيانات الأساسية</h2>
+      <div class="input-grid">
+        <div class="enhanced-input">
+          <label class="form-label">📅 التاريخ:</label>
+          <input type="date" id="date" class="form-control" required>
+        </div>
+        <div class="enhanced-input">
+          <label class="form-label">المورد الأول:</label>
+          <input list="suppliersList" id="supplier1" class="form-control" placeholder="اختر المورد الأول" oninput="mainFormManager?.updateSupplierHeaders()">
+        </div>
+        <div class="enhanced-input">
+          <label class="form-label">المورد الثاني:</label>
+          <input list="suppliersList" id="supplier2" class="form-control" placeholder="اختر المورد الثاني" oninput="mainFormManager?.updateSupplierHeaders()">
+        </div>
+        <div class="enhanced-input">
+          <label class="form-label">المورد الثالث:</label>
+          <input list="suppliersList" id="supplier3" class="form-control" placeholder="اختر المورد الثالث" oninput="mainFormManager?.updateSupplierHeaders()">
+        </div>
+        <div class="enhanced-input">
+          <label class="form-label">تاريخ اللجنة:</label>
+          <input type="date" id="committeeDate" class="form-control" required>
+        </div>
+        <div class="enhanced-input">
+          <label class="form-label">نسبة الضريبة %:</label>
+          <input type="number" id="taxRate" class="form-control" value="0" min="0" max="100" step="0.01">
+        </div>
+      </div>
+    </div>
+
+    <!-- Table Section -->
+    <div class="table-container">
+      <div class="table-header">
+        <span>📊 جدول الأصناف والأسعار</span>
+        <div class="action-buttons" style="float: left;">
+          <button class="btn btn-sm btn-primary btn-icon" onclick="addRow()" title="إضافة صف جديد">
+            <span>➕</span> إضافة صف
+          </button>
+          <button class="btn btn-sm btn-warning btn-icon" onclick="clearTable()" title="مسح جميع البيانات">
+            <span>🗑️</span> مسح الكل
+          </button>
+          <button class="btn btn-sm btn-success btn-icon" onclick="saveAndGo()" title="حفظ والانتقال">
+            <span>💾</span> حفظ وانتقال
+          </button>
+        </div>
+        <div style="clear: both;"></div>
+      </div>
+
+      <!-- Enhanced Table -->
+      <table class="enhanced-table" id="itemsTable">
+        <thead>
+          <tr>
+            <th>م</th>
+            <th>اسم الصنف</th>
+            <th>الوحدة</th>
+            <th>الكمية</th>
+            <th id="th-supplier1">سعر المورد الأول</th>
+            <th id="th-supplier2">سعر المورد الثاني</th>
+            <th id="th-supplier3">سعر المورد الثالث</th>
+            <th>ملاحظات</th>
+            <th>إجراءات</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4">الإجمالي</td>
+            <td id="total1">0.00</td>
+            <td id="total2">0.00</td>
+            <td id="total3">0.00</td>
+            <td colspan="2"></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <!-- Signatures Section -->
+    <div class="signatures-section">
+      <h3 class="section-title">✍️ التوقيعات والاعتمادات</h3>
+      <div class="signatures-grid">
+        <div class="signature-card">
+          <label class="form-label">المختص</label>
+          <input list="staffList" class="form-control" placeholder="اسم المختص">
+        </div>
+        <div class="signature-card">
+          <label class="form-label">رئيس القسم</label>
+          <input list="staffList" class="form-control" placeholder="اسم رئيس القسم">
+        </div>
+        <div class="signature-card">
+          <label class="form-label">يعتمد</label>
+          <input list="staffList" class="form-control" placeholder="اسم المعتمد">
+        </div>
+        <div class="signature-card">
+          <label class="form-label">المدير المالي والإداري</label>
+          <input list="staffList" class="form-control" placeholder="اسم المدير المالي">
+        </div>
+        <div class="signature-card">
+          <label class="form-label">عضو اللجنة الأول</label>
+          <input list="staffList" class="form-control" placeholder="عضو اللجنة الأول">
+        </div>
+        <div class="signature-card">
+          <label class="form-label">عضو اللجنة الثاني</label>
+          <input list="staffList" class="form-control" placeholder="عضو اللجنة الثاني">
+        </div>
+        <div class="signature-card">
+          <label class="form-label">عضو اللجنة الثالث</label>
+          <input list="staffList" class="form-control" placeholder="عضو اللجنة الثالث">
+        </div>
+        <div class="signature-card">
+          <label class="form-label">أمر الدفع بإسم</label>
+          <input list="staffList" class="form-control" placeholder="اسم المستفيد">
+        </div>
+      </div>
+    </div>
+
+    <!-- Print Stamp Area (hidden on screen, visible in print) -->
+    <div class="print-stamp print-only" style="display: none;">
+      🏥 ختم الجهة المختصة
+    </div>
+
+    <!-- Controls Section -->
+    <div class="controls-section">
+      <h3 class="section-title">🛠️ أدوات التحكم</h3>
+      <div class="action-buttons">
+        <button class="btn btn-primary btn-icon" onclick="addRow()" title="إضافة صف جديد">
+          <span>➕</span> إضافة صف
+        </button>
+        <button class="btn btn-success btn-icon" onclick="mainFormManager?.saveData?.()" title="حفظ البيانات">
+          <span>💾</span> حفظ البيانات
+        </button>
+        <button class="btn btn-info btn-icon" onclick="mainFormManager?.loadData?.()" title="تحميل البيانات">
+          <span>📁</span> تحميل البيانات
+        </button>
+        <button class="btn btn-success btn-icon" onclick="saveAndGo()" title="حفظ والانتقال">
+          <span>➡️</span> حفظ وانتقال
+        </button>
+        <button class="btn btn-warning btn-icon" onclick="clearTable()" title="مسح جميع البيانات">
+          <span>🗑️</span> مسح الكل
+        </button>
+        <button class="btn btn-secondary btn-icon" onclick="window.print()" title="طباعة">
+          <span>🖨️</span> طباعة
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- datalists -->
+  <datalist id="suppliersList"></datalist>
+  <datalist id="itemsList"></datalist>
+  <datalist id="staffList"></datalist>
+
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/main.js"></script>
+
+              });
+            }
+          }
+          
+          if (window.staffMembers) {
+            const staffList = document.getElementById('staffList');
+            if (staffList) {
+              staffList.innerHTML = '';
+              window.staffMembers.forEach(staff => {
+                const option = document.createElement('option');
+                option.value = staff.name;
+                staffList.appendChild(option);
+              });
+            }
+          }
+        } catch (error) {
+          console.error('Data loading error:', error);
+          this.showMessage('خطأ في تحميل البيانات الأساسية', 'error');
+        }
+      }
+      
+      validateField(field) {
+        const value = field.value.trim();
+        const container = field.closest('.enhanced-input') || field.parentElement;
+        
+        container.classList.remove('error', 'success');
+        
+        if (field.hasAttribute('required') && !value) {
+          container.classList.add('error');
+          return false;
+        }
+        
+        if (field.type === 'number' && value && (isNaN(value) || parseFloat(value) < 0)) {
+          container.classList.add('error');
+          return false;
+        }
+        
+        container.classList.add('success');
+        return true;
+      }
+      
+      setCurrentDate() {
+        const today = new Date().toISOString().split('T')[0];
+        const dateField = document.getElementById('date');
+        const committeeDateField = document.getElementById('committeeDate');
+        
+        if (dateField && !dateField.value) dateField.value = today;
+        if (committeeDateField && !committeeDateField.value) committeeDateField.value = today;
+      }
+      
+      addRow(item = '', unit = '', qty = 1, price1 = 0, price2 = 0, price3 = 0, notes = '') {
+        this.rowCount++;
+        const tbody = document.querySelector('#itemsTable tbody');
+        const tr = document.createElement('tr');
+        
+        tr.innerHTML = `
+          <td>${this.rowCount}</td>
+          <td><input list="itemsList" value="${item}" placeholder="اختر صنف" oninput="mainFormManager.fillUnit(this)"></td>
+          <td><input value="${unit}" placeholder="الوحدة" readonly></td>
+          <td><input type="number" value="${qty}" min="0" step="0.01"></td>
+          <td><input type="number" value="${price1}" min="0" step="0.01"></td>
+          <td><input type="number" value="${price2}" min="0" step="0.01"></td>
+          <td><input type="number" value="${price3}" min="0" step="0.01"></td>
+          <td><input value="${notes}" placeholder="ملاحظات"></td>
+          <td><button onclick="mainFormManager.removeRow(this)" class="btn btn-sm btn-danger">مسح</button></td>
+        `;
+        
+        tbody.appendChild(tr);
+        this.updateTotals();
+        this.updateProgress();
+        this.updateStatistics();
+        tr.querySelector('input').focus();
+      }
+      
+      fillUnit(input) {
+        const itemName = input.value;
+        if (window.medicalItems && window.medicalItems[itemName]) {
+          const unitInput = input.closest('tr').cells[2].querySelector('input');
+          unitInput.value = window.medicalItems[itemName].unit || '';
+        }
+      }
+      
+      removeRow(btn) {
+        if (confirm('هل أنت متأكد من حذف هذا الصف؟')) {
+          btn.closest('tr').remove();
+          this.updateRowNumbers();
+          this.updateTotals();
+          this.updateProgress();
+          this.updateStatistics();
+          this.showMessage('تم حذف الصف بنجاح', 'success');
+        }
+      }
+      
+      updateRowNumbers() {
+        const rows = document.querySelectorAll('#itemsTable tbody tr');
+        rows.forEach((row, index) => {
+          row.cells[0].textContent = index + 1;
+        });
+        this.rowCount = rows.length;
+      }
+      
+      clearTable() {
+        if (confirm('هل أنت متأكد من مسح جميع البيانات؟')) {
+          document.querySelector('#itemsTable tbody').innerHTML = '';
+          this.rowCount = 0;
+          
+          // Clear form fields
+          document.getElementById('date').value = '';
+          document.getElementById('supplier1').value = '';
+          document.getElementById('supplier2').value = '';
+          document.getElementById('supplier3').value = '';
+          document.getElementById('committeeDate').value = '';
+          document.getElementById('taxRate').value = '0';
+          
+          // Clear signatures
+          document.querySelectorAll('.signatures-section input').forEach(inp => inp.value = '');
+          
+          this.updateTotals();
+          this.updateSupplierHeaders();
+          this.updateProgress();
+          this.updateStatistics();
+          this.showMessage('تم مسح جميع البيانات', 'success');
+        }
+      }
+      
+      updateTotals() {
+        const tax = parseFloat(document.getElementById('taxRate').value) || 0;
+        let totals = [0, 0, 0];
+        let validRows = 0;
+        
+        document.querySelectorAll('#itemsTable tbody tr').forEach(tr => {
+          const qty = parseFloat(tr.cells[3].querySelector('input').value) || 0;
+          if (qty > 0) validRows++;
+          
+          for (let i = 0; i < 3; i++) {
+            const price = parseFloat(tr.cells[4 + i].querySelector('input').value) || 0;
+            totals[i] += qty * price;
+          }
+        });
+        
+        // Apply tax
+        totals = totals.map(t => t + (t * tax / 100));
+        
+        // Update total cells
+        [1, 2, 3].forEach((num, i) => {
+          const td = document.getElementById('total' + num);
+          if (td) {
+            td.textContent = totals[i].toFixed(2);
+            td.classList.remove('highlight', 'best-price');
+          }
+        });
+        
+        // Highlight best prices
+        const validTotals = totals.filter(t => t > 0);
+        if (validTotals.length > 0) {
+          const minVal = Math.min(...validTotals);
+          totals.forEach((val, i) => {
+            const td = document.getElementById('total' + (i + 1));
+            if (td && val > 0 && val === minVal) {
+              td.classList.add('highlight');
+            }
+          });
+        }
+        
+        this.statistics.totalItems = validRows;
+        this.statistics.totalValue = Math.max(...totals);
+      }
+      
+      updateSupplierHeaders() {
+        const s1 = document.getElementById('supplier1').value || 'المورد الأول';
+        const s2 = document.getElementById('supplier2').value || 'المورد الثاني';
+        const s3 = document.getElementById('supplier3').value || 'المورد الثالث';
+        
+        const headers = [
+          document.getElementById('th-supplier1'),
+          document.getElementById('th-supplier2'),
+          document.getElementById('th-supplier3')
+        ];
+        
+        const suppliers = [s1, s2, s3];
+        
+        headers.forEach((header, index) => {
+          if (header) {
+            header.textContent = `سعر ${suppliers[index]}`;
+          }
+        });
+      }
+      
+      updateProgress() {
+        const requiredFields = document.querySelectorAll('[required]');
+        const filledFields = Array.from(requiredFields).filter(field => field.value.trim() !== '');
+        const progress = requiredFields.length > 0 ? (filledFields.length / requiredFields.length) * 100 : 0;
+        
+        const progressBar = document.querySelector('.progress-bar');
+        if (progressBar) {
+          progressBar.style.width = progress + '%';
+        }
+      }
+      
+      updateStatistics() {
+        const stats = {
+          totalItems: document.querySelectorAll('#itemsTable tbody tr').length,
+          filledRows: 0,
+          totalValue: 0
+        };
+        
+        document.querySelectorAll('#itemsTable tbody tr').forEach(row => {
+          const qty = parseFloat(row.cells[3].querySelector('input').value) || 0;
+          if (qty > 0) stats.filledRows++;
+          
+          const prices = [4, 5, 6].map(i => {
+            const price = parseFloat(row.cells[i].querySelector('input').value) || 0;
+            return qty * price;
+          });
+          stats.totalValue += Math.max(...prices);
+        });
+        
+        // Update stat cards if they exist
+        const totalItemsEl = document.querySelector('.stat-card:nth-child(1) .stat-value');
+        const filledRowsEl = document.querySelector('.stat-card:nth-child(2) .stat-value');
+        const totalValueEl = document.querySelector('.stat-card:nth-child(3) .stat-value');
+        
+        if (totalItemsEl) totalItemsEl.textContent = stats.totalItems;
+        if (filledRowsEl) filledRowsEl.textContent = stats.filledRows;
+        if (totalValueEl) totalValueEl.textContent = stats.totalValue.toFixed(2) + ' ج.م';
+      }
+      
+      showMessage(message, type = 'success') {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `validation-message validation-${type}`;
+        alertDiv.textContent = message;
+        alertDiv.style.display = 'block';
+        
+        const container = document.querySelector('.container');
+        container.insertBefore(alertDiv, container.firstChild);
+        
+        setTimeout(() => {
+          alertDiv.style.display = 'none';
+          alertDiv.remove();
+        }, 4000);
+      }
+      
+      saveData() {
+        try {
+          const data = this.collectFormData();
+          
+          const validation = this.validateFormData(data);
+          if (!validation.isValid) {
+            this.showMessage(`يرجى إكمال الحقول المطلوبة: ${validation.errors.join(', ')}`, 'error');
+            return;
+          }
+          
+          const fileName = `${data.date}_${data.supplier1 || 'البيانات'}.json`;
+          const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+          const link = document.createElement('a');
+          link.href = URL.createObjectURL(blob);
+          link.download = fileName;
+          link.click();
+          
+          this.statistics.lastSaved = new Date();
+          this.showMessage('تم حفظ البيانات بنجاح', 'success');
+        } catch (error) {
+          console.error('Save error:', error);
+          this.showMessage('حدث خطأ أثناء الحفظ', 'error');
+        }
+      }
+      
+      loadData() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.json';
+        
+        input.onchange = (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            try {
+              const data = JSON.parse(ev.target.result);
+              this.populateFormData(data);
+              this.showMessage('تم تحميل البيانات بنجاح', 'success');
+            } catch (error) {
+              console.error('Load error:', error);
+              this.showMessage('خطأ في قراءة الملف', 'error');
+            }
+          };
+          reader.readAsText(file);
+        };
+        
+        input.click();
+      }
+      
+      collectFormData() {
+        return {
+          date: document.getElementById('date').value,
+          supplier1: document.getElementById('supplier1').value,
+          supplier2: document.getElementById('supplier2').value,
+          supplier3: document.getElementById('supplier3').value,
+          committeeDate: document.getElementById('committeeDate').value,
+          taxRate: document.getElementById('taxRate').value,
+          table: Array.from(document.querySelectorAll('#itemsTable tbody tr')).map(tr => {
+            return Array.from(tr.querySelectorAll('input')).map(inp => inp.value);
+          }),
+          footer: Array.from(document.querySelectorAll('.signatures-section input')).map(inp => inp.value),
+          timestamp: new Date().toISOString()
+        };
+      }
+      
+      validateFormData(data) {
+        const errors = [];
+        
+        if (!data.date) errors.push('التاريخ');
+        if (!data.supplier1 && !data.supplier2 && !data.supplier3) errors.push('مورد واحد على الأقل');
+        if (data.table.length === 0) errors.push('صف واحد على الأقل في الجدول');
+        
+        return {
+          isValid: errors.length === 0,
+          errors
+        };
+      }
+      
+      populateFormData(data) {
+        Object.keys(data).forEach(key => {
+          const element = document.getElementById(key);
+          if (element && typeof data[key] === 'string') {
+            element.value = data[key];
+          }
+        });
+        
+        document.querySelector('#itemsTable tbody').innerHTML = '';
+        this.rowCount = 0;
+        
+        if (data.table && Array.isArray(data.table)) {
+          data.table.forEach(row => {
+            this.addRow(...row);
+          });
+        }
+        
+        if (data.footer && Array.isArray(data.footer)) {
+          const footerInputs = document.querySelectorAll('.signatures-section input');
+          data.footer.forEach((val, i) => {
+            if (footerInputs[i]) footerInputs[i].value = val || '';
+          });
+        }
+        
+        this.updateSupplierHeaders();
+        this.updateTotals();
+        this.updateProgress();
+        this.updateStatistics();
+      }
+      
+      saveAndGo() {
+        const data = this.collectFormData();
+        localStorage.setItem('mainFormData', JSON.stringify(data));
+        this.showMessage('تم حفظ البيانات بنجاح! يمكنك الآن فتح صفحات التوريد أو تفريغ الأسعار.', 'success');
+      }
+      
+      loadSavedData() {
+        try {
+          const savedData = localStorage.getItem('mainFormData');
+          if (savedData) {
+            const data = JSON.parse(savedData);
+            this.populateFormData(data);
+          }
+        } catch (error) {
+          console.error('Error loading saved data:', error);
+        }
+      }
+      
+      startAutoSave() {
+        this.autoSaveInterval = setInterval(() => {
+          const data = this.collectFormData();
+          localStorage.setItem('mainFormData_autosave', JSON.stringify(data));
+        }, 30000); // Auto-save every 30 seconds
+      }
+    }
+    
+    // Global functions for backward compatibility
+    let mainFormManager;
+    
+    function addRow() { return mainFormManager.addRow(); }
+    function clearTable() { return mainFormManager.clearTable(); }
+    function saveAndGo() { return mainFormManager.saveAndGo(); }
+    function updateSupplierHeaders() { return mainFormManager.updateSupplierHeaders(); }
+    
+    // Initialize the application
+    document.addEventListener('DOMContentLoaded', function() {
+      mainFormManager = new MainFormManager();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>محضر البت في عروض الأسعار - نظام إدارة المشتريات</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/shared.css">
+  
+  <style>
+    .meeting-header {
+      background: linear-gradient(135deg, var(--primary-color) 0%, #0056b3 100%);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 2rem;
+      border-radius: var(--border-radius);
+    }
+    
+    .document-logo {
+      width: 80px;
+      height: 80px;
+      border: 3px solid var(--danger-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      background: white;
+      position: relative;
+    }
+    
+    .logo-inner {
+      width: 60px;
+      height: 60px;
+      background: var(--primary-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-align: center;
+      line-height: 1.2;
+    }
+    
+    .meeting-content {
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+    
+    .committee-section {
+      background: var(--light-bg);
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .committee-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .items-section {
+      padding: 1.5rem;
+    }
+    
+    .meeting-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      border: 2px solid var(--border-color);
+      background: white;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+    }
+    
+    .meeting-table th,
+    .meeting-table td {
+      border: 1px solid var(--border-color);
+      padding: 0.75rem;
+      text-align: center;
+      vertical-align: middle;
+    }
+    
+    .meeting-table th {
+      background: var(--light-bg);
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+    
+    .meeting-table input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      text-align: center;
+      font-weight: 500;
+      padding: 0.25rem;
+    }
+    
+    .yellow-bg {
+      background: #ffd700 !important;
+      font-weight: 600;
+    }
+    
+    .gray-bg {
+      background: #6c757d !important;
+      color: white !important;
+      font-weight: 600;
+    }
+    
+    .decision-section {
+      background: var(--light-bg);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border-radius: var(--border-radius);
+      border-left: 4px solid var(--success-color);
+    }
+    
+    .summary-box {
+      background: white;
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--border-color);
+      margin: 1rem 0;
+    }
+    
+    .price-display {
+      display: inline-flex;
+      align-items: center;
+      margin: 0 0.5rem;
+      font-weight: 600;
+    }
+    
+    .price-input {
+      border: none;
+      border-bottom: 2px solid var(--primary-color);
+      background: transparent;
+      text-align: center;
+      font-weight: 600;
+      width: 80px;
+      margin: 0 0.25rem;
+    }
+    
+    .signature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    
+    .signature-card {
+      text-align: center;
+      padding: 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      background: white;
+    }
+    
+    .signature-label {
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    
+    .winner-highlight {
+      background: var(--success-color) !important;
+      color: white !important;
+      font-weight: 600;
+    }
+    
+    @media print {
+      .navbar, .controls-section {
+        display: none !important;
+      }
+      
+      body {
+        background: white;
+        font-size: 12pt;
+      }
+      
+      .container {
+        box-shadow: none;
+        padding: 10px;
+        margin: 0;
+        max-width: none;
+      }
+      
+      .meeting-content {
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <span class="nav-icon">🏥</span>
+        نظام إدارة المشتريات
+      </div>
+      <ul class="nav-links">
+        <li><a href="main.html">📋 النموذج الرئيسي</a></li>
+        <li><a href="taw.html">📦 أمر التوريد</a></li>
+        <li><a href="taf.html">💰 تفريغ الأسعار</a></li>
+        <li><a href="mahdr.html" class="active">📝 المحضر</a></li>
+        <li><a href="talab.html">📄 طلب الشراء</a></li>
+        <li><a href="moka.html">📈 المقايسة</a></li>
+        <li><a href="tash.html">👥 تشكيل لجنة</a></li>
+        <li><a href="custom.html">📊 الضرائب</a></li>
+      </ul>
+      <div class="nav-login">
+        <button class="btn-login" onclick="logout()" title="تسجيل الخروج">
+          <span>🚪</span> تسجيل الخروج
+        </button>
+      </div>
+      <div class="nav-toggle" onclick="toggleMenu()">
+        <span>☰</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Entity Configuration Section -->
+    <div class="entity-config-section">
+      <h3 class="entity-config-title">
+        <span>🏥</span> إعدادات الجهة
+      </h3>
+      <div class="entity-inputs">
+        <div class="enhanced-input">
+          <label class="form-label">اسم الجهة:</label>
+          <input type="text" id="entityName" class="form-control" placeholder="اسم الجهة" value="الإدارة الصحية بسمنود">
+        </div>
+        <div class="enhanced-input">
+          <label class="form-label">القسم:</label>
+          <input type="text" id="entityDepartment" class="form-control" placeholder="اسم القسم" value="إدارة العقود والمشتريات">
+        </div>
+      </div>
+    </div>
+
+    <!-- Print Header (hidden on screen, visible in print) -->
+    <div class="print-header print-only" style="display: none;">
+      <div class="print-entity-name">
+        الإدارة الصحية بسمنود<br>
+        إدارة العقود والمشتريات
+      </div>
+      <div class="print-page-title">
+        محضر البت في عروض الأسعار
+      </div>
+      <div class="print-logo">
+        <img src="images/logo.png" alt="شعار الجهة">
+      </div>
+    </div>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="loading-spinner"></div>
+      <p>جاري تحميل محضر الاجتماع...</p>
+    </div>
+
+    <!-- Meeting Header -->
+    <div class="meeting-header">
+      <div class="document-logo">
+        <div class="logo-inner">
+          المملكة العربية<br>السعودية
+        </div>
+      </div>
+      <h1 class="section-title">📝 محضر البت في عروض الأسعار</h1>
+      <div class="hospital-info">
+        <div class="info-badge yellow-bg">مستشفى الملك فهد المركزي بجازان</div>
+        <div class="info-badge gray-bg">إدارة العقود والمشتريات</div>
+      </div>
+    </div>
+
+    <!-- Document Info -->
+    <div class="document-info-section">
+      <div class="form-grid">
+        <div class="enhanced-input">
+          <label class="form-label">📅 تاريخ الاجتماع:</label>
+          <input type="date" id="meetingDate" class="form-control" required>
+        </div>
+        <div class="enhanced-input">
+          <label class="form-label">🕐 وقت الاجتماع:</label>
+          <input type="time" id="meetingTime" class="form-control" value="10:00" required>
+        </div>
+        <div class="enhanced-input">
+          <label class="form-label">📍 مكان الاجتماع:</label>
+          <input type="text" id="meetingLocation" class="form-control" value="قاعة الاجتماعات - إدارة العقود" required>
+        </div>
+      </div>
+    </div>
+
+    <!-- Meeting Content -->
+    <div class="meeting-content">
+      <!-- Committee Section -->
+      <div class="committee-section">
+        <h3 class="section-title">👥 تشكيل اللجنة</h3>
+        <p class="section-description">قامت اللجنة بالاجتماع برئاسة:</p>
+        
+        <table class="meeting-table">
+          <thead>
+            <tr>
+              <th>الاسم</th>
+              <th>الوظيفة</th>
+              <th>الصفة</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="text" id="member1Name" list="staffList" placeholder="اسم الرئيس" class="form-control"></td>
+              <td><input type="text" id="member1Job" placeholder="الوظيفة" class="form-control"></td>
+              <td><input type="text" id="member1Role" value="رئيساً" class="form-control"></td>
+            </tr>
+            <tr>
+              <td><input type="text" id="member2Name" list="staffList" placeholder="اسم العضو الأول" class="form-control"></td>
+              <td><input type="text" id="member2Job" placeholder="الوظيفة" class="form-control"></td>
+              <td><input type="text" id="member2Role" value="عضو" class="form-control"></td>
+            </tr>
+            <tr>
+              <td><input type="text" id="member3Name" list="staffList" placeholder="اسم العضو الثاني" class="form-control"></td>
+              <td><input type="text" id="member3Job" placeholder="الوظيفة" class="form-control"></td>
+              <td><input type="text" id="member3Role" value="عضو" class="form-control"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Items Section -->
+      <div class="items-section">
+        <h3 class="section-title">📦 عروض الأسعار المقدمة</h3>
+        <div class="action-buttons">
+          <button class="btn btn-sm btn-primary btn-icon" onclick="meetingManager?.addItemRow?.()" title="إضافة صنف">
+            <span>➕</span> إضافة صنف
+          </button>
+          <button class="btn btn-sm btn-info btn-icon" onclick="meetingManager?.loadFromTaf?.()" title="تحميل من تفريغ الأسعار">
+            <span>📁</span> تحميل من التفريغ
+          </button>
+        </div>
+        
+        <table class="meeting-table" id="itemsTable">
+          <thead>
+            <tr>
+              <th>اسم العملية</th>
+              <th>القيمة</th>
+              <th>الوحدة</th>
+              <th>اسم المورد</th>
+              <th>الإجمالي</th>
+              <th>إجراءات</th>
+            </tr>
+          </thead>
+          <tbody id="itemsTableBody">
+            <!-- Dynamic rows will be added here -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Decision Section -->
+      <div class="decision-section">
+        <h3 class="section-title">⚖️ قرار اللجنة</h3>
+        <div class="summary-box">
+          <div class="summary-item">
+            <label class="form-label">أقل العروض سعراً:</label>
+            <div class="price-display">
+              <span>العرض رقم</span>
+              <input type="text" id="lowestBidNum" class="price-input" placeholder="1">
+              <span>الخاص بالمورد</span>
+              <input type="text" id="selectedSupplier" class="form-control" placeholder="اسم المورد" style="width: 200px; display: inline-block;">
+            </div>
+          </div>
+          
+          <div class="summary-item">
+            <label class="form-label">السعر التقديري المقدر:</label>
+            <input type="number" id="estimatedAmount" class="form-control" placeholder="0.00" step="0.01" style="width: 150px; display: inline-block;">
+            <span>ريال</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Signatures Section -->
+      <div class="signatures-section">
+        <h3 class="section-title">✍️ توقيعات اللجنة</h3>
+        <div class="signature-grid">
+          <div class="signature-card">
+            <label class="signature-label">رئيس اللجنة</label>
+            <input type="text" id="signatory1" class="form-control" placeholder="الاسم والتوقيع">
+          </div>
+          <div class="signature-card">
+            <label class="signature-label">عضو اللجنة الأول</label>
+            <input type="text" id="signatory2" class="form-control" placeholder="الاسم والتوقيع">
+          </div>
+          <div class="signature-card">
+            <label class="signature-label">عضو اللجنة الثاني</label>
+            <input type="text" id="signatory3" class="form-control" placeholder="الاسم والتوقيع">
+          </div>
+          <div class="signature-card">
+            <label class="signature-label">المعتمد النهائي</label>
+            <input type="text" id="finalApprover" class="form-control" placeholder="اسم المعتمد">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DataLists -->
+  <datalist id="staffList"></datalist>
+  <datalist id="suppliersList"></datalist>
+  <datalist id="itemsList"></datalist>
+
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/mahdr.js"></script>
+
+  </script>
+
+</body>
+</html>

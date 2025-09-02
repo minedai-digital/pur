@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>طلب الصرف - نظام إدارة المشتريات</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/shared.css">
+  
+  <style>
+    .request-header {
+      background: linear-gradient(135deg, var(--success-color) 0%, #218838 100%);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 2rem;
+      border-radius: var(--border-radius);
+    }
+    
+    .document-logo {
+      width: 80px;
+      height: 80px;
+      border: 3px solid var(--primary-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      background: white;
+      position: relative;
+    }
+    
+    .logo-inner {
+      width: 60px;
+      height: 60px;
+      background: var(--primary-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-align: center;
+      line-height: 1.2;
+    }
+    
+    .request-form {
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+    
+    .form-section {
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .amount-section {
+      background: var(--light-bg);
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      margin: 1rem 0;
+      border: 2px solid var(--success-color);
+    }
+    
+    .amount-display {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    
+    .amount-input {
+      flex: 1;
+      height: 3rem;
+      border: 2px solid var(--border-color);
+      background: white;
+      text-align: center;
+      font-size: 1.25rem;
+      font-weight: 600;
+      border-radius: var(--border-radius);
+    }
+    
+    .amount-input:focus {
+      border-color: var(--success-color);
+      box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+    }
+    
+    .description-section {
+      background: var(--light-bg);
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      margin: 1rem 0;
+    }
+    
+    .description-box {
+      width: 100%;
+      min-height: 200px;
+      border: 2px solid var(--success-color);
+      background: #f8fff9;
+      padding: 1rem;
+      font-size: 1rem;
+      resize: vertical;
+      border-radius: var(--border-radius);
+      font-family: inherit;
+    }
+    
+    .description-box:focus {
+      outline: none;
+      box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+    }
+    
+    .payment-methods {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    
+    .payment-option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      background: white;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .payment-option:hover {
+      background: var(--light-bg);
+      border-color: var(--primary-color);
+    }
+    
+    .payment-option input[type="checkbox"] {
+      width: 1.2rem;
+      height: 1.2rem;
+      accent-color: var(--success-color);
+    }
+    
+    .applicant-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    
+    .applicant-card {
+      background: white;
+      padding: 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      text-align: center;
+    }
+    
+    .signature-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background: var(--light-bg);
+      border-radius: var(--border-radius);
+    }
+    
+    .signature-card {
+      text-align: center;
+      padding: 1rem;
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+    }
+    
+    .signature-box {
+      width: 120px;
+      height: 80px;
+      border: 2px solid var(--border-color);
+      margin: 0.5rem auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f8f9fa;
+      border-radius: var(--border-radius);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    
+    .approval-text {
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin: 2rem 0;
+      color: var(--success-color);
+      padding: 1rem;
+      border: 2px solid var(--success-color);
+      border-radius: var(--border-radius);
+      background: #f8fff9;
+    }
+    
+    .workflow-status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background: var(--info-color);
+      color: white;
+      border-radius: var(--border-radius);
+      margin: 1rem 0;
+    }
+    
+    .workflow-step {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .step-indicator {
+      width: 2rem;
+      height: 2rem;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+    }
+    
+    .step-indicator.active {
+      background: white;
+      color: var(--info-color);
+    }
+    
+    @media print {
+      .navbar, .controls-section, .workflow-status {
+        display: none !important;
+      }
+      
+      body {
+        background: white;
+        font-size: 12pt;
+      }
+      
+      .container {
+        box-shadow: none;
+        padding: 10px;
+        margin: 0;
+        max-width: none;
+      }
+      
+      .request-form {
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <span class="nav-icon">🏥</span>
+        نظام إدارة المشتريات
+      </div>
+      <ul class="nav-links">
+        <li><a href="main.html">📋 النموذج الرئيسي</a></li>
+        <li><a href="taw.html">📦 أمر التوريد</a></li>
+        <li><a href="taf.html">💰 تفريغ الأسعار</a></li>
+        <li><a href="mahdr.html">📝 المحضر</a></li>
+        <li><a href="talab.html" class="active">📄 طلب الشراء</a></li>
+        <li><a href="moka.html">📈 المقايسة</a></li>
+        <li><a href="tash.html">👥 تشكيل لجنة</a></li>
+        <li><a href="custom.html">📊 الضرائب</a></li>
+      </ul>
+      <div class="nav-login">
+        <button class="btn-login" onclick="logout()" title="تسجيل الخروج">
+          <span>🚪</span> تسجيل الخروج
+        </button>
+      </div>
+      <div class="nav-toggle" onclick="toggleMenu()">
+        <span>☰</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Entity Configuration Section -->
+    <div class="entity-config-section">
+      <h3 class="entity-config-title">
+        <span>🏥</span> إعدادات الجهة
+      </h3>
+      <div class="entity-inputs">
+        <div class="enhanced-input">
+          <label class="form-label">اسم الجهة:</label>
+          <input type="text" id="entityName" class="form-control" placeholder="اسم الجهة" value="الإدارة الصحية بسمنود">
+        </div>
+        <div class="enhanced-input">
+          <label class="form-label">القسم:</label>
+          <input type="text" id="entityDepartment" class="form-control" placeholder="اسم القسم" value="إدارة العقود والمشتريات">
+        </div>
+      </div>
+    </div>
+
+    <!-- Print Header (hidden on screen, visible in print) -->
+    <div class="print-header print-only" style="display: none;">
+      <div class="print-entity-name">
+        الإدارة الصحية بسمنود<br>
+        إدارة العقود والمشتريات
+      </div>
+      <div class="print-page-title">
+        طلب الشراء
+      </div>
+      <div class="print-logo">
+        <img src="images/logo.png" alt="شعار الجهة">
+      </div>
+    </div>
+
+    <!-- Main Header -->
+    <div class="request-header">
+      <div class="document-logo">
+        <div class="logo-inner">
+          المملكة العربية<br>السعودية
+        </div>
+      </div>
+      <h1 class="section-title">📄 طلب الشراء</h1>
+      <div class="hospital-info">
+        <div class="info-badge yellow-bg">مستشفى الملك فهد المركزي بجازان</div>
+        <div class="info-badge gray-bg">إدارة العقود والمشتريات</div>
+      </div>
+    </div>
+
+    <!-- Workflow Status -->
+    <div class="workflow-status">
+      <div class="workflow-step">
+        <div class="step-indicator active">1</div>
+        <span>إعداد الطلب</span>
+      </div>
+      <div class="workflow-step">
+        <div class="step-indicator">2</div>
+        <span>مراجعة وموافقة</span>
+      </div>
+      <div class="workflow-step">
+        <div class="step-indicator">3</div>
+        <span>التنفيذ</span>
+      </div>
+    </div>
+
+    <!-- Request Content -->
+    <div class="request-form">
+      <div class="document-info-section">
+        <div class="form-grid">
+          <div class="enhanced-input">
+            <label class="form-label">💰 مبلغ الصرف المطلوب:</label>
+            <input type="number" id="requestAmount" class="form-control" placeholder="0.00" step="0.01" required>
+            <span class="input-addon">ريال سعودي</span>
+          </div>
+          <div class="enhanced-input">
+            <label class="form-label">📅 تاريخ الطلب:</label>
+            <input type="date" id="requestDate" class="form-control" required>
+          </div>
+          <div class="enhanced-input">
+            <label class="form-label">🏥 القسم المطلوب:</label>
+            <select id="department" class="form-control" required>
+              <option value="">اختر القسم</option>
+              <option value="pharmacy">الصيدلية</option>
+              <option value="surgery">الجراحة</option>
+              <option value="emergency">الطوارئ</option>
+              <option value="laboratory">المختبر</option>
+              <option value="radiology">الأشعة</option>
+              <option value="administration">الإدارة</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Request Description -->
+      <div class="description-section">
+        <h3 class="section-title">📝 تفاصيل الطلب</h3>
+        <div class="enhanced-input">
+          <label class="form-label"><strong>وصف المطلوب صرف المبلغ من أجله:</strong></label>
+          <textarea id="requestDescription" class="form-control" rows="4" placeholder="أدخل وصف تفصيلي للمطلوب صرف المبلغ من أجله..." required></textarea>
+        </div>
+      </div>
+
+      <!-- Payment Method -->
+      <div class="payment-section">
+        <h3 class="section-title">💳 طريقة الدفع</h3>
+        <div class="payment-options">
+          <div class="form-check">
+            <input type="radio" id="cashPayment" name="paymentMethod" value="cash" class="form-check-input">
+            <label for="cashPayment" class="form-check-label">دفع نقدي</label>
+          </div>
+          <div class="form-check">
+            <input type="radio" id="checkPayment" name="paymentMethod" value="check" class="form-check-input">
+            <label for="checkPayment" class="form-check-label">شيك مصرفي</label>
+          </div>
+          <div class="form-check">
+            <input type="radio" id="bankTransfer" name="paymentMethod" value="transfer" class="form-check-input">
+            <label for="bankTransfer" class="form-check-label">تحويل بنكي</label>
+          </div>
+        </div>
+        
+        <div class="enhanced-input">
+          <label class="form-label">👤 يستخرج أمر الدفع باسم:</label>
+          <input type="text" id="payeeName" class="form-control" placeholder="اسم المستفيد">
+        </div>
+      </div>
+
+      <!-- Applicant Information -->
+      <div class="applicant-section">
+        <h3 class="section-title">👨‍💼 بيانات مقدم الطلب</h3>
+        <div class="form-grid">
+          <div class="enhanced-input">
+            <label class="form-label">الاسم الكامل:</label>
+            <input type="text" id="applicantName" class="form-control" placeholder="اسم مقدم الطلب" required>
+          </div>
+          <div class="enhanced-input">
+            <label class="form-label">المنصب:</label>
+            <input type="text" id="applicantPosition" class="form-control" placeholder="المنصب الوظيفي">
+          </div>
+          <div class="enhanced-input">
+            <label class="form-label">رقم الهاتف:</label>
+            <input type="tel" id="applicantPhone" class="form-control" placeholder="رقم الهاتف">
+          </div>
+          <div class="enhanced-input">
+            <label class="form-label">البريد الإلكتروني:</label>
+            <input type="email" id="applicantEmail" class="form-control" placeholder="البريد الإلكتروني">
+          </div>
+        </div>
+      </div>
+
+      <!-- Approval Section -->
+      <div class="approval-section">
+        <h3 class="section-title">✅ الاعتماد والموافقة</h3>
+        <div class="approval-text">
+          <p>وتفضلوا بقبول فائق الاحترام</p>
+        </div>
+        
+        <div class="signatures-grid">
+          <div class="signature-card">
+            <label class="signature-label">توقيع مقدم الطلب</label>
+            <input type="text" id="applicantSignature" class="form-control" placeholder="التوقيع">
+          </div>
+          <div class="signature-card">
+            <label class="signature-label">المعتمد النهائي</label>
+            <input type="text" id="approverName" class="form-control" placeholder="اسم المعتمد">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Signatures Section -->
+    <div class="signature-section">
+      <div class="signature-grid">
+        <div class="signature-card">
+          <label class="signature-label">توقيع مقدم الطلب</label>
+          <input type="text" id="applicantSignature" class="form-control" placeholder="التوقيع">
+        </div>
+        <div class="signature-card">
+          <label class="signature-label">المعتمد النهائي</label>
+          <input type="text" id="approverName" class="form-control" placeholder="اسم المعتمد">
+        </div>
+      </div>
+    </div>
+
+    <!-- Print Stamp Area (hidden on screen, visible in print) -->
+    <div class="print-stamp print-only" style="display: none;">
+      🏥 ختم الجهة المختصة
+    </div>
+
+    <!-- Controls Section (moved to bottom) -->
+    <div class="controls-section">
+      <h3 class="section-title">🛠️ أدوات التحكم</h3>
+      <div class="action-buttons">
+        <button class="btn btn-primary btn-icon" onclick="requestManager?.generateRequest?.()" title="إنشاء الطلب">
+          <span>📝</span> إنشاء الطلب
+        </button>
+        <button class="btn btn-success btn-icon" onclick="requestManager?.saveData?.()" title="حفظ البيانات">
+          <span>💾</span> حفظ البيانات
+        </button>
+        <button class="btn btn-info btn-icon" onclick="requestManager?.loadData?.()" title="تحميل البيانات">
+          <span>📁</span> تحميل البيانات
+        </button>
+        <button class="btn btn-warning btn-icon" onclick="requestManager?.clearForm?.()" title="مسح جميع البيانات">
+          <span>🗑️</span> مسح الكل
+        </button>
+        <button class="btn btn-secondary btn-icon" onclick="window.print()" title="طباعة">
+          <span>🖨️</span> طباعة
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DataLists -->
+  <datalist id="suppliersList"></datalist>
+  <datalist id="departmentsList"></datalist>
+
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/talab.js"></script>
+
+</body>
+</html>

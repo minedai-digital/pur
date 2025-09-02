@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تفريغ الأسعار - نظام إدارة المشتريات</title>
+<meta name="description" content="نظام تفريغ وتحليل الأسعار من الموردين المختلفين">
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/shared.css">
+
+<style>
+  .analysis-header {
+    background: linear-gradient(135deg, var(--info-color) 0%, #0056b3 100%);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+    margin-bottom: 2rem;
+  }
+  
+  .analysis-header h1 {
+    font-size: 2rem;
+    margin: 0;
+    font-weight: 700;
+  }
+  
+  .comparison-section {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    margin-bottom: 2rem;
+    border-left: 4px solid var(--info-color);
+  }
+  
+  .supplier-headers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .supplier-card {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--border-color);
+    text-align: center;
+  }
+  
+  .supplier-card.winner {
+    border-color: var(--success-color);
+    background: linear-gradient(135deg, #d4edda, #c3e6cb);
+  }
+  
+  .supplier-card.second {
+    border-color: var(--warning-color);
+    background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+  }
+  
+  .supplier-card.third {
+    border-color: var(--danger-color);
+    background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+  }
+  
+  .best-price {
+    background: linear-gradient(135deg, #d4edda, #c3e6cb) !important;
+    border: 2px solid var(--success-color) !important;
+    font-weight: bold;
+    animation: pulse-green 2s infinite;
+  }
+  
+  .second-best {
+    background: linear-gradient(45deg, #fff3cd, #ffeaa7) !important;
+    border: 2px solid var(--warning-color) !important;
+    font-weight: bold;
+  }
+  
+  .worst-price {
+    background: linear-gradient(45deg, #f8d7da, #f5c6cb) !important;
+    border: 2px solid var(--danger-color) !important;
+  }
+  
+  @keyframes pulse-green {
+    0% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(40, 167, 69, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
+  }
+  
+  .analysis-summary {
+    background: linear-gradient(135deg, #e7f3ff, #cce7ff);
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--info-color);
+    margin-bottom: 2rem;
+  }
+  
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+  }
+  
+  .summary-card {
+    background: white;
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .summary-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--info-color);
+  }
+  
+  .comparison-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin: 0.25rem;
+  }
+  
+  .badge-best {
+    background: var(--success-color);
+    color: white;
+  }
+  
+  .badge-second {
+    background: var(--warning-color);
+    color: #856404;
+  }
+  
+  .badge-worst {
+    background: var(--danger-color);
+    color: white;
+  }
+  
+  .loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+  
+  .loading-content {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    text-align: center;
+    box-shadow: var(--shadow-xl);
+  }
+  
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--info-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  @media print {
+    .navbar, .controls-section, .analysis-summary {
+      display: none !important;
+    }
+    
+    body {
+      background: white;
+    }
+    
+    .container {
+      margin: 0;
+      padding: 15px;
+      box-shadow: none;
+    }
+  }
+</style>
+</head>
+
+<body>
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-content">
+    <div class="spinner"></div>
+    <p>جاري التحليل...</p>
+  </div>
+</div>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <span class="nav-icon">🏥</span>
+        نظام إدارة المشتريات
+      </div>
+      <ul class="nav-links">
+        <li><a href="main.html">📋 النموذج الرئيسي</a></li>
+        <li><a href="taw.html">📦 أمر التوريد</a></li>
+        <li><a href="taf.html" class="active">💰 تفريغ الأسعار</a></li>
+        <li><a href="mahdr.html">📝 المحضر</a></li>
+        <li><a href="talab.html">📄 طلب الشراء</a></li>
+        <li><a href="moka.html">📈 المقايسة</a></li>
+        <li><a href="tash.html">👥 تشكيل لجنة</a></li>
+        <li><a href="custom.html">📊 الضرائب</a></li>
+      </ul>
+      <div class="nav-login">
+        <button class="btn-login" onclick="logout()" title="تسجيل الخروج">
+          <span>🚪</span> تسجيل الخروج
+        </button>
+      </div>
+      <div class="nav-toggle" onclick="toggleMenu()">
+        <span>☰</span>
+      </div>
+    </div>
+  </nav>
+
+<!-- Main Header -->
+<header class="analysis-header">
+  <h1>تفريغ وتحليل الأسعار</h1>
+  <p>نظام مقارنة وتحليل عروض الموردين</p>
+</header>
+
+<!-- Alert Messages -->
+<div id="alertSuccess" class="validation-message validation-success"></div>
+<div id="alertError" class="validation-message validation-error"></div>
+<div id="alertWarning" class="validation-message validation-warning"></div>
+
+<div class="container">
+  <!-- Print Header (hidden on screen, visible in print) -->
+  <div class="print-header print-only" style="display: none;">
+    <div class="print-entity-name">
+      الإدارة الصحية بسمنود<br>
+      إدارة العقود والمشتريات
+    </div>
+    <div class="print-page-title">
+      تفريغ وتحليل الأسعار
+    </div>
+    <div class="print-logo">
+      <img src="images/logo.png" alt="شعار الجهة">
+    </div>
+  </div>
+
+  <!-- Entity Configuration Section -->
+  <div class="entity-config-section">
+    <h3 class="entity-config-title">
+      <span>🏥</span> إعدادات الجهة
+    </h3>
+    <div class="entity-inputs">
+      <div class="enhanced-input">
+        <label class="form-label">اسم الجهة:</label>
+        <input type="text" id="entityName" class="form-control" placeholder="اسم الجهة" value="الإدارة الصحية بسمنود">
+      </div>
+      <div class="enhanced-input">
+        <label class="form-label">القسم:</label>
+        <input type="text" id="entityDepartment" class="form-control" placeholder="اسم القسم" value="إدارة العقود والمشتريات">
+      </div>
+    </div>
+  </div>
+
+  <!-- Analysis Summary -->
+  <div class="analysis-summary">
+    <h3 class="section-title">📊 ملخص التحليل</h3>
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="summary-value" id="totalAnalyzedItems">0</div>
+        <div>عدد الأصناف</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-value" id="bestSupplierName">-</div>
+        <div>أفضل مورد</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-value" id="totalSavings">0.00 ج.م</div>
+        <div>إجمالي التوفير</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-value" id="savingsPercentage">0%</div>
+        <div>نسبة التوفير</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Date and Supplier Information -->
+  <div class="comparison-section">
+    <h3 class="section-title">📅 بيانات التفريغ</h3>
+    <div class="input-grid">
+      <div class="enhanced-input">
+        <label class="form-label">تاريخ التفريغ:</label>
+        <input type="date" id="orderDate" class="form-control" required>
+      </div>
+    </div>
+  </div>
+
+  <!-- Supplier Headers Section -->
+  <div class="comparison-section">
+    <h3 class="section-title">🏢 بيانات الموردين</h3>
+    <div class="supplier-headers">
+      <div class="supplier-card" id="supplier1Card">
+        <label class="form-label">اسم المورد الأول:</label>
+        <input type="text" id="supplier1Name" class="form-control" placeholder="أدخل اسم المورد الأول" oninput="updateSupplierHeader(1)">
+        <div class="comparison-badge badge-best" id="supplier1Badge" style="display: none;">الأفضل</div>
+      </div>
+      <div class="supplier-card" id="supplier2Card">
+        <label class="form-label">اسم المورد الثاني:</label>
+        <input type="text" id="supplier2Name" class="form-control" placeholder="أدخل اسم المورد الثاني" oninput="updateSupplierHeader(2)">
+        <div class="comparison-badge badge-second" id="supplier2Badge" style="display: none;">الثاني</div>
+      </div>
+      <div class="supplier-card" id="supplier3Card">
+        <label class="form-label">اسم المورد الثالث:</label>
+        <input type="text" id="supplier3Name" class="form-control" placeholder="أدخل اسم المورد الثالث" oninput="updateSupplierHeader(3)">
+        <div class="comparison-badge badge-worst" id="supplier3Badge" style="display: none;">الثالث</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrapper">
+    <table id="itemsTable">
+      <thead>
+        <tr>
+          <th>م</th>
+          <th>الصنف</th>
+          <th>الوحدة</th>
+          <th>الكمية</th>
+          <th id="th-supplier1">المورد الأول</th>
+          <th>بعد الضريبة</th>
+          <th id="th-supplier2">المورد الثاني</th>
+          <th>بعد الضريبة</th>
+          <th id="th-supplier3">المورد الثالث</th>
+          <th>بعد الضريبة</th>
+          <th>الإجراء</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4">الإجمالي</td>
+          <td id="total1">0.00</td>
+          <td id="total1After">0.00</td>
+          <td id="total2">0.00</td>
+          <td id="total2After">0.00</td>
+          <td id="total3">0.00</td>
+          <td id="total3After">0.00</td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <!-- Footer Inputs -->
+  <div class="footer-inputs">
+    <label>المختص: <input type="text" id="officer" placeholder="اسم المختص"></label>
+    <label>رئيس القسم: <input type="text" id="head" placeholder="اسم رئيس القسم"></label>
+    <label>يعتمد: <input type="text" id="approved" placeholder="اسم المعتمد"></label>
+    <label>عضو اللجنة الأول: <input type="text" id="committee1" placeholder="اسم العضو الأول"></label>
+    <label>عضو اللجنة الثاني: <input type="text" id="committee2" placeholder="اسم العضو الثاني"></label>
+    <label>عضو اللجنة الثالث: <input type="text" id="committee3" placeholder="اسم العضو الثالث"></label>
+  </div>
+
+  <!-- Print Stamp Area (hidden on screen, visible in print) -->
+  <div class="print-stamp print-only" style="display: none;">
+    🏥 ختم الجهة المختصة
+  </div>
+
+  <!-- Controls Section -->
+  <div class="controls-section">
+    <h3 class="section-title">🛠️ أدوات التحكم</h3>
+    <div class="action-buttons">
+      <button class="btn btn-primary btn-icon" onclick="addEmptyRow()" title="إضافة صف جديد">
+        <span>➕</span> إضافة صف
+      </button>
+      <button class="btn btn-success btn-icon" onclick="saveData()" title="حفظ البيانات">
+        <span>💾</span> حفظ البيانات
+      </button>
+      <button class="btn btn-info btn-icon" onclick="loadFromMain()" title="تحميل من الرئيسية">
+        <span>📁</span> تحميل البيانات
+      </button>
+      <button class="btn btn-success btn-icon" onclick="performAnalysis()" title="تحليل الأسعار">
+        <span>📊</span> تحليل الأسعار
+      </button>
+      <button class="btn btn-warning btn-icon" onclick="clearTable()" title="مسح جميع البيانات">
+        <span>🗑️</span> مسح الكل
+      </button>
+      <button class="btn btn-secondary btn-icon" onclick="window.print()" title="طباعة">
+        <span>🖨️</span> طباعة
+      </button>
+    </div>
+  </div>
+</div>
+
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/taf.js"></script>
+
+</body>
+</html>
