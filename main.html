@@ -5,331 +5,95 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>نظام إدارة المشتريات - الصفحة الرئيسية</title>
   <meta name="description" content="نظام إدارة المشتريات والتوريدات - النموذج الرئيسي">
-  
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/shared.css">
-  <link rel="stylesheet" href="css/print.css">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Lateef&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
   <style>
-    .main-header {
-      background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-      color: white;
-      padding: 2rem;
-      text-align: center;
-      box-shadow: var(--shadow-lg);
-      margin-bottom: 2rem;
-    }
-    
-    .main-header h1 {
-      font-size: 2rem;
-      margin: 0;
-      font-weight: 700;
-    }
-    
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-    
-    .stat-card {
-      background: white;
-      padding: 1.5rem;
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-md);
-      text-align: center;
-      border-left: 4px solid var(--primary-color);
-    }
-    
-    .stat-card h3 {
-      color: var(--primary-color);
-      font-size: 1.25rem;
-      margin-bottom: 0.5rem;
-    }
-    
-    .stat-card .stat-value {
-      font-size: 2rem;
-      font-weight: bold;
-      color: var(--text-primary);
-    }
-    .form-section {
-      background: white;
-      padding: 2rem;
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-md);
-      margin-bottom: 2rem;
-    }
-    
-    .section-title {
-      color: var(--primary-color);
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 2px solid var(--primary-color);
-    }
-    
-    .input-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
-    
-    .enhanced-input {
-      position: relative;
-    }
-    
-    .enhanced-input input {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      border: 2px solid var(--border-color);
-      border-radius: var(--radius-md);
-      font-size: 1rem;
-      transition: all 0.3s ease;
-    }
-    
-    .enhanced-input input:focus {
-      border-color: var(--primary-color);
-      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.15);
-    }
-    
-    .enhanced-input.error input {
-      border-color: var(--danger-color);
-      animation: shake 0.5s ease;
-    }
-    .table-container {
-      background: white;
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      box-shadow: var(--shadow-lg);
-      margin-bottom: 2rem;
-    }
-    
-    .table-header {
-      background: var(--primary-color);
-      color: white;
-      padding: 1rem 1.5rem;
-      font-weight: 600;
-      font-size: 1.1rem;
-    }
-    
-    .enhanced-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.9rem;
-    }
-    
-    .enhanced-table th {
-      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-      color: white;
-      padding: 1rem 0.75rem;
-      font-weight: 600;
-      text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    
-    .enhanced-table td {
-      padding: 0.75rem;
-      border: 1px solid var(--border-light);
-      text-align: center;
-      vertical-align: middle;
-    }
-    
-    .enhanced-table tbody tr {
-      transition: background-color 0.2s ease;
-    }
-    
-    .enhanced-table tbody tr:hover {
-      background-color: rgba(0, 123, 255, 0.05);
-    }
-    
-    .enhanced-table tbody tr:nth-child(even) {
-      background-color: rgba(0, 0, 0, 0.02);
-    }
-    
-    .enhanced-table tfoot td {
-      background: var(--light-color);
-      font-weight: bold;
-      color: var(--primary-color);
-      font-size: 1rem;
-    }
-    .highlight {
-      background: linear-gradient(135deg, #d4edda, #c3e6cb) !important;
-      border: 2px solid var(--success-color) !important;
-      font-weight: bold;
-      animation: pulse 2s infinite;
-    }
-    
-    .best-price {
-      background: linear-gradient(45deg, #fff3cd, #ffeaa7) !important;
-      border: 2px solid var(--warning-color) !important;
-      font-weight: bold;
-    }
-    
-    .action-buttons {
-      display: flex;
-      gap: 0.5rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    
-    .btn-icon {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.5rem 1rem;
-      font-size: 0.9rem;
-    }
-    
-    .progress-indicator {
-      width: 100%;
-      height: 4px;
-      background: var(--border-light);
-      border-radius: 2px;
-      margin-bottom: 1rem;
-      overflow: hidden;
-    }
-    
-    .progress-bar {
-      height: 100%;
-      background: linear-gradient(90deg, var(--primary-color), var(--success-color));
-      border-radius: 2px;
-      transition: width 0.3s ease;
-      width: 0%;
-    }
-    .controls, .footer-actions {
-      margin-top: 20px;
-      text-align: center;
-    }
-    .controls-section {
-      background: white;
-      padding: 1.5rem;
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-md);
-      margin-bottom: 2rem;
-    }
-    
-    .controls-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-    }
-    
-    .control-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-    
-    .control-label {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-    }
-    .signatures-section {
-      background: white;
-      padding: 2rem;
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-md);
-      margin-top: 2rem;
-    }
-    
-    .signatures-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-    }
-    
-    .signature-card {
-      background: var(--light-color);
-      padding: 1rem;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border-light);
-    }
-    
-    .validation-message {
-      padding: 0.75rem 1rem;
-      border-radius: var(--radius-md);
-      margin-bottom: 1rem;
-      font-weight: 500;
-      display: none;
-    }
-    
-    .validation-success {
-      background: rgba(40, 167, 69, 0.1);
-      color: var(--success-color);
-      border: 1px solid var(--success-color);
-    }
-    
-    .validation-error {
-      background: rgba(220, 53, 69, 0.1);
-      color: var(--danger-color);
-      border: 1px solid var(--danger-color);
-    }
-    
-    .validation-warning {
-      background: rgba(255, 193, 7, 0.1);
-      color: #856404;
-      border: 1px solid var(--warning-color);
+    body {font-family:'Cairo','Lateef',Arial,sans-serif; background:#f8fafb;}
+    nav.navbar {background:#156ab2; color:#fff;padding:7px 0 0 0;border-radius:0 0 18px 18px;box-shadow:0 6px 24px #94d9fd26;}
+    .nav-container{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:auto;}
+    .nav-logo{font-size:1.21rem;padding:8px 24px;letter-spacing:1px;font-family:'Amiri',serif}
+    .nav-links{display:flex;gap:7px;margin:0;padding:0;list-style:none}
+    .nav-links li{display:inline-block;}
+    .nav-links a{color:#fff;text-decoration:none;font-size:1rem;padding:9px 16px;border-radius:7px;transition:.13s;}
+    .nav-links a:hover,.nav-links a.active{background:#3482ce;color:#fffd9b;}
+    .nav-login{padding:0 20px;}
+    .btn-login{background:#fcfbc3;padding:9px 18px;border:0;border-radius:7px;font-size:1rem;color:#3269b7;cursor:pointer;}
+    .btn-login:hover{background:#fff19e}
+    .nav-toggle{display:none;}
+    @media(max-width:1100px){.nav-container{flex-wrap:wrap;}.nav-links{flex-wrap:wrap;}}
+    @media(max-width:830px){.nav-links a{padding:9px 8px; font-size:0.95rem;}}
+    @media(max-width:600px){
+      .nav-links{flex-direction:column;align-items:flex-start;}
+      .nav-links a{padding:9px 5px;}
+      .nav-container{flex-direction:column;align-items:flex-start;}
+      .nav-toggle{display:block;position:absolute;top:11px;left:15px;}
     }
 
-    @media (max-width: 768px) {
-      .main-header {
-        padding: 1rem;
-      }
-      
-      .main-header h1 {
-        font-size: 1.5rem;
-      }
-      
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      
-      .input-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .enhanced-table {
-        font-size: 0.8rem;
-      }
-      
-      .enhanced-table th,
-      .enhanced-table td {
-        padding: 0.5rem 0.25rem;
-      }
-      
-      .controls-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .signatures-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .action-buttons {
-        flex-direction: column;
-      }
+    header.main-header {background: linear-gradient(135deg, #2196f3 0%, #1865be 100%); color: white; padding: 2rem 1rem; text-align: center; box-shadow: 0 7px 24px #6ddcff40; margin-bottom: 2rem; border-radius: 0 0 25px 25px;}
+    header.main-header h1{font-family:'Amiri',serif;font-size:2.2rem;letter-spacing:1px;}
+    .main-header .entity-bar{font-family:'Lateef','Cairo';font-size:1.13rem;background:#e3f7f9;color:#215e87;margin:14px auto 0;padding:7px 12px;display:inline-block;border-radius:6px;}
+    
+    .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1.1rem;margin-bottom:2rem;}
+    .stat-card{background:white;padding:1.3rem 0.7rem;border-radius:15px;box-shadow:0 3px 12px #b0dee233;text-align:center;min-width:180px;}
+    .stat-card h3{color:#2380bf;font-size:1.02rem;}
+    .stat-card .stat-value{font-size:1.49rem;font-weight:bold;color:#166c81;}
+
+    .stats-summary{display:flex;justify-content:center;gap:2.7rem;align-items:center;margin-bottom:1.4rem;}
+    .stats-summary div{font-size:1.1rem;}
+    
+    .entity-config-section{margin-bottom:2.2rem;}
+    .entity-config-title{font-family:'Amiri',serif;font-size:1.18rem;color:#2363b5;}
+    .entity-inputs{display:flex;gap:1.1rem;flex-wrap:wrap;}
+    .entity-inputs .enhanced-input{flex:1;}
+    
+    .form-section,.signatures-section,.controls-section{background:white;padding:2rem;border-radius:17px;box-shadow:0 3px 14px #b0e6ef33;margin-bottom:2rem;}
+    h2.section-title{font-family:'Amiri',serif;font-size:1.22rem;color:#1769ae;margin-bottom:1.4rem;}
+    .input-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.4rem;margin-bottom:2rem;}
+    .enhanced-input{position:relative;}
+    .enhanced-input input {width: 100%; padding: 0.75rem 1rem; border: 2px solid #1765ae; border-radius: 11px; font-size: 1rem; color:#0e375c;}
+    .enhanced-input input:focus { border-color: #2196f3; box-shadow: 0 0 0 0.14rem #aae6e911;}
+    .enhanced-input label{color:#165b62;font-weight:700;}
+    .table-container{background:white;border-radius:16px;overflow:hidden;box-shadow:0 3px 14px #b1e4ea2a;margin-bottom:1.6rem;}
+    .table-header{background:#2196f3;color:white;padding:1rem 1.5rem;font-weight:600;font-size:1.04rem;}
+    .enhanced-table{width:100%;border-collapse:collapse;font-size:1.02rem;}
+    .enhanced-table th{background:#2066be;color:#fff;padding:0.95rem 0.5rem;font-weight:600;text-align:center;}
+    .enhanced-table td{padding:0.73rem;border:1px solid #bedff1;text-align:center;color:#174053;font-size:1.01rem;}
+    .enhanced-table input[type="text"], .enhanced-table input[type="number"]{color:#174053!important;font-weight:600;background:#f5fdff;border-radius:8px;padding:5px 7px;font-size:1rem;}
+    .enhanced-table tfoot td{background:#ecf7fe;font-weight:bold;}
+    .action-buttons{display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap;}
+    .btn{background:linear-gradient(90deg,#1ebea5 0%,#156ab2 100%);color:#fff;border:none;border-radius:10px;padding:0.5rem 1.2rem;font-size:1rem;margin-top:0.2rem;cursor:pointer;transition:.15s;}
+    .btn:hover{background:linear-gradient(90deg,#2196f3 10%,#43d5a0 85%);}
+    .signatures-section{margin-top:1.7rem;}
+    .signatures-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.3rem;}
+    .signature-card{background:#f5f9fc;padding:1.1rem;border-radius:12px;border:1px solid #d2eaf1;}
+    .highlight-cell{background: #9afdcd!important;color:#084e27!important;}
+    footer {margin:35px 0 15px; font-family:'Lateef','Cairo'; text-align:right; font-size:1.08rem; color:#144054;}
+    .entity-footer {margin-top:18px;}
+    @media (max-width:1150px){.entity-inputs{flex-direction:column;gap:0.7rem;}}
+    @media (max-width:800px){header.main-header{padding:1.15rem;}
+      .stats-grid,.input-grid,.signatures-grid{grid-template-columns:1fr;}
+      .table-header{padding:0.7rem;}
+      .entity-bar{font-size:0.99rem;}
     }
+    @media print {
+      body {background:white;}
+      header.main-header,.navbar,.controls-section,.action-buttons,.btn,.entity-footer{display:none!important;}
+      .table-header{background:#2196f3!important;}
+      .form-section,.table-container,.signatures-section{box-shadow:none;border-radius:0;}
+      .print-header,.print-stamp{display:block!important;}
+      .signatures-section{margin:0;}
+      .enhanced-table{font-size:1.04rem!important;}
+    }
+    /* تعطيل أسهم الأرقام في جميع المدخلات */
+    input[type="number"],input[pattern="\d*"]{-webkit-appearance:none;-moz-appearance:textfield;appearance:textfield;}
+    input::-webkit-inner-spin-button,input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0;}
   </style>
 </head>
-
-
-
-
-
-<!-- ضع هذا الكود أسفل وسم <body> مباشرة قبل <header> -->
-  <!-- Navigation -->
+<body>
+  <!-- الشريط العلوي للقوائم -->
   <nav class="navbar">
     <div class="nav-container">
-      <div class="nav-logo">
-        <span class="nav-icon">🏥</span>
-        نظام إدارة المشتريات
-      </div>
+      <div class="nav-logo"><span>🏥</span> نظام إدارة المشتريات</div>
       <ul class="nav-links">
         <li><a href="main.html" class="active">📋 النموذج الرئيسي</a></li>
         <li><a href="taw.html">📦 أمر التوريد</a></li>
@@ -345,79 +109,49 @@
           <span>🚪</span> تسجيل الخروج
         </button>
       </div>
-      <div class="nav-toggle" onclick="toggleMenu()">
-        <span>☰</span>
-      </div>
+      <div class="nav-toggle" onclick="toggleMenu()"><span>☰</span></div>
     </div>
   </nav>
 
-
-
-
-
-
-
-
-
-<body>
-  <!-- Main Header -->
   <header class="main-header">
-    <h1>نظام إدارة المشتريات والتوريدات</h1>
+    <h1 id="entityNameHeader">نظام إدارة المشتريات والتوريدات</h1>
+    <div class="entity-bar" id="entityDeptHeader"></div>
     <p>النموذج الرئيسي لإدخال بيانات الأصناف والموردين</p>
-    <div class="progress-indicator">
-      <div class="progress-bar"></div>
-    </div>
+    <div class="progress-indicator"><div class="progress-bar"></div></div>
   </header>
 
-    <!-- Print Header (repeats on each page) -->
-  <div class="print-header print-only" style="display: none;">
-    <div class="print-logo">
-      <img src="images/logo.png" alt="شعار الجهة">
-    </div>
-    <div class="print-entity-info">
-      <div class="print-entity-name" id="printEntityName">الإدارة الصحية بسمنود</div>
-      <div class="print-department" id="printDepartment">إدارة العقود والمشتريات</div>
-      <div class="print-page-title">النموذج الرئيسي لمقارنة الأسعار</div>
-    </div>
-    <div class="print-date" id="printDate"></div>
+  <!-- إحصائيات/إجماليات حية أعلى الجدول كما طلبت -->
+  <div class="stats-summary" dir="rtl">
+    <div style="color:#115b99;border-bottom:2.5px solid #2196f3;padding-bottom:2.5px;">عدد العناصر المدخلة: <span id="countItems" style="font-weight:bold;">0</span></div>
+    <div style="color:#0e8037;">إجمالي المورد الأول: <span id="supplierTotal1" style="font-weight:bold;">0.00</span> ج.م</div>
+    <div style="color:#8d710c;">إجمالي المورد الثاني: <span id="supplierTotal2" style="font-weight:bold;">0.00</span> ج.م</div>
+    <div style="color:#c02f34;">إجمالي المورد الثالث: <span id="supplierTotal3" style="font-weight:bold;">0.00</span> ج.م</div>
   </div>
 
-<div class="container main-form">
-
-    <!-- Statistics Dashboard -->
+  <div class="container main-form">
+    <!-- لوحة الإحصائيات -->
     <div class="stats-grid">
-      <div class="stat-card">
-        <h3>إجمالي الأصناف</h3>
-        <div class="stat-value">0</div>
-      </div>
-      <div class="stat-card">
-        <h3>الصفوف المكتملة</h3>
-        <div class="stat-value">0</div>
-      </div>
-      <div class="stat-card">
-        <h3>إجمالي القيمة</h3>
-        <div class="stat-value">0.00 ج.م</div>
-      </div>
+      <div class="stat-card"><h3>إجمالي الأصناف</h3><div class="stat-value">0</div></div>
+      <div class="stat-card"><h3>الصفوف المكتملة</h3><div class="stat-value">0</div></div>
+      <div class="stat-card"><h3>إجمالي القيمة</h3><div class="stat-value">0.00 ج.م</div></div>
     </div>
 
-    <!-- Entity Configuration Section -->
+    <!-- إعدادات الجهة -->
     <div class="entity-config-section">
-      <h3 class="entity-config-title">
-        <span>🏥</span> إعدادات الجهة
-      </h3>
+      <h3 class="entity-config-title"><span>🏥</span> إعدادات الجهة</h3>
       <div class="entity-inputs">
         <div class="enhanced-input">
           <label class="form-label">اسم الجهة:</label>
-          <input type="text" id="entityName" class="form-control" placeholder="اسم الجهة" value="الإدارة الصحية بسمنود">
+          <input type="text" id="entityName" class="form-control" placeholder="اسم الجهة">
         </div>
         <div class="enhanced-input">
           <label class="form-label">القسم:</label>
-          <input type="text" id="entityDepartment" class="form-control" placeholder="اسم القسم" value="إدارة العقود والمشتريات">
+          <input type="text" id="entityDepartment" class="form-control" placeholder="اسم القسم">
         </div>
       </div>
     </div>
 
-    <!-- Form Section -->
+    <!-- نموذج البيانات الأساسية كما هو -->
     <div class="form-section">
       <h2 class="section-title">📋 البيانات الأساسية</h2>
       <div class="input-grid">
@@ -448,25 +182,16 @@
       </div>
     </div>
 
-    <!-- Table Section -->
+    <!-- الجدول والتجميع والتمييز -->
     <div class="table-container">
       <div class="table-header">
         <span>📊 جدول الأصناف والأسعار</span>
-        <div class="action-buttons" style="float: left;">
-          <button class="btn btn-sm btn-primary btn-icon" onclick="addRow()" title="إضافة صف جديد">
-            <span>➕</span> إضافة صف
-          </button>
-          <button class="btn btn-sm btn-warning btn-icon" onclick="clearTable()" title="مسح جميع البيانات">
-            <span>🗑️</span> مسح الكل
-          </button>
-          <button class="btn btn-sm btn-success btn-icon" onclick="saveAndGo()" title="حفظ والانتقال">
-            <span>💾</span> حفظ وانتقال
-          </button>
+        <div class="action-buttons" style="float:left;">
+          <button class="btn" onclick="addRow()" title="إضافة صف جديد"><span>➕</span> إضافة صف</button>
+          <button class="btn" onclick="clearTable()" title="مسح جميع البيانات"><span>🗑️</span> مسح الكل</button>
         </div>
-        <div style="clear: both;"></div>
+        <div style="clear:both;"></div>
       </div>
-
-      <!-- Enhanced Table -->
       <table class="enhanced-table" id="itemsTable">
         <thead>
           <tr>
@@ -481,95 +206,41 @@
             <th>إجراءات</th>
           </tr>
         </thead>
-        <tbody></tbody>
+        
+          <tbody id="itemsTableBody"></tbody>
+
+        
         <tfoot>
           <tr>
-            <td colspan="4">الإجمالي</td>
-            <td id="total1">0.00</td>
-            <td id="total2">0.00</td>
-            <td id="total3">0.00</td>
+            <td colspan="4"><b>الإجمالي</b></td>
+            <td id="total1" class="highlight-cell">0.00</td>
+            <td id="total2" class="highlight-cell">0.00</td>
+            <td id="total3" class="highlight-cell">0.00</td>
             <td colspan="2"></td>
           </tr>
         </tfoot>
       </table>
     </div>
 
-    <!-- Signatures Section -->
     <div class="signatures-section">
       <h3 class="section-title">✍️ التوقيعات والاعتمادات</h3>
-      <div class="signatures-grid">
-        <div class="signature-card">
-          <label class="form-label">المختص</label>
-          <input list="staffList" class="form-control" placeholder="اسم المختص">
-        </div>
-        <div class="signature-card">
-          <label class="form-label">رئيس القسم</label>
-          <input list="staffList" class="form-control" placeholder="اسم رئيس القسم">
-        </div>
-        <div class="signature-card">
-          <label class="form-label">يعتمد</label>
-          <input list="staffList" class="form-control" placeholder="اسم المعتمد">
-        </div>
-        <div class="signature-card">
-          <label class="form-label">المدير المالي والإداري</label>
-          <input list="staffList" class="form-control" placeholder="اسم المدير المالي">
-        </div>
-        <div class="signature-card">
-          <label class="form-label">عضو اللجنة الأول</label>
-          <input list="staffList" class="form-control" placeholder="عضو اللجنة الأول">
-        </div>
-        <div class="signature-card">
-          <label class="form-label">عضو اللجنة الثاني</label>
-          <input list="staffList" class="form-control" placeholder="عضو اللجنة الثاني">
-        </div>
-        <div class="signature-card">
-          <label class="form-label">عضو اللجنة الثالث</label>
-          <input list="staffList" class="form-control" placeholder="عضو اللجنة الثالث">
-        </div>
-        <div class="signature-card">
-          <label class="form-label">أمر الدفع بإسم</label>
-          <input list="staffList" class="form-control" placeholder="اسم المستفيد">
-        </div>
-      </div>
+      <div id="signaturesList" class="signatures-grid"></div>
     </div>
 
-    <!-- Print Stamp Area (hidden on screen, visible in print) -->
-    <div class="print-stamp print-only" style="display: none;">
-      🏥 ختم الجهة المختصة
-    </div>
-
-    <!-- Controls Section -->
     <div class="controls-section">
       <h3 class="section-title">🛠️ أدوات التحكم</h3>
       <div class="action-buttons">
-        <button class="btn btn-primary btn-icon" onclick="addRow()" title="إضافة صف جديد">
-          <span>➕</span> إضافة صف
-        </button>
-        <button class="btn btn-success btn-icon" onclick="mainFormManager?.saveData?.()" title="حفظ البيانات">
-          <span>💾</span> حفظ البيانات
-        </button>
-        <button class="btn btn-info btn-icon" onclick="mainFormManager?.loadData?.()" title="تحميل البيانات">
-          <span>📁</span> تحميل البيانات
-        </button>
-        <button class="btn btn-success btn-icon" onclick="saveAndGo()" title="حفظ والانتقال">
-          <span>➡️</span> حفظ وانتقال
-        </button>
-        <button class="btn btn-warning btn-icon" onclick="clearTable()" title="مسح جميع البيانات">
-          <span>🗑️</span> مسح الكل
-        </button>
-        <button class="btn btn-secondary btn-icon" onclick="window.print()" title="طباعة">
-          <span>🖨️</span> طباعة
-        </button>
+        <button class="btn" onclick="addRow()">➕ إضافة صف</button>
+        <button class="btn" onclick="mainFormManager?.saveData?.()">💾 حفظ البيانات</button>
+        <button class="btn" onclick="mainFormManager?.loadData?.()">📁 تحميل البيانات</button>
+        <button class="btn" onclick="saveAndGo()" title="حفظ والانتقال"><span>💾</span> حفظ وانتقال</button>
+        <button class="btn" onclick="clearTable()">🗑️ مسح الكل</button>
+        <button class="btn" onclick="window.print()">🖨️ طباعة</button>
       </div>
     </div>
+    <footer class="entity-footer" id="signaturesFooter"></footer>
   </div>
 
-  <!-- Print Stamp Area -->
-  <div class="print-stamp print-only" style="display: none;">
-    🏥 ختم الجهة المختصة
-  </div>
-
-  <!-- datalists -->
   <datalist id="suppliersList"></datalist>
   <datalist id="itemsList"></datalist>
   <datalist id="staffList"></datalist>
@@ -577,480 +248,186 @@
   <script src="js/data.js"></script>
   <script src="js/utils.js"></script>
   <script src="js/main.js"></script>
-  
   <script>
-    class MainFormManager {
-      constructor() {
-        this.rowCount = 0;
-        this.autoSaveInterval = null;
-        this.statistics = { totalItems: 0, totalValue: 0, lastSaved: null };
-        this.init();
+    // جلب اسم الجهة والقسم من صفحة الإعدادات وعرضها في رأس الصفحة 
+    document.addEventListener('DOMContentLoaded',function(){
+      let entityName = localStorage.getItem('hospitalName') || '';
+      let entityDept = localStorage.getItem('departmentName') || '';
+      document.getElementById('entityNameHeader').innerText = entityName || 'نظام إدارة المشتريات والتوريدات';
+      document.getElementById('entityDeptHeader').innerText = entityDept || '';
+      document.getElementById('entityName').value = entityName;
+      document.getElementById('entityDepartment').value = entityDept;
+      // عرض التوقيعات
+      let sigs = [];
+      try { sigs = JSON.parse(localStorage.getItem('signaturesArray')) || []; } catch{}
+      if (sigs.length) {
+        let html = sigs.map(sig => `<div class="signature-card">${sig.name}<br><small style="color:#29709f">${sig.desc}</small></div>`).join("");
+        document.getElementById('signaturesList').innerHTML = html;
+        document.getElementById('signaturesFooter').innerHTML = 
+          sigs.map(sig => `<b>${sig.name}</b> ـ <span style="color:#2579a2">${sig.desc}</span>`).join("، ");
       }
-      
-      async init() {
-        this.populateDataLists();
-        this.setCurrentDate();
-        this.setupEventListeners();
-        this.loadSavedData();
-        this.startAutoSave();
-        this.addInitialRows();
-        this.updateSupplierHeaders();
-        this.updateProgress();
-        this.updateStatistics();
-      }
-      
-      addInitialRows() {
-        // Add 3 empty rows
-        for (let i = 0; i < 3; i++) {
-          this.addRow();
+      updateTotalsLive();
+    });
+    document.getElementById('entityName').addEventListener('input',function(e){
+      localStorage.setItem('hospitalName',e.target.value);
+      document.getElementById('entityNameHeader').innerText = e.target.value;
+    });
+    document.getElementById('entityDepartment').addEventListener('input',function(e){
+      localStorage.setItem('departmentName',e.target.value);
+      document.getElementById('entityDeptHeader').innerText = e.target.value;
+    });
+
+    // تحديث الإجماليات أعلى الجدول وتمييز الأقل
+    function updateTotalsLive() {
+      const tbody = document.querySelector('#itemsTable tbody');
+      let total = [0,0,0];
+      let count = 0;
+      [...tbody.rows].forEach(tr => {
+        let qty = parseFloat(tr.cells[3].querySelector('input').value) || 0;
+        if (qty>0) count++;
+        for(let i=0;i<3;i++){
+          let price = parseFloat(tr.cells[4+i].querySelector('input').value) || 0;
+          total[i] += qty*price;
         }
-      }
-      
-      setupEventListeners() {
-        // Supplier name change listeners
-        ['supplier1', 'supplier2', 'supplier3'].forEach(id => {
-          const element = document.getElementById(id);
-          if (element) {
-            element.addEventListener('input', () => {
-              this.updateSupplierHeaders();
-            });
-          }
-        });
-        
-        // Tax rate change listener
-        const taxRate = document.getElementById('taxRate');
-        if (taxRate) {
-          taxRate.addEventListener('input', () => {
-            this.updateTotals();
-          });
+      });
+      document.getElementById('countItems').textContent = count;
+      document.getElementById('supplierTotal1').textContent = total[0].toFixed(2);
+      document.getElementById('supplierTotal2').textContent = total[1].toFixed(2);
+      document.getElementById('supplierTotal3').textContent = total[2].toFixed(2);
+
+      // تمييز المورد الأقل في tfoot & أعلى الصفحة
+      let minVal = Math.min(...total.filter(x=>x>0));
+      for(let i=0;i<3;i++){
+        let td = document.getElementById('total'+(i+1));
+        let st = document.getElementById('supplierTotal'+(i+1));
+        td.classList.remove('highlight-cell');
+        st.parentNode.classList.remove('highlight-cell');
+        if(minVal === total[i] && minVal>0){
+          td.classList.add('highlight-cell');
+          st.parentNode.classList.add('highlight-cell');
         }
-        
-        // Input validation
-        document.addEventListener('input', (e) => {
-          if (e.target.tagName === 'INPUT') {
-            this.validateField(e.target);
-            if (e.target.type === 'number') {
-              this.updateTotals();
-            }
-          }
-        });
-      }
-      
-      populateDataLists() {
-        try {
-          // Populate suppliers list
-          if (window.suppliersMembers) {
-            const suppliersList = document.getElementById('suppliersList');
-            if (suppliersList) {
-              suppliersList.innerHTML = '';
-              window.suppliersMembers.forEach(supplier => {
-                const option = document.createElement('option');
-                option.value = supplier.name;
-                suppliersList.appendChild(option);
-              });
-            }
-          }
-          
-          // Populate items list
-          if (window.medicalItems) {
-            const itemsList = document.getElementById('itemsList');
-            if (itemsList) {
-              itemsList.innerHTML = '';
-              Object.keys(window.medicalItems).forEach(item => {
-                const option = document.createElement('option');
-                option.value = item;
-                itemsList.appendChild(option);
-              });
-            }
-          }
-          
-          // Populate staff list
-          if (window.staffMembers) {
-            const staffList = document.getElementById('staffList');
-            if (staffList) {
-              staffList.innerHTML = '';
-              window.staffMembers.forEach(staff => {
-                const option = document.createElement('option');
-                option.value = staff.name;
-                staffList.appendChild(option);
-              });
-            }
-          }
-        } catch (error) {
-          console.error('Data loading error:', error);
-          this.showMessage('خطأ في تحميل البيانات الأساسية', 'error');
-        }
-      }
-      
-      validateField(field) {
-        const value = field.value.trim();
-        const container = field.closest('.enhanced-input') || field.parentElement;
-        
-        container.classList.remove('error', 'success');
-        
-        if (field.hasAttribute('required') && !value) {
-          container.classList.add('error');
-          return false;
-        }
-        
-        if (field.type === 'number' && value && (isNaN(value) || parseFloat(value) < 0)) {
-          container.classList.add('error');
-          return false;
-        }
-        
-        container.classList.add('success');
-        return true;
-      }
-      
-      setCurrentDate() {
-        const today = new Date().toISOString().split('T')[0];
-        const dateField = document.getElementById('date');
-        const committeeDateField = document.getElementById('committeeDate');
-        
-        if (dateField && !dateField.value) dateField.value = today;
-        if (committeeDateField && !committeeDateField.value) committeeDateField.value = today;
-      }
-      
-      addRow(item = '', unit = '', qty = 1, price1 = 0, price2 = 0, price3 = 0, notes = '') {
-        this.rowCount++;
-        const tbody = document.querySelector('#itemsTable tbody');
-        const tr = document.createElement('tr');
-        
-        tr.innerHTML = `
-          <td>${this.rowCount}</td>
-          <td><input list="itemsList" value="${item}" placeholder="اختر صنف" oninput="mainFormManager.fillUnit(this)"></td>
-          <td><input value="${unit}" placeholder="الوحدة" readonly></td>
-          <td><input type="number" value="${qty}" min="0" step="0.01"></td>
-          <td><input type="number" value="${price1}" min="0" step="0.01"></td>
-          <td><input type="number" value="${price2}" min="0" step="0.01"></td>
-          <td><input type="number" value="${price3}" min="0" step="0.01"></td>
-          <td><input value="${notes}" placeholder="ملاحظات"></td>
-          <td><button onclick="mainFormManager.removeRow(this)" class="btn btn-sm btn-danger">مسح</button></td>
-        `;
-        
-        tbody.appendChild(tr);
-        this.updateTotals();
-        this.updateProgress();
-        this.updateStatistics();
-        tr.querySelector('input').focus();
-      }
-      
-      fillUnit(input) {
-        const itemName = input.value;
-        if (window.medicalItems && window.medicalItems[itemName]) {
-          const unitInput = input.closest('tr').cells[2].querySelector('input');
-          unitInput.value = window.medicalItems[itemName].unit || '';
-        }
-      }
-      
-      removeRow(btn) {
-        if (confirm('هل أنت متأكد من حذف هذا الصف؟')) {
-          btn.closest('tr').remove();
-          this.updateRowNumbers();
-          this.updateTotals();
-          this.updateProgress();
-          this.updateStatistics();
-          this.showMessage('تم حذف الصف بنجاح', 'success');
-        }
-      }
-      
-      updateRowNumbers() {
-        const rows = document.querySelectorAll('#itemsTable tbody tr');
-        rows.forEach((row, index) => {
-          row.cells[0].textContent = index + 1;
-        });
-        this.rowCount = rows.length;
-      }
-      
-      clearTable() {
-        if (confirm('هل أنت متأكد من مسح جميع البيانات؟')) {
-          document.querySelector('#itemsTable tbody').innerHTML = '';
-          this.rowCount = 0;
-          
-          // Clear form fields
-          document.getElementById('date').value = '';
-          document.getElementById('supplier1').value = '';
-          document.getElementById('supplier2').value = '';
-          document.getElementById('supplier3').value = '';
-          document.getElementById('committeeDate').value = '';
-          document.getElementById('taxRate').value = '0';
-          
-          // Clear signatures
-          document.querySelectorAll('.signatures-section input').forEach(inp => inp.value = '');
-          
-          this.updateTotals();
-          this.updateSupplierHeaders();
-          this.updateProgress();
-          this.updateStatistics();
-          this.showMessage('تم مسح جميع البيانات', 'success');
-        }
-      }
-      
-      updateTotals() {
-        const tax = parseFloat(document.getElementById('taxRate').value) || 0;
-        let totals = [0, 0, 0];
-        let validRows = 0;
-        
-        document.querySelectorAll('#itemsTable tbody tr').forEach(tr => {
-          const qty = parseFloat(tr.cells[3].querySelector('input').value) || 0;
-          if (qty > 0) validRows++;
-          
-          for (let i = 0; i < 3; i++) {
-            const price = parseFloat(tr.cells[4 + i].querySelector('input').value) || 0;
-            totals[i] += qty * price;
-          }
-        });
-        
-        // Apply tax
-        totals = totals.map(t => t + (t * tax / 100));
-        
-        // Update total cells
-        [1, 2, 3].forEach((num, i) => {
-          const td = document.getElementById('total' + num);
-          if (td) {
-            td.textContent = totals[i].toFixed(2);
-            td.classList.remove('highlight', 'best-price');
-          }
-        });
-        
-        // Highlight best prices
-        const validTotals = totals.filter(t => t > 0);
-        if (validTotals.length > 0) {
-          const minVal = Math.min(...validTotals);
-          totals.forEach((val, i) => {
-            const td = document.getElementById('total' + (i + 1));
-            if (td && val > 0 && val === minVal) {
-              td.classList.add('highlight');
-            }
-          });
-        }
-        
-        this.statistics.totalItems = validRows;
-        this.statistics.totalValue = Math.max(...totals);
-      }
-      
-      updateSupplierHeaders() {
-        const s1 = document.getElementById('supplier1').value || 'المورد الأول';
-        const s2 = document.getElementById('supplier2').value || 'المورد الثاني';
-        const s3 = document.getElementById('supplier3').value || 'المورد الثالث';
-        
-        const headers = [
-          document.getElementById('th-supplier1'),
-          document.getElementById('th-supplier2'),
-          document.getElementById('th-supplier3')
-        ];
-        
-        const suppliers = [s1, s2, s3];
-        
-        headers.forEach((header, index) => {
-          if (header) {
-            header.textContent = `سعر ${suppliers[index]}`;
-          }
-        });
-      }
-      
-      updateProgress() {
-        const requiredFields = document.querySelectorAll('[required]');
-        const filledFields = Array.from(requiredFields).filter(field => field.value.trim() !== '');
-        const progress = requiredFields.length > 0 ? (filledFields.length / requiredFields.length) * 100 : 0;
-        
-        const progressBar = document.querySelector('.progress-bar');
-        if (progressBar) {
-          progressBar.style.width = progress + '%';
-        }
-      }
-      
-      updateStatistics() {
-        const stats = {
-          totalItems: document.querySelectorAll('#itemsTable tbody tr').length,
-          filledRows: 0,
-          totalValue: 0
-        };
-        
-        document.querySelectorAll('#itemsTable tbody tr').forEach(row => {
-          const qty = parseFloat(row.cells[3].querySelector('input').value) || 0;
-          if (qty > 0) stats.filledRows++;
-          
-          const prices = [4, 5, 6].map(i => {
-            const price = parseFloat(row.cells[i].querySelector('input').value) || 0;
-            return qty * price;
-          });
-          stats.totalValue += Math.max(...prices);
-        });
-        
-        // Update stat cards if they exist
-        const totalItemsEl = document.querySelector('.stat-card:nth-child(1) .stat-value');
-        const filledRowsEl = document.querySelector('.stat-card:nth-child(2) .stat-value');
-        const totalValueEl = document.querySelector('.stat-card:nth-child(3) .stat-value');
-        
-        if (totalItemsEl) totalItemsEl.textContent = stats.totalItems;
-        if (filledRowsEl) filledRowsEl.textContent = stats.filledRows;
-        if (totalValueEl) totalValueEl.textContent = stats.totalValue.toFixed(2) + ' ج.م';
-      }
-      
-      showMessage(message, type = 'success') {
-        const alertDiv = document.createElement('div');
-        alertDiv.className = `validation-message validation-${type}`;
-        alertDiv.textContent = message;
-        alertDiv.style.display = 'block';
-        
-        const container = document.querySelector('.container');
-        container.insertBefore(alertDiv, container.firstChild);
-        
-        setTimeout(() => {
-          alertDiv.style.display = 'none';
-          alertDiv.remove();
-        }, 4000);
-      }
-      
-      saveData() {
-        try {
-          const data = this.collectFormData();
-          
-          const validation = this.validateFormData(data);
-          if (!validation.isValid) {
-            this.showMessage(`يرجى إكمال الحقول المطلوبة: ${validation.errors.join(', ')}`, 'error');
-            return;
-          }
-          
-          const fileName = `${data.date}_${data.supplier1 || 'البيانات'}.json`;
-          const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
-          const link = document.createElement('a');
-          link.href = URL.createObjectURL(blob);
-          link.download = fileName;
-          link.click();
-          
-          this.statistics.lastSaved = new Date();
-          this.showMessage('تم حفظ البيانات بنجاح', 'success');
-        } catch (error) {
-          console.error('Save error:', error);
-          this.showMessage('حدث خطأ أثناء الحفظ', 'error');
-        }
-      }
-      
-      loadData() {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = '.json';
-        
-        input.onchange = (e) => {
-          const file = e.target.files[0];
-          if (!file) return;
-          
-          const reader = new FileReader();
-          reader.onload = (ev) => {
-            try {
-              const data = JSON.parse(ev.target.result);
-              this.populateFormData(data);
-              this.showMessage('تم تحميل البيانات بنجاح', 'success');
-            } catch (error) {
-              console.error('Load error:', error);
-              this.showMessage('خطأ في قراءة الملف', 'error');
-            }
-          };
-          reader.readAsText(file);
-        };
-        
-        input.click();
-      }
-      
-      collectFormData() {
-        return {
-          date: document.getElementById('date').value,
-          supplier1: document.getElementById('supplier1').value,
-          supplier2: document.getElementById('supplier2').value,
-          supplier3: document.getElementById('supplier3').value,
-          committeeDate: document.getElementById('committeeDate').value,
-          taxRate: document.getElementById('taxRate').value,
-          table: Array.from(document.querySelectorAll('#itemsTable tbody tr')).map(tr => {
-            return Array.from(tr.querySelectorAll('input')).map(inp => inp.value);
-          }),
-          footer: Array.from(document.querySelectorAll('.signatures-section input')).map(inp => inp.value),
-          timestamp: new Date().toISOString()
-        };
-      }
-      
-      validateFormData(data) {
-        const errors = [];
-        
-        if (!data.date) errors.push('التاريخ');
-        if (!data.supplier1 && !data.supplier2 && !data.supplier3) errors.push('مورد واحد على الأقل');
-        if (data.table.length === 0) errors.push('صف واحد على الأقل في الجدول');
-        
-        return {
-          isValid: errors.length === 0,
-          errors
-        };
-      }
-      
-      populateFormData(data) {
-        Object.keys(data).forEach(key => {
-          const element = document.getElementById(key);
-          if (element && typeof data[key] === 'string') {
-            element.value = data[key];
-          }
-        });
-        
-        document.querySelector('#itemsTable tbody').innerHTML = '';
-        this.rowCount = 0;
-        
-        if (data.table && Array.isArray(data.table)) {
-          data.table.forEach(row => {
-            this.addRow(...row);
-          });
-        }
-        
-        if (data.footer && Array.isArray(data.footer)) {
-          const footerInputs = document.querySelectorAll('.signatures-section input');
-          data.footer.forEach((val, i) => {
-            if (footerInputs[i]) footerInputs[i].value = val || '';
-          });
-        }
-        
-        this.updateSupplierHeaders();
-        this.updateTotals();
-        this.updateProgress();
-        this.updateStatistics();
-      }
-      
-      saveAndGo() {
-        const data = this.collectFormData();
-        localStorage.setItem('mainFormData', JSON.stringify(data));
-        this.showMessage('تم حفظ البيانات بنجاح! يمكنك الآن فتح صفحات التوريد أو تفريغ الأسعار.', 'success');
-      }
-      
-      loadSavedData() {
-        try {
-          const savedData = localStorage.getItem('mainFormData');
-          if (savedData) {
-            const data = JSON.parse(savedData);
-            this.populateFormData(data);
-          }
-        } catch (error) {
-          console.error('Error loading saved data:', error);
-        }
-      }
-      
-      startAutoSave() {
-        this.autoSaveInterval = setInterval(() => {
-          const data = this.collectFormData();
-          localStorage.setItem('mainFormData_autosave', JSON.stringify(data));
-        }, 30000); // Auto-save every 30 seconds
       }
     }
-    
-    // Global functions for backward compatibility
-    let mainFormManager;
-    
-    function addRow() { return mainFormManager.addRow(); }
-    function clearTable() { return mainFormManager.clearTable(); }
-    function saveAndGo() { return mainFormManager.saveAndGo(); }
-    function updateSupplierHeaders() { return mainFormManager.updateSupplierHeaders(); }
-    
-    // Initialize the application
-    document.addEventListener('DOMContentLoaded', function() {
-      mainFormManager = new MainFormManager();
+    // حدث القيم عند تغيير أي مدخل رقمي بـtable فقط
+    document.addEventListener('input', function(e){
+      if(
+        e.target.matches('.enhanced-table input[type="text"], .enhanced-table input[type="number"]')
+        || e.target.closest('.enhanced-table')
+      ){
+        updateTotalsLive();
+      }
     });
+    setTimeout(updateTotalsLive, 200); // تحديث أولي بعد التحميل
+    // زر القائمة الجانبية
+    function toggleMenu(){document.querySelector('.nav-links').classList.toggle('active');}
+
+
+function createRow(num, item='', unit='', qty=1, price1=0, price2=0, price3=0, notes=''){
+  return `<tr>
+    <td>${num}</td>
+    <td><input list="itemsList" value="${item}" placeholder="اختر صنف"></td>
+<td><input value="${unit}" placeholder="الوحدة"></td>
+    <td><input type="number" value="${qty}" min="0" step="any" style="width:80px;"></td>
+    <td><input type="number" value="${price1}" min="0" step="any" style="width:85px;"></td>
+    <td><input type="number" value="${price2}" min="0" step="any" style="width:85px;"></td>
+    <td><input type="number" value="${price3}" min="0" step="any" style="width:85px;"></td>
+    <td><input value="${notes}" placeholder="ملاحظات"></td>
+    <td><button onclick="this.closest('tr').remove(); updateTotalsLive();" class="btn">مسح</button></td>
+  </tr>`;
+}
+
+// مثال إضافة 3 صفوف افتراضية عند التحميل
+document.addEventListener('DOMContentLoaded',()=>{
+  let tbody = document.getElementById('itemsTableBody');
+  tbody.innerHTML = '';
+  for(let i=0;i<3;i++){ tbody.innerHTML += createRow(i+1); }
+  updateTotalsLive();
+});
+
+// عند الإضافة أو الحذف أو التعديل
+document.addEventListener('input', function(e){
+  if( e.target.closest('#itemsTable') ){
+    updateTotalsLive();
+  }
+});
+function addRow(){
+  let tbody = document.getElementById('itemsTableBody');
+  let n = tbody.rows.length+1;
+  tbody.innerHTML += createRow(n);
+  updateTotalsLive();
+}
+
+function updateTotalsLive(){
+  let tbody = document.getElementById('itemsTableBody');
+  let total=[0,0,0], count=0;
+  [...tbody.rows].forEach((tr,idx)=>{
+    tr.cells[0].textContent = idx+1;
+    let qty = parseFloat(tr.cells[3].querySelector('input').value) || 0;
+    if(qty>0) count++;
+    for(let i=0;i<3;i++){
+      let price = parseFloat(tr.cells[4+i].querySelector('input').value) || 0;
+      total[i] += qty*price;
+    }
+  });
+  document.getElementById('countItems').textContent=count;
+  document.getElementById('supplierTotal1').textContent=total[0].toFixed(2);
+  document.getElementById('supplierTotal2').textContent=total[1].toFixed(2);
+  document.getElementById('supplierTotal3').textContent=total[2].toFixed(2);
+
+  // لون الأقل
+  let minVal = Math.min(...total.filter(x=>x>0));
+  for(let i=0;i<3;i++){
+    let td = document.getElementById('total'+(i+1));
+    let st = document.getElementById('supplierTotal'+(i+1));
+    td.classList.remove('highlight-cell'); st.parentNode.classList.remove('highlight-cell');
+    if(minVal === total[i] && minVal>0){
+      td.classList.add('highlight-cell'); st.parentNode.classList.add('highlight-cell');
+    }
+    td.textContent = total[i].toFixed(2);
+  }
+}
+
+
+function saveAndGo() {
+  // جمع كل بيانات الصفحة
+  const data = {
+    // إعدادات الجهة
+    entityName: document.getElementById('entityName').value,
+    entityDepartment: document.getElementById('entityDepartment').value,
+    // بيانات أساسية
+    date: document.getElementById('date').value,
+    supplier1: document.getElementById('supplier1').value,
+    supplier2: document.getElementById('supplier2').value,
+    supplier3: document.getElementById('supplier3').value,
+    committeeDate: document.getElementById('committeeDate').value,
+    taxRate: document.getElementById('taxRate').value,
+    // البيانات من صفوف الجدول
+    table: Array.from(document.querySelectorAll('#itemsTable tbody tr')).map(tr => ({
+      name: tr.cells[1].querySelector('input').value,
+      unit: tr.cells[2].querySelector('input').value,
+      qty: tr.cells[3].querySelector('input').value,
+      price1: tr.cells[4].querySelector('input').value,
+      price2: tr.cells[5].querySelector('input').value,
+      price3: tr.cells[6].querySelector('input').value,
+      notes: tr.cells[7].querySelector('input').value
+    })),
+    // التوقيعات/الاعتمادات من الصفحة إذا كانت هناك
+    signatures: Array.from(document.querySelectorAll('.signatures-section .signature-card')).map(div => div.textContent.trim())
+  };
+  // حفظ كل البيانات في LocalStorage باسم ثابت
+  localStorage.setItem("mainFormData", JSON.stringify(data));
+  // الانتقال مثلا لصفحة taw.html أو غيرها (عدّل حسب اسم الصفحة المطلوبة)
+  window.location.href = "taw.html";
+}
+
+
+
+
+
+
+
+
+
   </script>
 </body>
 </html>
