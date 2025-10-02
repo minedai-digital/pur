@@ -5,10 +5,278 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>محضر البت في عروض الأسعار - نظام إدارة المشتريات</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/shared.css">
-  <link rel="stylesheet" href="css/print.css">
-  
   <style>
+    /* =============== ألوان وثوابت التصميم =============== */
+    :root {
+      --primary-color: #2196f3;
+      --primary-dark: #1865be;
+      --success-color: #1ebea5;
+      --danger-color: #dc3545;
+      --warning-color: #ffc107;
+      --info-color: #156ab2;
+      --border-color: #bedff1;
+      --border-light: #f1f3f5;
+      --radius-md: 11px;
+      --radius-lg: 18px;
+      --radius-sm: 7px;
+      --shadow-md: 0 3px 14px #b0e6ef33;
+      --shadow-lg: 0 6px 24px #94d9fd26;
+      --shadow-xl: 0 7px 24px #6ddcff40;
+      --gradient-primary: linear-gradient(135deg, #2196f3 0%, #1865be 100%);
+      --gradient-success: linear-gradient(90deg, #1ebea5 0%, #156ab2 100%);
+      --gradient-hover: linear-gradient(90deg, #2196f3 10%, #43d5a0 85%);
+    }
+
+    /* ========== جسم الصفحة ========= */
+    body {
+      font-family: 'Cairo', Arial, sans-serif;
+      background: #f8fafb;
+      margin: 0;
+      direction: rtl;
+    }
+
+    /* ========== الشريط العلوي للقوائم ========= */
+    nav.navbar {
+      background: #156ab2;
+      color: #fff;
+      padding: 7px 0 0 0;
+      border-radius: 0 0 18px 18px;
+      box-shadow: 0 6px 24px #94d9fd26;
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: auto;
+      padding: 0 15px;
+    }
+
+    .nav-logo {
+      font-size: 1.21rem;
+      padding: 8px 24px;
+      letter-spacing: 1px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 7px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .nav-links li {
+      display: inline-block;
+    }
+
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+      padding: 9px 16px;
+      border-radius: 7px;
+      transition: .13s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background: #3482ce;
+      color: #fffd9b;
+    }
+
+    /* ========= تحسينات الجداول ========= */
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin-bottom: 1rem;
+    }
+
+    .table-container {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 3px 14px #b1e4ea2a;
+      margin-bottom: 1.6rem;
+    }
+
+    .enhanced-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 1.02rem;
+    }
+
+    .enhanced-table th {
+      background: #2066be;
+      color: #fff;
+      padding: 0.95rem 0.5rem;
+      font-weight: 600;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .enhanced-table td {
+      padding: 0.73rem;
+      border: 1px solid #bedff1;
+      text-align: center;
+      color: #174053;
+      font-size: 1.01rem;
+    }
+
+    .enhanced-table input[type="text"],
+    .enhanced-table input[type="number"] {
+      color: #174053 !important;
+      font-weight: 600;
+      background: #f5fdff;
+      border-radius: 8px;
+      padding: 5px 7px;
+      font-size: 1rem;
+      min-width: 80px;
+      max-width: 150px;
+    }
+
+    /* ========= الأزرار ========= */
+    .action-buttons {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      background: linear-gradient(90deg, #1ebea5 0%, #156ab2 100%);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 0.5rem 1.2rem;
+      font-size: 1rem;
+      margin-top: 0.2rem;
+      cursor: pointer;
+      transition: .15s;
+      min-height: 44px;
+      min-width: 44px;
+    }
+
+    .btn:hover {
+      background: linear-gradient(90deg, #2196f3 10%, #43d5a0 85%);
+    }
+
+    /* ========= التصميم المتجاوب ========= */
+    @media (max-width: 1150px) {
+      .nav-links {
+        gap: 5px;
+      }
+      
+      .nav-links a {
+        font-size: 0.95rem;
+        padding: 8px 12px;
+      }
+    }
+
+    @media (max-width: 960px) {
+      .enhanced-table {
+        font-size: 0.95rem;
+      }
+      
+      .enhanced-table th,
+      .enhanced-table td {
+        padding: 0.6rem 0.4rem;
+      }
+    }
+
+    @media (max-width: 800px) {
+      .table-header {
+        padding: 0.7rem;
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .table-wrapper::before {
+        content: "⟷ اسحب للرؤية الكاملة";
+        display: block;
+        text-align: center;
+        padding: 5px;
+        background: #e3f2fd;
+        color: #1976d2;
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .navbar {
+        position: relative;
+        padding-bottom: 10px;
+      }
+      
+      .nav-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .nav-logo {
+        margin-bottom: 10px;
+        text-align: center;
+        width: 100%;
+      }
+      
+      .nav-links {
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 0;
+      }
+      
+      .nav-links li {
+        width: 100%;
+        text-align: center;
+      }
+      
+      .nav-links a {
+        display: block;
+        padding: 10px;
+        width: 100%;
+        border-radius: 0;
+      }
+      
+      .btn {
+        width: 100%;
+        margin: 5px 0;
+      }
+    }
+
+    /* ========= الطباعة ========= */
+    @media print {
+      body {
+        background: white !important;
+      }
+      
+      header.main-header,
+      .navbar,
+      .controls-section,
+      .action-buttons,
+      .btn {
+        display: none !important;
+      }
+      
+      .table-container {
+        box-shadow: none;
+        border-radius: 0;
+      }
+      
+      .print-header {
+        display: block !important;
+      }
+      
+      .enhanced-table {
+        font-size: 1.04rem !important;
+      }
+    }
+
     .meeting-header {
       background: linear-gradient(135deg, var(--primary-color) 0%, #0056b3 100%);
       color: white;

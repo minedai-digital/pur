@@ -6,8 +6,446 @@
   <title>نظام إدارة المشتريات - الصفحة الرئيسية</title>
   <meta name="description" content="نظام إدارة المشتريات والتوريدات - النموذج الرئيسي">
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Lateef&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-
   <style>
+    /* =============== ألوان وثوابت التصميم =============== */
+    :root {
+      --primary-color: #2196f3;
+      --primary-dark: #1865be;
+      --success-color: #1ebea5;
+      --danger-color: #dc3545;
+      --warning-color: #ffc107;
+      --info-color: #156ab2;
+      --border-color: #bedff1;
+      --border-light: #f1f3f5;
+      --radius-md: 11px;
+      --radius-lg: 18px;
+      --radius-sm: 7px;
+      --shadow-md: 0 3px 14px #b0e6ef33;
+      --shadow-lg: 0 6px 24px #94d9fd26;
+      --shadow-xl: 0 7px 24px #6ddcff40;
+      --gradient-primary: linear-gradient(135deg, #2196f3 0%, #1865be 100%);
+      --gradient-success: linear-gradient(90deg, #1ebea5 0%, #156ab2 100%);
+      --gradient-hover: linear-gradient(90deg, #2196f3 10%, #43d5a0 85%);
+    }
+
+    /* ========== جسم الصفحة ========= */
+    body {
+      font-family: 'Cairo', 'Lateef', Arial, sans-serif;
+      background: #f8fafb;
+      margin: 0;
+      direction: rtl;
+    }
+
+    /* ========== الشريط العلوي للقوائم ========= */
+    nav.navbar {
+      background: #156ab2;
+      color: #fff;
+      padding: 7px 0 0 0;
+      border-radius: 0 0 18px 18px;
+      box-shadow: 0 6px 24px #94d9fd26;
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: auto;
+      padding: 0 15px;
+    }
+
+    .nav-logo {
+      font-size: 1.21rem;
+      padding: 8px 24px;
+      letter-spacing: 1px;
+      font-family: 'Amiri', serif;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 7px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .nav-links li {
+      display: inline-block;
+    }
+
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+      padding: 9px 16px;
+      border-radius: 7px;
+      transition: .13s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background: #3482ce;
+      color: #fffd9b;
+    }
+
+    .nav-login {
+      padding: 0 20px;
+    }
+
+    .btn-login {
+      background: #fcfbc3;
+      padding: 9px 18px;
+      border: 0;
+      border-radius: 7px;
+      font-size: 1rem;
+      color: #3269b7;
+      cursor: pointer;
+    }
+
+    .btn-login:hover {
+      background: #fff19e;
+    }
+
+    /* ========== الرأس الرئيسي ========= */
+    header.main-header {
+      background: linear-gradient(135deg, #2196f3 0%, #1865be 100%);
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+      box-shadow: 0 7px 24px #6ddcff40;
+      margin-bottom: 2rem;
+      border-radius: 0 0 25px 25px;
+    }
+
+    .main-header .entity-bar {
+      font-family: 'Lateef', 'Cairo';
+      font-size: 1.13rem;
+      background: #e3f7f9;
+      color: #215e87;
+      margin: 14px auto 0;
+      padding: 7px 12px;
+      display: inline-block;
+      border-radius: 6px;
+    }
+
+    /* ========= لوحة الإحصائيات ========= */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1.1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 1.3rem 0.7rem;
+      border-radius: 15px;
+      box-shadow: 0 3px 12px #b0dee233;
+      text-align: center;
+      min-width: 180px;
+    }
+
+    .stat-card h3 {
+      color: #2380bf;
+      font-size: 1.02rem;
+    }
+
+    .stat-card .stat-value {
+      font-size: 1.49rem;
+      font-weight: bold;
+      color: #166c81;
+    }
+
+    /* ========= تحسينات الجداول ========= */
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin-bottom: 1rem;
+    }
+
+    .table-container {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 3px 14px #b1e4ea2a;
+      margin-bottom: 1.6rem;
+    }
+
+    .table-header {
+      background: #2196f3;
+      color: white;
+      padding: 1rem 1.5rem;
+      font-weight: 600;
+      font-size: 1.04rem;
+    }
+
+    .enhanced-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 1.02rem;
+    }
+
+    .enhanced-table th {
+      background: #2066be;
+      color: #fff;
+      padding: 0.95rem 0.5rem;
+      font-weight: 600;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .enhanced-table td {
+      padding: 0.73rem;
+      border: 1px solid #bedff1;
+      text-align: center;
+      color: #174053;
+      font-size: 1.01rem;
+      white-space: nowrap;
+    }
+
+    .enhanced-table input[type="text"],
+    .enhanced-table input[type="number"] {
+      color: #174053 !important;
+      font-weight: 600;
+      background: #f5fdff;
+      border-radius: 8px;
+      padding: 5px 7px;
+      font-size: 1rem;
+      min-width: 80px;
+      max-width: 150px;
+    }
+
+    .enhanced-table tfoot td {
+      background: #ecf7fe;
+      font-weight: bold;
+    }
+
+    /* ========= الأزرار ========= */
+    .action-buttons {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      background: linear-gradient(90deg, #1ebea5 0%, #156ab2 100%);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 0.5rem 1.2rem;
+      font-size: 1rem;
+      margin-top: 0.2rem;
+      cursor: pointer;
+      transition: .15s;
+      min-height: 44px;
+      min-width: 44px;
+    }
+
+    .btn:hover {
+      background: linear-gradient(90deg, #2196f3 10%, #43d5a0 85%);
+    }
+
+    /* ========= التصميم المتجاوب ========= */
+    @media (max-width: 1150px) {
+      .entity-inputs {
+        flex-direction: column;
+        gap: 0.7rem;
+      }
+      
+      .nav-links {
+        gap: 5px;
+      }
+      
+      .nav-links a {
+        font-size: 0.95rem;
+        padding: 8px 12px;
+      }
+    }
+
+    @media (max-width: 960px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .input-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+      
+      .enhanced-table {
+        font-size: 0.95rem;
+      }
+      
+      .enhanced-table th,
+      .enhanced-table td {
+        padding: 0.6rem 0.4rem;
+      }
+    }
+
+    @media (max-width: 800px) {
+      header.main-header {
+        padding: 1.15rem;
+      }
+      
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .input-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .signatures-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .table-header {
+        padding: 0.7rem;
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .table-wrapper::before {
+        content: "⟷ اسحب للرؤية الكاملة";
+        display: block;
+        text-align: center;
+        padding: 5px;
+        background: #e3f2fd;
+        color: #1976d2;
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .navbar {
+        position: relative;
+        padding-bottom: 10px;
+      }
+      
+      .nav-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .nav-logo {
+        margin-bottom: 10px;
+        text-align: center;
+        width: 100%;
+      }
+      
+      .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 0;
+      }
+      
+      .nav-links.active {
+        display: flex;
+      }
+      
+      .nav-links li {
+        width: 100%;
+        text-align: center;
+      }
+      
+      .nav-links a {
+        display: block;
+        padding: 10px;
+        width: 100%;
+        border-radius: 0;
+      }
+      
+      .nav-toggle {
+        display: block;
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background: transparent;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+      
+      .btn {
+        width: 100%;
+        margin: 5px 0;
+      }
+    }
+
+    /* ========= الطباعة ========= */
+    @media print {
+      body {
+        background: white !important;
+      }
+      
+      header.main-header,
+      .navbar,
+      .controls-section,
+      .action-buttons,
+      .btn,
+      .entity-footer {
+        display: none !important;
+      }
+      
+      .table-header {
+        background: #2196f3 !important;
+      }
+      
+      .form-section,
+      .table-container,
+      .signatures-section {
+        box-shadow: none;
+        border-radius: 0;
+      }
+      
+      .print-header,
+      .print-stamp {
+        display: block !important;
+      }
+      
+      .signatures-section {
+        margin: 0;
+      }
+      
+      .enhanced-table {
+        font-size: 1.04rem !important;
+      }
+    }
+
+    /* ========= تنسيقات إضافية ========= */
+    .highlight-cell {
+      background: #9afdcd !important;
+      color: #084e27 !important;
+    }
+
+    input[type="number"],
+    input[pattern="\\d*"] {
+      -webkit-appearance: none;
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+
+    input::-webkit-inner-spin-button,
+    input::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+      box-sizing: border-box;
+    }
     body {font-family:'Cairo','Lateef',Arial,sans-serif; background:#f8fafb;}
     nav.navbar {background:#156ab2; color:#fff;padding:7px 0 0 0;border-radius:0 0 18px 18px;box-shadow:0 6px 24px #94d9fd26;}
     .nav-container{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:auto;}
