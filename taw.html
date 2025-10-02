@@ -5,12 +5,366 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>أمر التوريد - نظام إدارة المشتريات</title>
 <meta name="description" content="نظام إدارة أوامر التوريد والمشتريات">
-
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Lateef&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/shared.css">
 <link rel="stylesheet" href="css/print.css">
-
 <style>
+
+/* =============== ألوان وثوابت التصميم =============== */
+:root {
+  --primary-color: #2196f3;
+  --primary-dark: #1865be;
+  --success-color: #1ebea5;
+  --danger-color: #dc3545;
+  --warning-color: #ffc107;
+  --info-color: #156ab2;
+  --border-color: #bedff1;
+  --border-light: #f1f3f5;
+  --radius-md: 11px;
+  --radius-lg: 18px;
+  --radius-sm: 7px;
+  --shadow-md: 0 3px 14px #b0e6ef33;
+  --shadow-lg: 0 6px 24px #94d9fd26;
+  --shadow-xl: 0 7px 24px #6ddcff40;
+  
+  --gradient-primary: linear-gradient(135deg, #2196f3 0%, #1865be 100%);
+  --gradient-success: linear-gradient(90deg, #1ebea5 0%, #156ab2 100%);
+  --gradient-hover: linear-gradient(90deg, #2196f3 10%, #43d5a0 85%);
+}
+
+/* ========== جسم الصفحة ========= */
+body {
+  font-family: 'Cairo', Arial, Tahoma, sans-serif;
+  background: linear-gradient(135deg, #eff8f7 0%, #e9ecef 100%);
+  margin: 0;
+  direction: rtl;
+}
+
+/* ========== الرأس الرئيسي ========= */
+.supply-header {
+  background: var(--gradient-primary);
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
+  box-shadow: var(--shadow-xl);
+  margin-bottom: 2rem;
+  border-radius: 0 0 25px 25px;
+}
+
+.supply-header h1 {
+  font-family: 'Amiri', serif;
+  font-size: 2.2rem;
+  letter-spacing: 1px;
+  margin-bottom: 2px;
+}
+
+.supply-header p {
+  font-size: 1.13rem;
+  opacity: 0.9;
+  margin-top: 0.5rem;
+}
+
+.supply-header .entity-bar {
+  font-family: 'Lateef', 'Cairo';
+  font-size: 1.13rem;
+  background: #e3f7f9;
+  color: #215e87;
+  margin: 14px auto 0;
+  padding: 7px 12px;
+  display: inline-block;
+  border-radius: 6px;
+}
+
+/* ========= الرسائل ========= */
+.validation-message {
+  padding: 0.7rem 1.2rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  margin: 10px auto;
+  width: 95%;
+  text-align: center;
+  display: none;
+  font-weight: bold;
+}
+
+.validation-success { background: #d2f6da; color: #198754; }
+.validation-error   { background: #ffe2e6; color: #b02a37; }
+.validation-warning { background: #fff7ce; color: #856404; }
+
+/* ========= صندوق الإعدادات ========= */
+.entity-config-section {
+  margin-bottom: 2.2rem;
+}
+
+.entity-config-title {
+  font-family: 'Amiri', serif;
+  font-size: 1.18rem;
+  color: #2363b5;
+  margin-bottom: 1rem;
+}
+
+.entity-inputs {
+  display: flex;
+  gap: 1.1rem;
+  flex-wrap: wrap;
+}
+
+.entity-inputs .enhanced-input {
+  flex: 1;
+}
+
+@media (max-width: 1150px) {
+  .entity-inputs {
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+}
+
+/* ========= ملخص الطلب ========= */
+.order-summary {
+  background: linear-gradient(135deg, #ffffff 40%, #e9ecef 100%);
+  padding: 1.5rem 1.2rem;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--success-color);
+  margin-bottom: 2rem;
+  max-width: 440px;
+}
+
+/* ========= أقسام النموذج ========= */
+.supplier-section,
+.form-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 17px;
+  box-shadow: 0 3px 14px #b0e6ef33;
+  margin-bottom: 2rem;
+}
+
+.input-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.4rem;
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  font-family: 'Amiri', serif;
+  font-size: 1.22rem;
+  color: #1769ae;
+  margin-bottom: 1.4rem;
+}
+
+/* ========= عناصر الإدخال ========= */
+.enhanced-input {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  color: #165b62;
+  font-weight: 700;
+  font-size: 1.02rem;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #1765ae;
+  border-radius: 11px;
+  font-size: 1rem;
+  color: #0e375c;
+  transition: all 0.2s ease;
+}
+
+.form-control:focus {
+  border-color: #2196f3;
+  outline: none;
+  box-shadow: 0 0 0 0.14rem #aae6e911;
+}
+
+/* ========= الجداول ========= */
+.table-container {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 3px 14px #b1e4ea2a;
+  margin-bottom: 1.6rem;
+}
+
+.table-header {
+  background: var(--primary-color);
+  color: white;
+  padding: 1rem 1.5rem;
+  font-weight: 600;
+  font-size: 1.04rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.enhanced-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1.02rem;
+  background: white;
+}
+
+.enhanced-table thead th {
+  background: var(--info-color);
+  color: #fff;
+  padding: 0.95rem 0.5rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.enhanced-table tbody td,
+.enhanced-table tfoot td {
+  padding: 0.73rem;
+  border: 1px solid var(--border-color);
+  text-align: center;
+  color: #174053;
+}
+/* التمييز */
+.tax-cell { background: #fffde8; color: #8a5a0d; font-weight: bold;}
+.sum-cell { background: #f2fcf6; color: #106c43;}
+.totalw-cell { background: #f5f8fa; font-weight:bold;}
+.highlight { background: #d0f5f7 !important; color: #198754; font-weight:bold;}
+
+/* ========= أزرار الإجراءات ========= */
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn, .btn-login {
+  background: var(--gradient-success);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  margin-top: 0.2rem;
+  cursor: pointer;
+  transition: .15s;
+  font-family: inherit;
+}
+
+.btn:hover {
+  background: var(--gradient-hover);
+}
+
+.btn-primary { background: var(--gradient-primary); }
+.btn-success { background: var(--gradient-success); }
+.btn-info { background: var(--gradient-primary); }
+.btn-warning { background: var(--warning-color); color: #856404; }
+.btn-secondary { background: linear-gradient(135deg, #6c757d 0%, #495057 100%); }
+
+.btn-icon span { 
+  margin-left: 5px;
+  font-size: 1.1em;
+}
+
+/* ========= التواقيع ========= */
+.signatures-section {
+  background: white;
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  margin-bottom: 2rem;
+}
+
+.signatures-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1.3rem;
+}
+
+.signature-card {
+  background: #f5f9fc;
+  padding: 1.1rem;
+  border-radius: 12px;
+  border: 1px solid #d2eaf1;
+}
+
+/* ========= منطقة الطباعة ========= */
+.print-logo {
+  display: none;
+}
+
+@media print {
+  body { background: #fff !important; }
+  .container { padding: 0 !important; margin: 0 !important; box-shadow: none;}
+  .controls-section,.order-summary,.navbar { display: none !important;}
+  .print-logo { display: block !important; }
+}
+
+/* ========= عناصر فرعية إضافية ========= */
+.tax-rate-input {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.tax-rate-input input {
+  border: 2px solid var(--primary-color);
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-weight: bold;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.badge-success { background: var(--success-color); color: #fff; border-radius: 8px;}
+.badge-warning { background: var(--warning-color); color: #856404; border-radius: 8px;}
+.badge-error { background: var(--danger-color); color: #fff; border-radius: 8px;}
+
+.section-title { font-size: 1.14rem; font-weight: 700; color: var(--success-color); margin-bottom: 15px;}
+.navbar ul { list-style: none; padding: 0; margin: 0;}
+.navbar ul li { display: inline-block; margin-left: 7px;}
+.navbar ul li a { text-decoration: none; padding: 6px 16px; color: var(--primary-color); font-weight: 600;}
+.navbar ul li a.active { background: var(--success-color); color: #fff; border-radius: 6px;}
+.navbar { background: #fff; padding: 10px 0; box-shadow: 0 2px 10px rgba(16,16,16,0.05); margin-bottom: 7px;}
+.nav-container {max-width: 1000px; margin: auto; display: flex; align-items: center; justify-content: space-between;}
+.nav-logo { font-weight: bold; font-size: 1.1rem;}
+.nav-login { margin-right: 12px;}
+
+@media (max-width: 600px) {
+ .container, .entity-config-section, .order-summary, .supplier-section, .signatures-section, .table-container { padding: 7px 2px !important;}
+ .signatures-grid { flex-direction: column;}
+ .order-summary { max-width: 99vw; }
+}
+
+::-webkit-input-placeholder { color: #a8adb7; font-weight: 400;}
+::-moz-placeholder { color: #a8adb7; }
+:-ms-input-placeholder { color: #a8adb7;}
+::placeholder { color: #a8adb7;}
+
+.datalist {background: #fff;}
+
+/* رسومات التحميل */
+.loading-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.3); display: flex; align-items: center; justify-content: center; z-index: 9999;
+  display: none;
+}
+.loading-content {
+  background: #fff; padding: 2rem; border-radius: var(--radius-lg);
+  text-align: center; box-shadow: var(--shadow-xl);
+}
+.spinner {
+  width: 40px; height: 40px; border: 4px solid #f3f3f3;
+  border-top: 4px solid var(--primary-color); border-radius: 50%;
+  animation: spin 1s linear infinite; margin: 0 auto 1rem;
+}
+@keyframes spin {0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); }}
+
+
+
+
+
   .supply-header {
     background: linear-gradient(135deg, var(--success-color) 0%, #198754 100%);
     color: white;
@@ -19,13 +373,7 @@
     box-shadow: var(--shadow-lg);
     margin-bottom: 2rem;
   }
-  
-  .supply-header h1 {
-    font-size: 2rem;
-    margin: 0;
-    font-weight: 700;
-  }
-  
+  .supply-header h1 { font-size: 2rem; margin: 0; font-weight: 700; }
   .supplier-section {
     background: white;
     padding: 2rem;
@@ -34,7 +382,6 @@
     margin-bottom: 2rem;
     border-left: 4px solid var(--success-color);
   }
-  
   .order-summary {
     background: linear-gradient(135deg, #f8f9fa, #e9ecef);
     padding: 1.5rem;
@@ -42,222 +389,227 @@
     border: 2px solid var(--success-color);
     margin-bottom: 2rem;
   }
-  
   .summary-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid var(--border-light);
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.75rem 0; border-bottom: 1px solid var(--border-light);
   }
-  
   .summary-item:last-child {
-    border-bottom: none;
-    font-weight: bold;
-    font-size: 1.1rem;
-    color: var(--success-color);
+    border-bottom: none; font-weight: bold; font-size: 1.1rem; color: var(--success-color);
   }
-  
   .item-input {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
+    width: 100%; padding: 0.5rem; border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm); font-size: 0.9rem; transition: all 0.3s ease;
   }
-  
   .item-input:focus {
     border-color: var(--success-color);
     box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.15);
   }
-  
   .tax-highlight {
     background: linear-gradient(45deg, #fff3cd, #ffeaa7);
     font-weight: bold;
   }
-  
-  .tax-rate-input {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
+/* تخصيص الإدخال الضريبي */
+.tax-rate-input {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tax-rate-input input {
+  border: 2px solid var(--primary-color);
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-weight: bold;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.tax-rate-input input:focus {
+  outline: none;
+  border-color: var(--success-color);
+  box-shadow: 0 0 0 0.14rem #aae6e911;
+}
+
+/* شارات الحالة */
+.validation-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+.badge-success {
+  background: var(--success-color);
+  color: white;
+}
+
+.badge-warning {
+  background: var(--warning-color);
+  color: #856404;
+}
+
+.badge-error {
+  background: var(--danger-color);
+  color: white;
+}
+
+/* ملف الطباعة */
+.print-logo {
+  display: none;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  width: 120px;
+  height: auto;
+  z-index: 1000;
+}
+
+@media print {
+  body {
+    background: white !important;
   }
-  
-  .tax-rate-input input {
-    border: 2px solid var(--primary-color);
-    border-radius: 5px;
-    padding: 2px 5px;
-    text-align: center;
-    font-weight: bold;
+  .container {
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none;
   }
-  
-  .tax-rate-input input:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+  .navbar, .controls-section, .order-summary {
+    display: none !important;
   }
-  
-  .validation-badge {
-    display: inline-block;
-    padding: 0.25rem 0.5rem;
-    border-radius: var(--radius-sm);
-    font-size: 0.75rem;
-    font-weight: 600;
-    margin-left: 0.5rem;
-  }
-  
-  .badge-success {
-    background: var(--success-color);
-    color: white;
-  }
-  
-  .badge-warning {
-    background: var(--warning-color);
-    color: #856404;
-  }
-  
-  .badge-error {
-    background: var(--danger-color);
-    color: white;
-  }
-  
   .print-logo {
-    display: none;
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    width: 120px;
-    height: auto;
-    z-index: 1000;
+    display: block !important;
   }
-  
-  @media print {
-    .navbar, .controls-section, .order-summary {
-      display: none !important;
-    }
-    
-    .print-logo {
-      display: block !important;
-    }
-    
-    body {
-      background: white;
-    }
-    
-    .container {
-      margin: 0;
-      padding: 15px;
-      box-shadow: none;
-    }
-  }
-  
-  .loading-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-  }
-  
-  .loading-content {
-    background: white;
-    padding: 2rem;
-    border-radius: var(--radius-lg);
-    text-align: center;
-    box-shadow: var(--shadow-xl);
-  }
-  
-  .spinner {
-    width: 40px;
-    height: 40px;
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid var(--primary-color);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 0 auto 1rem;
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
+}
+
+/* شاشة التحميل */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  display: none;
+}
+
+.loading-content {
+  background: white;
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  text-align: center;
+  box-shadow: var(--shadow-xl);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* تعديل المدخلات في الجدول */
+.enhanced-table input[type="text"],
+.enhanced-table input[type="number"] {
+  color: #174053 !important;
+  font-weight: 600;
+  background: #f5fdff;
+  border-radius: 8px;
+  padding: 5px 7px;
+  font-size: 1rem;
+}
+
+/* تخصيص خلايا الإجمالي */
+.tax-cell {
+  background: #fffde8 !important;
+  color: #8d710c !important;
+}
+
+.sum-cell {
+  color: #0e8037;
+}
+
+.highlight-cell {
+  background: #9afdcd !important;
+  color: #084e27 !important;
+}
+
+/* تخصيص التذييل */
+.entity-footer {
+  margin-top: 18px;
+  font-family: 'Lateef', 'Cairo';
+  text-align: right;
+  font-size: 1.08rem;
+  color: #144054;
+}
 </style>
 </head>
-
 <body>
-<!-- Print Logo -->
 <img src="images/logo.png" class="print-logo" alt="Logo">
-
-<!-- Loading Overlay -->
 <div class="loading-overlay" id="loadingOverlay">
   <div class="loading-content">
     <div class="spinner"></div>
     <p>جاري المعالجة...</p>
   </div>
 </div>
-
-<!-- Navigation -->
 <nav class="navbar">
-    <div class="nav-container">
-      <div class="nav-logo">
-        <span class="nav-icon">🏥</span>
-        نظام إدارة المشتريات
-      </div>
-      <ul class="nav-links">
-        <li><a href="main.html">📋 النموذج الرئيسي</a></li>
-        <li><a href="taw.html" class="active">📦 أمر التوريد</a></li>
-        <li><a href="taf.html">💰 تفريغ الأسعار</a></li>
-        <li><a href="mahdr.html">📝 المحضر</a></li>
-        <li><a href="talab.html">📄 طلب الشراء</a></li>
-        <li><a href="moka.html">📈 المقايسة</a></li>
-        <li><a href="tash.html">👥 تشكيل لجنة</a></li>
-        <li><a href="custom.html">📊 الضرائب</a></li>
-      </ul>
-      <div class="nav-login">
-        <button class="btn-login" onclick="if(confirm('هل أنت متأكد من تسجيل الخروج؟')) window.location.href='index.html'" title="تسجيل الخروج">
-          <span>🚪</span> تسجيل الخروج
-        </button>
-      </div>
-      <div class="nav-toggle" onclick="toggleMenu()">
-        <span>☰</span>
-      </div>
+  <div class="nav-container">
+    <div class="nav-logo">
+      <span class="nav-icon">🏥</span>
+      نظام إدارة المشتريات
     </div>
-  </nav>
-
-<!-- Main Header -->
+    <ul class="nav-links">
+      <li><a href="main.html">📋 النموذج الرئيسي</a></li>
+      <li><a href="taw.html" class="active">📦 أمر التوريد</a></li>
+      <li><a href="taf.html">💰 تفريغ الأسعار</a></li>
+      <li><a href="mahdr.html">📝 المحضر</a></li>
+      <li><a href="talab.html">📄 طلب الشراء</a></li>
+      <li><a href="moka.html">📈 المقايسة</a></li>
+      <li><a href="tash.html">👥 تشكيل لجنة</a></li>
+      <li><a href="custom.html">📊 الضرائب</a></li>
+    </ul>
+    <div class="nav-login">
+      <button class="btn-login" onclick="if(confirm('هل أنت متأكد من تسجيل الخروج؟')) window.location.href='index.html'" title="تسجيل الخروج">
+        <span>🚪</span> تسجيل الخروج
+      </button>
+    </div>
+    <div class="nav-toggle" onclick="toggleMenu()">
+      <span>☰</span>
+    </div>
+  </div>
+</nav>
 <header class="supply-header">
   <h1>أمر التوريد</h1>
   <p>نظام إدارة أوامر التوريد والمشتريات</p>
 </header>
-
-<!-- Alert Messages -->
 <div id="alertSuccess" class="validation-message validation-success"></div>
 <div id="alertError" class="validation-message validation-error"></div>
 <div id="alertWarning" class="validation-message validation-warning"></div>
-
-  <!-- Print Header (repeats on each page) -->
-  <div class="print-header print-only" style="display: none;">
-    <div class="print-logo">
-      <!-- <img src="images/logo.png" alt="شعار الجهة"> -->
-    </div>
-    <div class="print-entity-info">
-      <div class="print-entity-name" id="printEntityName">الإدارة الصحية بسمنود</div>
-      <div class="print-department" id="printDepartment">إدارة العقود والمشتريات</div>
-      <div class="print-page-title">أمر التوريد</div>
-    </div>
-    <div class="print-date" id="printDate"></div>
+<div class="print-header print-only" style="display: none;">
+  <div class="print-logo"></div>
+  <div class="print-entity-info">
+    <div class="print-entity-name" id="printEntityName">الإدارة الصحية بسمنود</div>
+    <div class="print-department" id="printDepartment">إدارة العقود والمشتريات</div>
+    <div class="print-page-title">أمر التوريد</div>
   </div>
-
+  <div class="print-date" id="printDate"></div>
+</div>
 <div class="container supply-form">
-  <!-- Entity Configuration Section -->
   <div class="entity-config-section">
-    <h3 class="entity-config-title">
-      <span>🏥</span> إعدادات الجهة
-    </h3>
+    <h3 class="entity-config-title"><span>🏥</span> إعدادات الجهة</h3>
     <div class="entity-inputs">
       <div class="enhanced-input">
         <label class="form-label">اسم الجهة:</label>
@@ -269,36 +621,68 @@
       </div>
     </div>
   </div>
-
-  <!-- Order Summary -->
-  <div class="order-summary">
-    <h3 class="section-title">📊 ملخص الطلب</h3>
-    <div class="summary-item">
-      <span>عدد الأصناف:</span>
-      <span id="totalItems" class="validation-badge badge-success">0</span>
-    </div>
-    <div class="summary-item">
-      <span>إجمالي قبل الضريبة:</span>
-      <span id="subtotal">0.00 ج.م</span>
-    </div>
-    <div class="summary-item">
-      <span>نسبة الضريبة:</span>
+  <!-- لوحة الإحصائيات -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <h3>عدد الأصناف</h3>
+    <div class="stat-value" id="totalItems">0</div>
+  </div>
+  <div class="stat-card">
+    <h3>إجمالي قبل الضريبة</h3>
+    <div class="stat-value" id="subtotal">0.00 ج.م</div>
+  </div>
+  <div class="stat-card">
+    <h3>نسبة الضريبة
       <div class="tax-rate-input">
-        <input type="number" id="taxRate" class="form-control" value="14" min="0" max="100" step="0.1" style="width: 80px; display: inline-block;">
+        <input type="number" id="taxRate" value="14" min="0" max="100" step="0.1" style="width: 60px;">
         <span>%</span>
       </div>
-    </div>
-    <div class="summary-item">
-      <span>قيمة الضريبة <span id="taxRateDisplay"></span>:</span>
-      <span id="taxAmount" class="tax-highlight">0.00 ج.م</span>
-    </div>
-    <div class="summary-item">
-      <span>إجمالي بعد الضريبة:</span>
-      <span id="grandTotal">0.00 ج.م</span>
-    </div>
+    </h3>
+    <div class="stat-value tax-highlight" id="taxAmount">0.00 ج.م</div>
   </div>
+  <div class="stat-card">
+    <h3>الإجمالي النهائي</h3>
+    <div class="stat-value highlight" id="grandTotal">0.00 ج.م</div>
+  </div>
+</div>
 
-  <!-- Supplier Information -->
+<style>
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: white;
+  padding: 1.3rem 0.7rem;
+  border-radius: 15px;
+  box-shadow: 0 3px 12px #b0dee233;
+  text-align: center;
+  min-width: 180px;
+}
+
+.stat-card h3 {
+  color: #2380bf;
+  font-size: 1.02rem;
+  margin-bottom: 10px;
+}
+
+.stat-card .stat-value {
+  font-size: 1.49rem;
+  font-weight: bold;
+  color: #166c81;
+}
+
+.tax-highlight {
+  color: #8d710c !important;
+}
+
+.highlight {
+  color: #198754 !important;
+}
+</style>
   <div class="supplier-section">
     <h3 class="section-title">🏢 بيانات المورد</h3>
     <div class="input-grid">
@@ -307,7 +691,7 @@
         <input list="suppliersList" id="supplierName" class="form-control" placeholder="اختر المورد" required>
       </div>
       <div class="enhanced-input">
-        <label class="form-label">عنوان المورح:</label>
+        <label class="form-label">عنوان المورد:</label>
         <input type="text" id="supplierAddress" class="form-control" placeholder="عنوان المورد">
       </div>
       <div class="enhanced-input">
@@ -328,8 +712,6 @@
       </div>
     </div>
   </div>
-
-  <!-- Items Table -->
   <div class="table-container">
     <div class="table-header">
       <span>📋 جدول الأصناف والأسعار</span>
@@ -343,8 +725,6 @@
       </div>
       <div style="clear: both;"></div>
     </div>
-
-    <!-- Enhanced Table -->
     <table class="enhanced-table" id="itemsTable">
       <thead>
         <tr>
@@ -370,8 +750,6 @@
       </tfoot>
     </table>
   </div>
-
-  <!-- Signatures Section -->
   <div class="signatures-section">
     <h3 class="section-title">✍️ التوقيعات والاعتمادات</h3>
     <div class="signatures-grid">
@@ -389,13 +767,9 @@
       </div>
     </div>
   </div>
-
-  <!-- Print Stamp Area (hidden on screen, visible in print) -->
   <div class="print-stamp print-only" style="display: none;">
     🏥 ختم الجهة المختصة
   </div>
-
-  <!-- Controls Section -->
   <div class="controls-section">
     <h3 class="section-title">🛠️ أدوات التحكم</h3>
     <div class="action-buttons">
@@ -420,21 +794,127 @@
     </div>
   </div>
 </div>
-
-  <!-- Print Stamp Area -->
-  <div class="print-stamp print-only" style="display: none;">
-    🏥 ختم الجهة المختصة
-  </div>
-
-<!-- datalists -->
-<!-- datalists -->
 <datalist id="suppliersList"></datalist>
 <datalist id="itemsList"></datalist>
 <datalist id="staffList"></datalist>
+<script>
+function getValue(id) { return document.getElementById(id)?.value || ""; }
+function setValue(id, val) { if(document.getElementById(id)) document.getElementById(id).value = val || ""; }
 
-  <script src="js/data.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/taw.js"></script>
-
+function saveData() {
+  let data = {
+    entityName: getValue('entityName'),
+    entityDepartment: getValue('entityDepartment'),
+    supplierName: getValue('supplierName'),
+    supplierAddress: getValue('supplierAddress'),
+    supplierPhone: getValue('supplierPhone'),
+    orderDate: getValue('orderDate'),
+    taxId: getValue('taxId'),
+    orderNumber: getValue('orderNumber'),
+    taxRate: getValue('taxRate'),
+    items: Array.from(document.querySelectorAll('#itemsTable tbody tr')).map(tr => ({
+      name: tr.cells[1].querySelector('input').value,
+      unit: tr.cells[2].querySelector('input').value,
+      qty: tr.cells[3].querySelector('input').value,
+      price: tr.cells[4].querySelector('input').value,
+      notes: tr.cells[8].querySelector('input').value
+    })),
+    officer: getValue('officer'),
+    head: getValue('head'),
+    approved: getValue('approved')
+  };
+  localStorage.setItem("tawFormData", JSON.stringify(data));
+  alert("تم حفظ بيانات أمر التوريد.");
+}
+function loadData() {
+  let d = localStorage.getItem("tawFormData");
+  if (!d) return;
+  let data = JSON.parse(d);
+  Object.entries(data).forEach(([k,v]) => { if(k!=="items") setValue(k, v); });
+  const tbody = document.querySelector('#itemsTable tbody');
+  tbody.innerHTML = '';
+  if (data.items) { data.items.forEach((item,i)=>{ tbody.appendChild(createOrderRow(i+1,item)); }); }
+  updateOrderSummary();
+}
+function loadFromMain() {
+  let d = localStorage.getItem("mainFormData");
+  if (!d) return alert("لا يوجد بيانات محفوظة من الصفحة الرئيسية.");
+  let data = JSON.parse(d);
+  setValue('entityName', data.entityName);
+  setValue('entityDepartment', data.entityDepartment);
+  setValue('supplierName', data.supplier1);
+  setValue('orderDate', data.date);
+  setValue('taxRate', data.taxRate || "14");
+  const tbody = document.querySelector('#itemsTable tbody');
+  tbody.innerHTML = '';
+  if (data.table) {
+    data.table.forEach((row,i)=>{
+      tbody.appendChild(createOrderRow(i+1,{
+        name: row.name, unit: row.unit, qty: row.qty, price: row.price1, notes: row.notes
+      }));
+    });
+  }
+  updateOrderSummary();
+}
+function createOrderRow(num, item = {}) {
+  let tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>${num}</td>
+    <td><input type="text" value="${item.name||''}" placeholder="الصنف"></td>
+    <td><input type="text" value="${item.unit||''}" placeholder="الوحدة"></td>
+    <td><input type="number" value="${item.qty||''}" min="0" style="width:70px"></td>
+    <td><input type="number" value="${item.price||''}" min="0" style="width:90px"></td>
+    <td class="sum-cell"></td>
+    <td class="tax-cell"></td>
+    <td class="totalw-cell"></td>
+    <td><input type="text" value="${item.notes||''}" placeholder="ملاحظات"></td>
+    <td><button onclick="this.closest('tr').remove(); updateOrderSummary();" class="btn">مسح</button></td>
+  `;
+  return tr;
+}
+function addRow(){
+  const tbody = document.querySelector('#itemsTable tbody');
+  tbody.appendChild(createOrderRow(tbody.rows.length+1));
+  updateOrderSummary();
+}
+function updateOrderSummary() {
+  let taxRate = parseFloat(getValue('taxRate')) || 0;
+  let tbody = document.querySelector('#itemsTable tbody');
+  let subtotal = 0, totalItems = 0;
+  [...tbody.rows].forEach(tr => {
+    let qty = parseFloat(tr.cells[3].querySelector('input').value) || 0;
+    let price = parseFloat(tr.cells[4].querySelector('input').value) || 0;
+    let sum = qty * price;
+    subtotal += sum;
+    if(qty>0) totalItems++;
+    tr.cells[5].textContent = sum.toFixed(2);
+    let taxValue = sum*taxRate/100;
+    tr.cells[6].textContent = taxValue.toFixed(2);
+    tr.cells[7].textContent = (sum+taxValue).toFixed(2);
+  });
+  let taxAmount = subtotal*taxRate/100;
+  document.getElementById('totalItems').textContent = totalItems;
+  document.getElementById('subtotal').textContent = subtotal.toFixed(2) + " ج.م";
+  document.getElementById('taxRateDisplay').textContent = "(" + (taxRate || 0) + "%)";
+  document.getElementById('taxAmount').textContent = taxAmount.toFixed(2) + " ج.م";
+  document.getElementById('grandTotal').textContent = (subtotal+taxAmount).toFixed(2) + " ج.م";
+  document.getElementById('totalFinal').textContent = (subtotal+taxAmount).toFixed(2);
+  document.getElementById('tableHeaderTaxRate').textContent = (taxRate || 0)+'%';
+}
+document.addEventListener('input', function(e){
+  if(e.target.matches('#taxRate, #itemsTable input[type="number"], #itemsTable input[type="text"]')) updateOrderSummary();
+});
+document.addEventListener('DOMContentLoaded',function(){
+  loadData();
+  updateOrderSummary();
+});
+function clearTable() {
+  const tbody = document.querySelector('#itemsTable tbody');
+  tbody.innerHTML = '';
+  updateOrderSummary();
+}
+function printOrder() { window.print(); }
+function toggleMenu(){ /* للتوافق، إذا رغبت في قائمة جانبية للهاتف */ }
+</script>
 </body>
 </html>
