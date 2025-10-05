@@ -1,871 +1,1135 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>نظام إدارة المشتريات - الصفحة الرئيسية</title>
-  <meta name="description" content="نظام إدارة المشتريات والتوريدات - النموذج الرئيسي">
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Lateef&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    /* =============== ألوان وثوابت التصميم =============== */
-    :root {
-      --primary-color: #2196f3;
-      --primary-dark: #1865be;
-      --success-color: #1ebea5;
-      --danger-color: #dc3545;
-      --warning-color: #ffc107;
-      --info-color: #156ab2;
-      --border-color: #bedff1;
-      --border-light: #f1f3f5;
-      --radius-md: 11px;
-      --radius-lg: 18px;
-      --radius-sm: 7px;
-      --shadow-md: 0 3px 14px #b0e6ef33;
-      --shadow-lg: 0 6px 24px #94d9fd26;
-      --shadow-xl: 0 7px 24px #6ddcff40;
-      --gradient-primary: linear-gradient(135deg, #2196f3 0%, #1865be 100%);
-      --gradient-success: linear-gradient(90deg, #1ebea5 0%, #156ab2 100%);
-      --gradient-hover: linear-gradient(90deg, #2196f3 10%, #43d5a0 85%);
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام إدارة المشتريات - النسخة المحسّنة</title>
+    <meta name="description" content="نظام إدارة المشتريات والتوريدات - النموذج الرئيسي">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Lateef&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2196f3;
+            --primary-dark: #1865be;
+            --success-color: #1ebea5;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --info-color: #156ab2;
+            --border-color: #bedff1;
+            --text-dark: #0e375c;
+            --text-light: #174053;
+            --radius-sm: 7px;
+            --radius-md: 11px;
+            --radius-lg: 18px;
+            --shadow-md: 0 3px 14px rgba(176, 230, 239, 0.2);
+            --gradient-primary: linear-gradient(135deg, #2196f3 0%, #1865be 100%);
+            --gradient-success: linear-gradient(90deg, #1ebea5 0%, #156ab2 100%);
+            --gradient-hover: linear-gradient(90deg, #2196f3 10%, #43d5a0 85%);
+        }
 
-    /* ========== جسم الصفحة ========= */
-    body {
-      font-family: 'Cairo', 'Lateef', Arial, sans-serif;
-      background: #f8fafb;
-      margin: 0;
-      direction: rtl;
-    }
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
 
-    /* ========== الشريط العلوي للقوائم ========= */
-    nav.navbar {
-      background: #156ab2;
-      color: #fff;
-      padding: 7px 0 0 0;
-      border-radius: 0 0 18px 18px;
-      box-shadow: 0 6px 24px #94d9fd26;
-    }
+        body {
+            font-family: 'Cairo', 'Lateef', sans-serif;
+            background-color: #f8fafb;
+            margin: 0;
+            direction: rtl;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
 
-    .nav-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      max-width: 1200px;
-      margin: auto;
-      padding: 0 15px;
-    }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
 
-    .nav-logo {
-      font-size: 1.21rem;
-      padding: 8px 24px;
-      letter-spacing: 1px;
-      font-family: 'Amiri', serif;
-    }
+        /* الشريط العلوي */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: var(--info-color);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            transition: box-shadow 0.3s ease;
+        }
 
-    .nav-links {
-      display: flex;
-      gap: 7px;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
 
-    .nav-links li {
-      display: inline-block;
-    }
+        .nav-logo {
+            font-size: 1.21rem;
+            font-family: 'Amiri', serif;
+            letter-spacing: 0.5px;
+        }
 
-    .nav-links a {
-      color: #fff;
-      text-decoration: none;
-      font-size: 1rem;
-      padding: 9px 16px;
-      border-radius: 7px;
-      transition: .13s;
-    }
+        .nav-links {
+            display: flex;
+            gap: 7px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
 
-    .nav-links a:hover,
-    .nav-links a.active {
-      background: #3482ce;
-      color: #fffd9b;
-    }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 9px 16px;
+            border-radius: var(--radius-sm);
+            transition: background 0.2s ease;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 600;
+        }
 
-    .nav-login {
-      padding: 0 20px;
-    }
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: var(--gradient-hover);
+            color: #fffd9b;
+        }
 
-    .btn-login {
-      background: #fcfbc3;
-      padding: 9px 18px;
-      border: 0;
-      border-radius: 7px;
-      font-size: 1rem;
-      color: #3269b7;
-      cursor: pointer;
-    }
+        .btn-login {
+            background-color: #fcfbc3;
+            padding: 9px 18px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            color: #3269b7;
+            cursor: pointer;
+            font-family: 'Cairo';
+            font-weight: bold;
+            transition: background 0.13s ease;
+        }
 
-    .btn-login:hover {
-      background: #fff19e;
-    }
+        .btn-login:hover {
+            background: #fdf9ac;
+        }
 
-    /* ========== الرأس الرئيسي ========= */
-    header.main-header {
-      background: linear-gradient(135deg, #2196f3 0%, #1865be 100%);
-      color: white;
-      padding: 2rem 1rem;
-      text-align: center;
-      box-shadow: 0 7px 24px #6ddcff40;
-      margin-bottom: 2rem;
-      border-radius: 0 0 25px 25px;
-    }
+        /* الترويسة الرئيسية */
+        .main-header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 1.6rem 1rem;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+            border-radius: 0 0 25px 25px;
+        }
 
-    .main-header .entity-bar {
-      font-family: 'Lateef', 'Cairo';
-      font-size: 1.13rem;
-      background: #e3f7f9;
-      color: #215e87;
-      margin: 14px auto 0;
-      padding: 7px 12px;
-      display: inline-block;
-      border-radius: 6px;
-    }
+        .main-header h1 {
+            font-family: 'Amiri', serif;
+            font-size: 2.2rem;
+            margin: 0;
+            letter-spacing: 0.7px;
+        }
 
-    /* ========= لوحة الإحصائيات ========= */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 1.1rem;
-      margin-bottom: 2rem;
-    }
+        .entity-bar {
+            font-size: 1.13rem;
+            background-color: #e3f7f9;
+            color: #215e87;
+            margin: 10px auto 0;
+            padding: 7px 12px;
+            display: inline-block;
+            border-radius: var(--radius-sm);
+            min-width: 110px;
+        }
 
-    .stat-card {
-      background: white;
-      padding: 1.3rem 0.7rem;
-      border-radius: 15px;
-      box-shadow: 0 3px 12px #b0dee233;
-      text-align: center;
-      min-width: 180px;
-    }
+        /* الإحصائيات */
+        .stats-summary {
+            display: flex;
+            justify-content: center;
+            gap: 2.2rem;
+            flex-wrap: wrap;
+            align-items: center;
+            margin: 1.1rem 0 1.4rem;
+        }
 
-    .stat-card h3 {
-      color: #2380bf;
-      font-size: 1.02rem;
-    }
+        .stats-summary > div {
+            font-size: 1.08rem;
+            font-weight: 700;
+        }
 
-    .stat-card .stat-value {
-      font-size: 1.49rem;
-      font-weight: bold;
-      color: #166c81;
-    }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 1.1rem;
+            margin-bottom: 2rem;
+        }
 
-    /* ========= تحسينات الجداول ========= */
-    .table-wrapper {
-      width: 100%;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      margin-bottom: 1rem;
-    }
+        .stat-card {
+            background-color: white;
+            padding: 1.25rem 0.75rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            text-align: center;
+            transition: box-shadow 0.2s ease, transform 0.2s ease;
+        }
 
-    .table-container {
-      background: white;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 3px 14px #b1e4ea2a;
-      margin-bottom: 1.6rem;
-    }
+        .stat-card:hover {
+            box-shadow: 0 5px 20px rgba(176, 230, 239, 0.3);
+            transform: translateY(-2px);
+        }
 
-    .table-header {
-      background: #2196f3;
-      color: white;
-      padding: 1rem 1.5rem;
-      font-weight: 600;
-      font-size: 1.04rem;
-    }
+        .stat-card h3 {
+            color: #2380bf;
+            font-size: 1.04rem;
+            margin-bottom: 0.3rem;
+        }
 
-    .enhanced-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 1.02rem;
-    }
+        .stat-card .stat-value {
+            font-size: 1.49rem;
+            font-weight: bold;
+            color: #166c81;
+        }
 
-    .enhanced-table th {
-      background: #2066be;
-      color: #fff;
-      padding: 0.95rem 0.5rem;
-      font-weight: 600;
-      text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 1;
-    }
+        /* الأقسام */
+        .form-section,
+        .signatures-section,
+        .controls-section,
+        .entity-config-section {
+            background-color: white;
+            padding: 2rem 1.1rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+        }
 
-    .enhanced-table td {
-      padding: 0.73rem;
-      border: 1px solid #bedff1;
-      text-align: center;
-      color: #174053;
-      font-size: 1.01rem;
-      white-space: nowrap;
-    }
+        .section-title {
+            font-family: 'Amiri', serif;
+            font-size: 1.22rem;
+            color: #1769ae;
+            margin: 0 0 1.1rem 0;
+            display: flex;
+            align-items: center;
+        }
 
-    .enhanced-table input[type="text"],
-    .enhanced-table input[type="number"] {
-      color: #174053 !important;
-      font-weight: 600;
-      background: #f5fdff;
-      border-radius: 8px;
-      padding: 5px 7px;
-      font-size: 1rem;
-      min-width: 80px;
-      max-width: 150px;
-    }
+        .section-title span {
+            margin-left: 7px;
+        }
 
-    .enhanced-table tfoot td {
-      background: #ecf7fe;
-      font-weight: bold;
-    }
+        /* حقول الإدخال */
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 1.22rem;
+        }
 
-    /* ========= الأزرار ========= */
-    .action-buttons {
-      display: flex;
-      gap: 0.5rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
+        .enhanced-input label {
+            color: #165b62;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
 
-    .btn {
-      background: linear-gradient(90deg, #1ebea5 0%, #156ab2 100%);
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      padding: 0.5rem 1.2rem;
-      font-size: 1rem;
-      margin-top: 0.2rem;
-      cursor: pointer;
-      transition: .15s;
-      min-height: 44px;
-      min-width: 44px;
-    }
+        .enhanced-input input {
+            width: 100%;
+            padding: 0.63rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            color: var(--text-dark);
+            background: #fbfdff;
+            transition: border 0.18s ease, background 0.18s ease;
+        }
 
-    .btn:hover {
-      background: linear-gradient(90deg, #2196f3 10%, #43d5a0 85%);
-    }
+        .enhanced-input input:focus {
+            border-color: #40b0fa;
+            background: #f2fcff;
+            outline: none;
+        }
 
-    /* ========= التصميم المتجاوب ========= */
-    @media (max-width: 1150px) {
-      .entity-inputs {
-        flex-direction: column;
-        gap: 0.7rem;
-      }
-      
-      .nav-links {
-        gap: 5px;
-      }
-      
-      .nav-links a {
-        font-size: 0.95rem;
-        padding: 8px 12px;
-      }
-    }
+        .enhanced-input input[type="date"] {
+            direction: ltr;
+            text-align: right;
+        }
 
-    @media (max-width: 960px) {
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      
-      .input-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-      }
-      
-      .enhanced-table {
-        font-size: 0.95rem;
-      }
-      
-      .enhanced-table th,
-      .enhanced-table td {
-        padding: 0.6rem 0.4rem;
-      }
-    }
+        .enhanced-input input[readonly] {
+            background: #f4f5fb;
+            color: #7c7e8b;
+            cursor: not-allowed;
+        }
 
-    @media (max-width: 800px) {
-      header.main-header {
-        padding: 1.15rem;
-      }
-      
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .input-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .signatures-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .table-header {
-        padding: 0.7rem;
-        flex-direction: column;
-        gap: 10px;
-      }
-      
-      .table-wrapper::before {
-        content: "⟷ اسحب للرؤية الكاملة";
-        display: block;
-        text-align: center;
-        padding: 5px;
-        background: #e3f2fd;
-        color: #1976d2;
-        font-size: 0.9rem;
-        margin-bottom: 10px;
-      }
-    }
+        /* إخفاء أسهم input number */
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
 
-    @media (max-width: 600px) {
-      .navbar {
-        position: relative;
-        padding-bottom: 10px;
-      }
-      
-      .nav-container {
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      .nav-logo {
-        margin-bottom: 10px;
-        text-align: center;
-        width: 100%;
-      }
-      
-      .nav-links {
-        display: none;
-        width: 100%;
-        flex-direction: column;
-        align-items: center;
-        padding: 10px 0;
-      }
-      
-      .nav-links.active {
-        display: flex;
-      }
-      
-      .nav-links li {
-        width: 100%;
-        text-align: center;
-      }
-      
-      .nav-links a {
-        display: block;
-        padding: 10px;
-        width: 100%;
-        border-radius: 0;
-      }
-      
-      .nav-toggle {
-        display: block;
-        position: absolute;
-        top: 15px;
-        left: 15px;
-        background: transparent;
-        border: none;
-        color: white;
-        font-size: 1.5rem;
-        cursor: pointer;
-      }
-      
-      .btn {
-        width: 100%;
-        margin: 5px 0;
-      }
-    }
+        input[type="number"] {
+            appearance: textfield;
+            -moz-appearance: textfield;
+        }
 
-    /* ========= الطباعة ========= */
-    @media print {
-      body {
-        background: white !important;
-      }
-      
-      header.main-header,
-      .navbar,
-      .controls-section,
-      .action-buttons,
-      .btn,
-      .entity-footer {
-        display: none !important;
-      }
-      
-      .table-header {
-        background: #2196f3 !important;
-      }
-      
-      .form-section,
-      .table-container,
-      .signatures-section {
-        box-shadow: none;
-        border-radius: 0;
-      }
-      
-      .print-header,
-      .print-stamp {
-        display: block !important;
-      }
-      
-      .signatures-section {
-        margin: 0;
-      }
-      
-      .enhanced-table {
-        font-size: 1.04rem !important;
-      }
-    }
+        /* الجداول */
+        .table-container {
+            background: #fff;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 1.6rem;
+        }
 
-    /* ========= تنسيقات إضافية ========= */
-    .highlight-cell {
-      background: #9afdcd !important;
-      color: #084e27 !important;
-    }
+        .table-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
 
-    input[type="number"],
-    input[pattern="\\d*"] {
-      -webkit-appearance: none;
-      -moz-appearance: textfield;
-      appearance: textfield;
-    }
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
 
-    input::-webkit-inner-spin-button,
-    input::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
+        .enhanced-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1200px;
+            margin-bottom: 0;
+        }
 
-    .container {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 15px;
-      box-sizing: border-box;
-    }
-    body {font-family:'Cairo','Lateef',Arial,sans-serif; background:#f8fafb;}
-    nav.navbar {background:#156ab2; color:#fff;padding:7px 0 0 0;border-radius:0 0 18px 18px;box-shadow:0 6px 24px #94d9fd26;}
-    .nav-container{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:auto;}
-    .nav-logo{font-size:1.21rem;padding:8px 24px;letter-spacing:1px;font-family:'Amiri',serif}
-    .nav-links{display:flex;gap:7px;margin:0;padding:0;list-style:none}
-    .nav-links li{display:inline-block;}
-    .nav-links a{color:#fff;text-decoration:none;font-size:1rem;padding:9px 16px;border-radius:7px;transition:.13s;}
-    .nav-links a:hover,.nav-links a.active{background:#3482ce;color:#fffd9b;}
-    .nav-login{padding:0 20px;}
-    .btn-login{background:#fcfbc3;padding:9px 18px;border:0;border-radius:7px;font-size:1rem;color:#3269b7;cursor:pointer;}
-    .btn-login:hover{background:#fff19e}
-    .nav-toggle{display:none;}
-    @media(max-width:1100px){.nav-container{flex-wrap:wrap;}.nav-links{flex-wrap:wrap;}}
-    @media(max-width:830px){.nav-links a{padding:9px 8px; font-size:0.95rem;}}
-    @media(max-width:600px){
-      .nav-links{flex-direction:column;align-items:flex-start;}
-      .nav-links a{padding:9px 5px;}
-      .nav-container{flex-direction:column;align-items:flex-start;}
-      .nav-toggle{display:block;position:absolute;top:11px;left:15px;}
-    }
+        .enhanced-table th {
+            background: var(--primary-dark);
+            color: white;
+            padding: 0.92rem 0.5rem;
+            text-align: center;
+            font-size: 1.02rem;
+            font-weight: 700;
+        }
 
-    header.main-header {background: linear-gradient(135deg, #2196f3 0%, #1865be 100%); color: white; padding: 2rem 1rem; text-align: center; box-shadow: 0 7px 24px #6ddcff40; margin-bottom: 2rem; border-radius: 0 0 25px 25px;}
-    header.main-header h1{font-family:'Amiri',serif;font-size:2.2rem;letter-spacing:1px;}
-    .main-header .entity-bar{font-family:'Lateef','Cairo';font-size:1.13rem;background:#e3f7f9;color:#215e87;margin:14px auto 0;padding:7px 12px;display:inline-block;border-radius:6px;}
-    
-    .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1.1rem;margin-bottom:2rem;}
-    .stat-card{background:white;padding:1.3rem 0.7rem;border-radius:15px;box-shadow:0 3px 12px #b0dee233;text-align:center;min-width:180px;}
-    .stat-card h3{color:#2380bf;font-size:1.02rem;}
-    .stat-card .stat-value{font-size:1.49rem;font-weight:bold;color:#166c81;}
+        .enhanced-table td {
+            padding: 0.7rem;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            white-space: nowrap;
+        }
 
-    .stats-summary{display:flex;justify-content:center;gap:2.7rem;align-items:center;margin-bottom:1.4rem;}
-    .stats-summary div{font-size:1.1rem;}
-    
-    .entity-config-section{margin-bottom:2.2rem;}
-    .entity-config-title{font-family:'Amiri',serif;font-size:1.18rem;color:#2363b5;}
-    .entity-inputs{display:flex;gap:1.1rem;flex-wrap:wrap;}
-    .entity-inputs .enhanced-input{flex:1;}
-    
-    .form-section,.signatures-section,.controls-section{background:white;padding:2rem;border-radius:17px;box-shadow:0 3px 14px #b0e6ef33;margin-bottom:2rem;}
-    h2.section-title{font-family:'Amiri',serif;font-size:1.22rem;color:#1769ae;margin-bottom:1.4rem;}
-    .input-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.4rem;margin-bottom:2rem;}
-    .enhanced-input{position:relative;}
-    .enhanced-input input {width: 100%; padding: 0.75rem 1rem; border: 2px solid #1765ae; border-radius: 11px; font-size: 1rem; color:#0e375c;}
-    .enhanced-input input:focus { border-color: #2196f3; box-shadow: 0 0 0 0.14rem #aae6e911;}
-    .enhanced-input label{color:#165b62;font-weight:700;}
-    .table-container{background:white;border-radius:16px;overflow:hidden;box-shadow:0 3px 14px #b1e4ea2a;margin-bottom:1.6rem;}
-    .table-header{background:#2196f3;color:white;padding:1rem 1.5rem;font-weight:600;font-size:1.04rem;}
-    .enhanced-table{width:100%;border-collapse:collapse;font-size:1.02rem;}
-    .enhanced-table th{background:#2066be;color:#fff;padding:0.95rem 0.5rem;font-weight:600;text-align:center;}
-    .enhanced-table td{padding:0.73rem;border:1px solid #bedff1;text-align:center;color:#174053;font-size:1.01rem;}
-    .enhanced-table input[type="text"], .enhanced-table input[type="number"]{color:#174053!important;font-weight:600;background:#f5fdff;border-radius:8px;padding:5px 7px;font-size:1rem;}
-    .enhanced-table tfoot td{background:#ecf7fe;font-weight:bold;}
-    .action-buttons{display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap;}
-    .btn{background:linear-gradient(90deg,#1ebea5 0%,#156ab2 100%);color:#fff;border:none;border-radius:10px;padding:0.5rem 1.2rem;font-size:1rem;margin-top:0.2rem;cursor:pointer;transition:.15s;}
-    .btn:hover{background:linear-gradient(90deg,#2196f3 10%,#43d5a0 85%);}
-    .signatures-section{margin-top:1.7rem;}
-    .signatures-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.3rem;}
-    .signature-card{background:#f5f9fc;padding:1.1rem;border-radius:12px;border:1px solid #d2eaf1;}
-    .highlight-cell{background: #9afdcd!important;color:#084e27!important;}
-    footer {margin:35px 0 15px; font-family:'Lateef','Cairo'; text-align:right; font-size:1.08rem; color:#144054;}
-    .entity-footer {margin-top:18px;}
-    @media (max-width:1150px){.entity-inputs{flex-direction:column;gap:0.7rem;}}
-    @media (max-width:800px){header.main-header{padding:1.15rem;}
-      .stats-grid,.input-grid,.signatures-grid{grid-template-columns:1fr;}
-      .table-header{padding:0.7rem;}
-      .entity-bar{font-size:0.99rem;}
-    }
-    @media print {
-      body {background:white;}
-      header.main-header,.navbar,.controls-section,.action-buttons,.btn,.entity-footer{display:none!important;}
-      .table-header{background:#2196f3!important;}
-      .form-section,.table-container,.signatures-section{box-shadow:none;border-radius:0;}
-      .print-header,.print-stamp{display:block!important;}
-      .signatures-section{margin:0;}
-      .enhanced-table{font-size:1.04rem!important;}
-    }
-    /* تعطيل أسهم الأرقام في جميع المدخلات */
-    input[type="number"],input[pattern="\d*"]{-webkit-appearance:none;-moz-appearance:textfield;appearance:textfield;}
-    input::-webkit-inner-spin-button,input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0;}
-  </style>
+        .enhanced-table input {
+            font-weight: 600;
+            background-color: #f8fdff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 5px 7px;
+            font-size: 1rem;
+            width: 100%;
+            min-width: 80px;
+            transition: border-color 0.15s ease;
+        }
+
+        .enhanced-table input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .enhanced-table input[readonly] {
+            background: #f7fafb;
+            color: #666;
+            border: 1px solid #eee;
+            font-weight: bold;
+        }
+
+        .enhanced-table tfoot td {
+            font-weight: bold;
+            background: #e3f2fd;
+        }
+
+        .enhanced-table tfoot tr:last-child {
+            font-size: 1.08rem;
+            font-weight: bold;
+        }
+
+        .highlight-cell {
+            background: #9afdcd !important;
+            color: #084e27 !important;
+        }
+
+        /* الأزرار */
+        .action-buttons {
+            display: flex;
+            gap: 0.6rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: var(--gradient-success);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            padding: 0.58rem 1.3rem;
+            font-size: 1rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            transition: box-shadow 0.18s ease, background 0.14s ease, transform 0.1s ease;
+            font-family: "Cairo", 'Lateef', sans-serif;
+        }
+
+        .btn:hover {
+            box-shadow: 0 2px 6px rgba(58, 172, 175, 0.2);
+            background: var(--gradient-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:focus {
+            outline: 2px solid #168ac1;
+            outline-offset: 2px;
+        }
+
+        .btn-delete {
+            background: var(--danger-color) !important;
+        }
+
+        .btn-delete:hover {
+            background: #c82333 !important;
+        }
+
+        /* التوقيعات */
+        .signatures-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(205px, 1fr));
+            gap: 1.3rem;
+        }
+
+        .signature-card {
+            background: #f5f9fc;
+            padding: 1.1rem;
+            border-radius: var(--radius-md);
+            border: 1px solid #d2eaf1;
+            font-family: 'Lateef', serif;
+        }
+
+        /* تحسينات إمكانية الوصول */
+        [tabindex]:not([tabindex="-1"]) {
+            outline: none;
+        }
+
+        [tabindex]:not([tabindex="-1"]):focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        /* استجابة الشاشات الصغيرة */
+        @media (max-width: 950px) {
+            .enhanced-table {
+                min-width: 1000px;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .table-wrapper::before {
+                content: "⟷ اسحب لرؤية الجدول";
+                display: block;
+                text-align: center;
+                padding: 8px;
+                background: #e3f2fd;
+                color: #1976d2;
+                margin-bottom: 10px;
+                border-radius: var(--radius-sm);
+            }
+
+            .form-section,
+            .signatures-section,
+            .controls-section,
+            .entity-config-section {
+                padding: 1rem 0.5rem;
+            }
+
+            .stats-summary {
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 460px) {
+            .main-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .entity-bar {
+                font-size: 1rem;
+            }
+        }
+
+        /* رسالة التأكيد */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--success-color);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-md);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* للطباعة */
+        @media print {
+            .navbar,
+            .controls-section,
+            .btn {
+                display: none !important;
+            }
+
+            body {
+                background: white;
+            }
+
+            .container {
+                max-width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- الشريط العلوي للقوائم -->
-  <nav class="navbar">
-    <div class="nav-container">
-      <div class="nav-logo"><span>🏥</span> نظام إدارة المشتريات</div>
-      <ul class="nav-links">
-        <li><a href="main.html" class="active">📋 النموذج الرئيسي</a></li>
-        <li><a href="taw.html">📦 أمر التوريد</a></li>
-        <li><a href="taf.html">💰 تفريغ الأسعار</a></li>
-        <li><a href="mahdr.html">📝 المحضر</a></li>
-        <li><a href="talab.html">📄 طلب الشراء</a></li>
-        <li><a href="moka.html">📈 المقايسة</a></li>
-        <li><a href="tash.html">👥 تشكيل لجنة</a></li>
-        <li><a href="custom.html">📊 الضرائب</a></li>
-      </ul>
-      <div class="nav-login">
-        <button class="btn-login" onclick="if(confirm('هل أنت متأكد من تسجيل الخروج؟')) window.location.href='index.html'" title="تسجيل الخروج">
-          <span>🚪</span> تسجيل الخروج
-        </button>
-      </div>
-      <div class="nav-toggle" onclick="toggleMenu()"><span>☰</span></div>
-    </div>
-  </nav>
-
-  <header class="main-header">
-    <h1 id="entityNameHeader">نظام إدارة المشتريات والتوريدات</h1>
-    <div class="entity-bar" id="entityDeptHeader"></div>
-    <p>النموذج الرئيسي لإدخال بيانات الأصناف والموردين</p>
-    <div class="progress-indicator"><div class="progress-bar"></div></div>
-  </header>
-
-  <!-- إحصائيات/إجماليات حية أعلى الجدول كما طلبت -->
-  <div class="stats-summary" dir="rtl">
-    <div style="color:#115b99;border-bottom:2.5px solid #2196f3;padding-bottom:2.5px;">عدد العناصر المدخلة: <span id="countItems" style="font-weight:bold;">0</span></div>
-    <div style="color:#0e8037;">إجمالي المورد الأول: <span id="supplierTotal1" style="font-weight:bold;">0.00</span> ج.م</div>
-    <div style="color:#8d710c;">إجمالي المورد الثاني: <span id="supplierTotal2" style="font-weight:bold;">0.00</span> ج.م</div>
-    <div style="color:#c02f34;">إجمالي المورد الثالث: <span id="supplierTotal3" style="font-weight:bold;">0.00</span> ج.م</div>
-  </div>
-
-  <div class="container main-form">
-    <!-- لوحة الإحصائيات -->
-    <div class="stats-grid">
-      <div class="stat-card"><h3>إجمالي الأصناف</h3><div class="stat-value">0</div></div>
-      <div class="stat-card"><h3>الصفوف المكتملة</h3><div class="stat-value">0</div></div>
-      <div class="stat-card"><h3>إجمالي القيمة</h3><div class="stat-value">0.00 ج.م</div></div>
-    </div>
-
-    <!-- إعدادات الجهة -->
-    <div class="entity-config-section">
-      <h3 class="entity-config-title"><span>🏥</span> إعدادات الجهة</h3>
-      <div class="entity-inputs">
-        <div class="enhanced-input">
-          <label class="form-label">اسم الجهة:</label>
-          <input type="text" id="entityName" class="form-control" placeholder="اسم الجهة">
+    <!-- نافبار -->
+    <nav class="navbar" aria-label="الشريط العلوي">
+        <div class="container nav-container">
+            <div class="nav-logo" title="الصفحة الرئيسية"><span>🏥</span> نظام إدارة المشتريات</div>
+            <ul class="nav-links" aria-label="روابط التنقل">
+                <li><a href="main.html" class="active" tabindex="0">📋 النموذج الرئيسي</a></li>
+                <li><a href="taw.html" tabindex="0">📦 أمر التوريد</a></li>
+                <li><a href="taf.html" tabindex="0">💰 تفريغ الأسعار</a></li>
+                <li><a href="mahdr.html" tabindex="0">📝 المحضر</a></li>
+                <li><a href="talab.html" tabindex="0">📄 طلب الشراء</a></li>
+                <li><a href="moka.html" tabindex="0">📈 المقايسة</a></li>
+                <li><a href="tash.html" tabindex="0">👥 تشكيل لجنة</a></li>
+                <li><a href="custom.html" tabindex="0">📊 الضرائب</a></li>
+            </ul>
+            <div class="nav-login">
+                <button class="btn-login" onclick="handleLogout()" title="تسجيل الخروج" tabindex="0"><span>🚪</span> تسجيل الخروج</button>
+            </div>
         </div>
-        <div class="enhanced-input">
-          <label class="form-label">القسم:</label>
-          <input type="text" id="entityDepartment" class="form-control" placeholder="اسم القسم">
-        </div>
-      </div>
-    </div>
+    </nav>
 
-    <!-- نموذج البيانات الأساسية كما هو -->
-    <div class="form-section">
-      <h2 class="section-title">📋 البيانات الأساسية</h2>
-      <div class="input-grid">
-        <div class="enhanced-input">
-          <label class="form-label">📅 التاريخ:</label>
-          <input type="date" id="date" class="form-control" required>
-        </div>
-        <div class="enhanced-input">
-          <label class="form-label">المورد الأول:</label>
-          <input list="suppliersList" id="supplier1" class="form-control" placeholder="اختر المورد الأول" oninput="mainFormManager?.updateSupplierHeaders()">
-        </div>
-        <div class="enhanced-input">
-          <label class="form-label">المورد الثاني:</label>
-          <input list="suppliersList" id="supplier2" class="form-control" placeholder="اختر المورد الثاني" oninput="mainFormManager?.updateSupplierHeaders()">
-        </div>
-        <div class="enhanced-input">
-          <label class="form-label">المورد الثالث:</label>
-          <input list="suppliersList" id="supplier3" class="form-control" placeholder="اختر المورد الثالث" oninput="mainFormManager?.updateSupplierHeaders()">
-        </div>
-        <div class="enhanced-input">
-          <label class="form-label">تاريخ اللجنة:</label>
-          <input type="date" id="committeeDate" class="form-control" required>
-        </div>
-        <div class="enhanced-input">
-          <label class="form-label">نسبة الضريبة %:</label>
-          <input type="number" id="taxRate" class="form-control" value="14" min="0" max="100" step="0.01">
-        </div>
-      </div>
-    </div>
+    <!-- رأس الصفحة -->
+    <header class="main-header">
+        <h1 id="entityNameHeader">نظام إدارة المشتريات والتوريدات</h1>
+        <div class="entity-bar" id="entityDeptHeader"></div>
+        <p>النموذج الرئيسي لإدخال بيانات الأصناف والموردين</p>
+    </header>
 
-    <!-- الجدول والتجميع والتمييز -->
-    <div class="table-container">
-      <div class="table-header">
-        <span>📊 جدول الأصناف والأسعار</span>
-        <div class="action-buttons" style="float:left;">
-          <button class="btn" onclick="addRow()" title="إضافة صف جديد"><span>➕</span> إضافة صف</button>
-          <button class="btn" onclick="clearTable()" title="مسح جميع البيانات"><span>🗑️</span> مسح الكل</button>
+    <!-- محتوى الصفحة -->
+    <main class="container">
+        <!-- إحصائيات مختصرة -->
+        <div class="stats-summary" role="region" aria-label="إحصائيات سريعة">
+            <div>عدد العناصر: <strong id="countItems">0</strong></div>
+            <div id="supplierTotal1Container">إجمالي المورد الأول: <strong id="supplierTotal1">0.00</strong> ج.م</div>
+            <div id="supplierTotal2Container">إجمالي المورد الثاني: <strong id="supplierTotal2">0.00</strong> ج.م</div>
+            <div id="supplierTotal3Container">إجمالي المورد الثالث: <strong id="supplierTotal3">0.00</strong> ج.م</div>
         </div>
-        <div style="clear:both;"></div>
-      </div>
-      <table class="enhanced-table" id="itemsTable">
-        <thead>
-          <tr>
-            <th>م</th>
-            <th>اسم الصنف</th>
-            <th>الوحدة</th>
-            <th>الكمية</th>
-            <th id="th-supplier1">سعر المورد الأول</th>
-            <th id="th-supplier2">سعر المورد الثاني</th>
-            <th id="th-supplier3">سعر المورد الثالث</th>
-            <th>ملاحظات</th>
-            <th>إجراءات</th>
-          </tr>
-        </thead>
-        
-          <tbody id="itemsTableBody"></tbody>
 
-        
-        <tfoot>
-          <tr>
-            <td colspan="4"><b>الإجمالي</b></td>
-            <td id="total1" class="highlight-cell">0.00</td>
-            <td id="total2" class="highlight-cell">0.00</td>
-            <td id="total3" class="highlight-cell">0.00</td>
-            <td colspan="2"></td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
+        <section class="stats-grid">
+            <div class="stat-card">
+                <h3>إجمالي الأصناف</h3>
+                <div id="totalItemsStat" class="stat-value">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>الصفوف المكتملة</h3>
+                <div id="completedRowsStat" class="stat-value">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>إجمالي القيمة</h3>
+                <div id="totalValueStat" class="stat-value">0.00 ج.م</div>
+            </div>
+        </section>
 
-    <div class="signatures-section">
-      <h3 class="section-title">✍️ التوقيعات والاعتمادات</h3>
-      <div id="signaturesList" class="signatures-grid"></div>
-    </div>
+        <!-- إعدادات الجهة -->
+        <section class="entity-config-section">
+            <h2 class="section-title"><span>🏥</span> إعدادات الجهة</h2>
+            <div class="input-grid">
+                <div class="enhanced-input">
+                    <label for="entityName">اسم الجهة:</label>
+                    <input type="text" id="entityName" tabindex="0" aria-label="اسم الجهة" placeholder="اسم الجهة">
+                </div>
+                <div class="enhanced-input">
+                    <label for="entityDepartment">القسم:</label>
+                    <input type="text" id="entityDepartment" tabindex="0" aria-label="القسم" placeholder="اسم القسم">
+                </div>
+            </div>
+        </section>
 
-    <div class="controls-section">
-      <h3 class="section-title">🛠️ أدوات التحكم</h3>
-      <div class="action-buttons">
-        <button class="btn" onclick="addRow()">➕ إضافة صف</button>
-        <button class="btn" onclick="mainFormManager?.saveData?.()">💾 حفظ البيانات</button>
-        <button class="btn" onclick="mainFormManager?.loadData?.()">📁 تحميل البيانات</button>
-        <button class="btn" onclick="saveAndGo()" title="حفظ والانتقال"><span>💾</span> حفظ وانتقال</button>
-        <button class="btn" onclick="clearTable()">🗑️ مسح الكل</button>
-        <button class="btn" onclick="window.print()">🖨️ طباعة</button>
-      </div>
-    </div>
-    <footer class="entity-footer" id="signaturesFooter"></footer>
-  </div>
+        <!-- بيانات أساسية -->
+        <section class="form-section">
+            <h2 class="section-title">📋 البيانات الأساسية</h2>
+            <div class="input-grid">
+                <div class="enhanced-input">
+                    <label for="date">📅 التاريخ:</label>
+                    <input type="date" id="date" required>
+                </div>
+                <div class="enhanced-input">
+                    <label for="supplier1">المورد الأول:</label>
+                    <input list="suppliersList" id="supplier1" tabindex="0" placeholder="اختر المورد الأول">
+                </div>
+                <div class="enhanced-input">
+                    <label for="supplier2">المورد الثاني:</label>
+                    <input list="suppliersList" id="supplier2" tabindex="0" placeholder="اختر المورد الثاني">
+                </div>
+                <div class="enhanced-input">
+                    <label for="supplier3">المورد الثالث:</label>
+                    <input list="suppliersList" id="supplier3" tabindex="0" placeholder="اختر المورد الثالث">
+                </div>
+                <div class="enhanced-input">
+                    <label for="committeeDate">تاريخ اللجنة:</label>
+                    <input type="date" id="committeeDate" required>
+                </div>
+                <div class="enhanced-input">
+                    <label for="taxRate">نسبة الضريبة %:</label>
+                    <input type="number" id="taxRate" value="14" min="0" max="100" step="0.01">
+                </div>
+            </div>
+        </section>
 
-  <datalist id="suppliersList"></datalist>
-  <datalist id="itemsList"></datalist>
-  <datalist id="staffList"></datalist>
+        <!-- جدول الأصناف -->
+        <section class="table-container">
+            <div class="table-header">
+                <span>📊 جدول الأصناف والأسعار (ضريبة منفصلة لكل مورد)</span>
+                <div class="action-buttons">
+                    <button class="btn" onclick="AppManager.addRow()" tabindex="0"><span>➕</span> إضافة صف</button>
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table class="enhanced-table" id="itemsTable" aria-label="جدول الأصناف">
+                    <thead>
+                        <tr>
+                            <th>م</th>
+                            <th>اسم الصنف</th>
+                            <th>الوحدة</th>
+                            <th>الكمية</th>
+                            <th id="th-supplier1">سعر المورد 1</th>
+                            <th>ضريبة 1</th>
+                            <th>الإجمالي 1</th>
+                            <th id="th-supplier2">سعر المورد 2</th>
+                            <th>ضريبة 2</th>
+                            <th>الإجمالي 2</th>
+                            <th id="th-supplier3">سعر المورد 3</th>
+                            <th>ضريبة 3</th>
+                            <th>الإجمالي 3</th>
+                            <th>ملاحظات</th>
+                            <th>إجراء</th>
+                        </tr>
+                    </thead>
+                    <tbody id="itemsTableBody"></tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4"><b>الإجمالي قبل الضريبة</b></td>
+                            <td id="subtotal1">0.00</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td id="subtotal2">0.00</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td id="subtotal3">0.00</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"><b>قيمة الضريبة المضافة</b></td>
+                            <td>—</td>
+                            <td id="tax1">0.00</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td id="tax2">0.00</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td id="tax3">0.00</td>
+                            <td>—</td>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">الإجمالي النهائي (بعد الضريبة)</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td id="finalTotal1">0.00</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td id="finalTotal2">0.00</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td id="finalTotal3">0.00</td>
+                            <td colspan="2"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </section>
 
-  <script src="js/data.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/main.js"></script>
-  <script>
-    // جلب اسم الجهة والقسم من صفحة الإعدادات وعرضها في رأس الصفحة 
-    document.addEventListener('DOMContentLoaded',function(){
-      let entityName = localStorage.getItem('hospitalName') || '';
-      let entityDept = localStorage.getItem('departmentName') || '';
-      document.getElementById('entityNameHeader').innerText = entityName || 'نظام إدارة المشتريات والتوريدات';
-      document.getElementById('entityDeptHeader').innerText = entityDept || '';
-      document.getElementById('entityName').value = entityName;
-      document.getElementById('entityDepartment').value = entityDept;
-      // عرض التوقيعات
-      let sigs = [];
-      try { sigs = JSON.parse(localStorage.getItem('signaturesArray')) || []; } catch{}
-      if (sigs.length) {
-        let html = sigs.map(sig => `<div class="signature-card">${sig.name}<br><small style="color:#29709f">${sig.desc}</small></div>`).join("");
-        document.getElementById('signaturesList').innerHTML = html;
-        document.getElementById('signaturesFooter').innerHTML = 
-          sigs.map(sig => `<b>${sig.name}</b> ـ <span style="color:#2579a2">${sig.desc}</span>`).join("، ");
-      }
-      updateTotalsLive();
-    });
-    document.getElementById('entityName').addEventListener('input',function(e){
-      localStorage.setItem('hospitalName',e.target.value);
-      document.getElementById('entityNameHeader').innerText = e.target.value;
-    });
-    document.getElementById('entityDepartment').addEventListener('input',function(e){
-      localStorage.setItem('departmentName',e.target.value);
-      document.getElementById('entityDeptHeader').innerText = e.target.value;
-    });
+        <!-- التوقيعات -->
+        <section class="signatures-section">
+            <h2 class="section-title">✍️ التوقيعات والاعتمادات</h2>
+            <div id="signaturesList" class="signatures-grid"></div>
+        </section>
 
-    // تحديث الإجماليات أعلى الجدول وتمييز الأقل
-    function updateTotalsLive() {
-      const tbody = document.querySelector('#itemsTable tbody');
-      let total = [0,0,0];
-      let count = 0;
-      [...tbody.rows].forEach(tr => {
-        let qty = parseFloat(tr.cells[3].querySelector('input').value) || 0;
-        if (qty>0) count++;
-        for(let i=0;i<3;i++){
-          let price = parseFloat(tr.cells[4+i].querySelector('input').value) || 0;
-          total[i] += qty*price;
+        <!-- أدوات التحكم -->
+        <section class="controls-section">
+            <h2 class="section-title">🛠️ أدوات التحكم</h2>
+            <div class="action-buttons">
+                <button class="btn" onclick="AppManager.addRow()" title="إضافة صف" tabindex="0">➕ إضافة صف</button>
+                <button class="btn" onclick="AppManager.saveData()" title="حفظ البيانات" tabindex="0">💾 حفظ البيانات</button>
+                <button class="btn" onclick="AppManager.loadData()" title="تحميل البيانات" tabindex="0">📁 تحميل البيانات</button>
+                <input type="file" id="jsonFileInput" accept=".json" style="display:none">
+                <button class="btn" onclick="AppManager.saveAndGo()" title="حفظ وانتقال" tabindex="0">💾 حفظ وانتقال</button>
+                <button class="btn" onclick="AppManager.clearTable()" title="مسح الجدول" tabindex="0">🗑️ مسح الكل</button>
+                <button class="btn" onclick="window.print()" title="طباعة الصفحة" tabindex="0">🖨️ طباعة</button>
+            </div>
+        </section>
+
+        <footer id="signaturesFooter" class="entity-footer" style="text-align:center; margin: 20px 0;"></footer>
+    </main>
+
+    <!-- القوائم المساعدة -->
+    <datalist id="suppliersList"></datalist>
+    <datalist id="itemsList"></datalist>
+    <datalist id="staffList"></datalist>
+
+    <script>
+        // النسخة المحسّنة والمهنية
+        const AppManager = {
+            elements: {},
+            
+            init() {
+                this.cacheElements();
+                this.addEventListeners();
+                this.loadInitialData();
+                this.setDefaultDate();
+                
+                if (this.elements.tableBody.rows.length === 0) {
+                    for (let i = 0; i < 3; i++) {
+                        this.addRow(false);
+                    }
+                }
+                
+                this.updateAllCalculations();
+            },
+
+            cacheElements() {
+                this.elements = {
+                    tableBody: document.getElementById('itemsTableBody'),
+                    taxRateInput: document.getElementById('taxRate'),
+                    entityName: document.getElementById('entityName'),
+                    entityDepartment: document.getElementById('entityDepartment'),
+                    entityNameHeader: document.getElementById('entityNameHeader'),
+                    entityDeptHeader: document.getElementById('entityDeptHeader'),
+                    signaturesList: document.getElementById('signaturesList'),
+                    signaturesFooter: document.getElementById('signaturesFooter'),
+                    countItems: document.getElementById('countItems'),
+                    totalItemsStat: document.getElementById('totalItemsStat'),
+                    completedRowsStat: document.getElementById('completedRowsStat'),
+                    totalValueStat: document.getElementById('totalValueStat'),
+                    supplierTotals: [
+                        document.getElementById('supplierTotal1'),
+                        document.getElementById('supplierTotal2'),
+                        document.getElementById('supplierTotal3')
+                    ],
+                    supplierTotalContainers: [
+                        document.getElementById('supplierTotal1Container'),
+                        document.getElementById('supplierTotal2Container'),
+                        document.getElementById('supplierTotal3Container')
+                    ],
+                    subtotals: [
+                        document.getElementById('subtotal1'),
+                        document.getElementById('subtotal2'),
+                        document.getElementById('subtotal3')
+                    ],
+                    taxes: [
+                        document.getElementById('tax1'),
+                        document.getElementById('tax2'),
+                        document.getElementById('tax3')
+                    ],
+                    finalTotals: [
+                        document.getElementById('finalTotal1'),
+                        document.getElementById('finalTotal2'),
+                        document.getElementById('finalTotal3')
+                    ]
+                };
+            },
+
+            addEventListeners() {
+                document.addEventListener('input', (e) => {
+                    const targetId = e.target.id;
+                    
+                    if (e.target.closest('#itemsTable') || targetId === 'taxRate') {
+                        this.updateAllCalculations();
+                    }
+                    
+                    if (targetId === 'entityName' || targetId === 'entityDepartment') {
+                        this.saveEntityData();
+                    }
+                    
+                    if (['supplier1', 'supplier2', 'supplier3'].includes(targetId)) {
+                        this.updateSupplierHeaders();
+                    }
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.ctrlKey && e.key === 's') {
+                        e.preventDefault();
+                        this.saveData();
+                    }
+                    if (e.ctrlKey && e.key === 'n') {
+                        e.preventDefault();
+                        this.addRow();
+                    }
+                });
+            },
+
+            setDefaultDate() {
+                const dateInput = document.getElementById('date');
+                const committeeDateInput = document.getElementById('committeeDate');
+                const today = new Date().toISOString().split('T')[0];
+                
+                if (!dateInput.value) {
+                    dateInput.value = today;
+                }
+                if (!committeeDateInput.value) {
+                    committeeDateInput.value = today;
+                }
+            },
+
+            loadInitialData() {
+                const entityName = localStorage.getItem('hospitalName') || '';
+                const entityDept = localStorage.getItem('departmentName') || '';
+                
+                this.elements.entityName.value = entityName;
+                this.elements.entityDepartment.value = entityDept;
+                this.elements.entityNameHeader.textContent = entityName || 'نظام إدارة المشتريات';
+                this.elements.entityDeptHeader.textContent = entityDept;
+                
+                try {
+                    const sigs = JSON.parse(localStorage.getItem('signaturesArray')) || [];
+                    if (sigs.length > 0) {
+                        this.elements.signaturesList.innerHTML = sigs.map(sig =>
+                            `<div class="signature-card">${this.escapeHtml(sig.name)}<br><small>${this.escapeHtml(sig.desc)}</small></div>`
+                        ).join("");
+                        
+                        this.elements.signaturesFooter.innerHTML = sigs.map(sig =>
+                            `<b>${this.escapeHtml(sig.name)}</b> ـ <span>${this.escapeHtml(sig.desc)}</span>`
+                        ).join("، ");
+                    }
+                } catch (e) {
+                    console.error("خطأ في تحميل التوقيعات:", e);
+                }
+            },
+
+            saveEntityData() {
+                const entityName = this.elements.entityName.value.trim();
+                const entityDept = this.elements.entityDepartment.value.trim();
+                
+                localStorage.setItem('hospitalName', entityName);
+                localStorage.setItem('departmentName', entityDept);
+                
+                this.elements.entityNameHeader.textContent = entityName || 'نظام إدارة المشتريات';
+                this.elements.entityDeptHeader.textContent = entityDept;
+            },
+
+            updateSupplierHeaders() {
+                for (let i = 1; i <= 3; i++) {
+                    const supplierName = document.getElementById(`supplier${i}`).value.trim();
+                    const th = document.getElementById(`th-supplier${i}`);
+                    
+                    if (th) {
+                        th.textContent = supplierName ? `سعر (${supplierName})` : `سعر المورد ${i}`;
+                    }
+                }
+            },
+
+            createRowHtml(rowNumber) {
+                return `<tr>
+                    <td>${rowNumber}</td>
+                    <td><input placeholder="اسم الصنف" tabindex="0" aria-label="اسم الصنف"></td>
+                    <td><input placeholder="الوحدة" tabindex="0" aria-label="الوحدة"></td>
+                    <td><input type="number" min="0" step="any" placeholder="الكمية" tabindex="0" aria-label="الكمية"></td>
+                    <td><input type="number" min="0" step="any" placeholder="السعر" tabindex="0" aria-label="سعر المورد 1"></td>
+                    <td><input type="number"  tabindex="-1" style="background:#f7fafb;" aria-label="ضريبة المورد 1"></td>
+                    <td><input type="number"  tabindex="-1" style="background:#f7fafb;font-weight:bold;" aria-label="إجمالي المورد 1"></td>
+                    <td><input type="number" min="0" step="any" placeholder="السعر" tabindex="0" aria-label="سعر المورد 2"></td>
+                    <td><input type="number"  tabindex="-1" style="background:#f7fafb;" aria-label="ضريبة المورد 2"></td>
+                    <td><input type="number"  tabindex="-1" style="background:#f7fafb;font-weight:bold;" aria-label="إجمالي المورد 2"></td>
+                    <td><input type="number" min="0" step="any" placeholder="السعر" tabindex="0" aria-label="سعر المورد 3"></td>
+                    <td><input type="number"  tabindex="-1" style="background:#f7fafb;" aria-label="ضريبة المورد 3"></td>
+                    <td><input type="number"  tabindex="-1" style="background:#f7fafb;font-weight:bold;" aria-label="إجمالي المورد 3"></td>
+                    <td><input placeholder="ملاحظات" tabindex="0" aria-label="ملاحظات"></td>
+                    <td><button class="btn btn-delete" onclick="AppManager.deleteRow(this)" title="مسح الصف" aria-label="مسح الصف">مسح</button></td>
+                </tr>`;
+            },
+
+            addRow(update = true) {
+                const rowCount = this.elements.tableBody.rows.length + 1;
+                this.elements.tableBody.insertAdjacentHTML('beforeend', this.createRowHtml(rowCount));
+                
+                if (update) {
+                    this.updateAllCalculations();
+                }
+            },
+
+            deleteRow(button) {
+                if (confirm('هل تريد حذف هذا الصف؟')) {
+                    button.closest('tr').remove();
+                    this.updateAllCalculations();
+                }
+            },
+
+            clearTable() {
+                if (confirm('هل أنت متأكد من مسح جميع الأصناف في الجدول؟')) {
+                    this.elements.tableBody.innerHTML = '';
+                    this.updateAllCalculations();
+                }
+            },
+
+            updateAllCalculations() {
+                const rows = this.elements.tableBody.rows;
+                const taxRate = parseFloat(this.elements.taxRateInput.value) / 100 || 0;
+                
+                let subtotals = [0, 0, 0];
+                let taxes = [0, 0, 0];
+                let finals = [0, 0, 0];
+                let completedRows = 0;
+
+                for (let i = 0; i < rows.length; i++) {
+                    rows[i].cells[0].textContent = i + 1;
+                    const inputs = rows[i].querySelectorAll('input');
+                    
+                    const qty = parseFloat(inputs[2].value) || 0;
+                    let rowComplete = qty > 0;
+
+                    for (let j = 0; j < 3; j++) {
+                        const priceIdx = 3 + j * 3;
+                        const price = parseFloat(inputs[priceIdx].value) || 0;
+                        
+                        const subtotal = qty * price;
+                        const taxVal = subtotal * taxRate;
+                        const total = subtotal + taxVal;
+                        
+                        inputs[priceIdx + 1].value = taxVal > 0 ? taxVal.toFixed(2) : '';
+                        inputs[priceIdx + 2].value = total > 0 ? total.toFixed(2) : '';
+                        
+                        if (price <= 0) {
+                            rowComplete = false;
+                        }
+                        
+                        subtotals[j] += subtotal;
+                        taxes[j] += taxVal;
+                        finals[j] += total;
+                    }
+                    
+                    if (rowComplete) {
+                        completedRows++;
+                    }
+                }
+
+                for (let i = 0; i < 3; i++) {
+                    this.elements.subtotals[i].textContent = subtotals[i].toFixed(2);
+                    this.elements.taxes[i].textContent = taxes[i].toFixed(2);
+                    this.elements.finalTotals[i].textContent = finals[i].toFixed(2);
+                    this.elements.supplierTotals[i].textContent = finals[i].toFixed(2);
+                }
+
+                const validTotals = finals.filter(t => t > 0);
+                const minTotal = validTotals.length > 0 ? Math.min(...validTotals) : 0;
+
+                for (let i = 0; i < 3; i++) {
+                    const isMin = finals[i] > 0 && finals[i] === minTotal;
+                    this.elements.finalTotals[i].classList.toggle('highlight-cell', isMin);
+                    this.elements.supplierTotalContainers[i].classList.toggle('highlight-cell', isMin);
+                }
+
+                this.elements.countItems.textContent = rows.length;
+                this.elements.totalItemsStat.textContent = rows.length;
+                this.elements.completedRowsStat.textContent = completedRows;
+                this.elements.totalValueStat.textContent = `${(minTotal || 0).toFixed(2)} ج.م`;
+            },
+saveData() {
+    try {
+        const data = {
+            entityName: this.elements.entityName.value,
+            entityDepartment: this.elements.entityDepartment.value,
+            date: document.getElementById('date').value,
+            supplier1: document.getElementById('supplier1').value,
+            supplier2: document.getElementById('supplier2').value,
+            supplier3: document.getElementById('supplier3').value,
+            committeeDate: document.getElementById('committeeDate').value,
+            taxRate: this.elements.taxRateInput.value,
+            table: Array.from(this.elements.tableBody.rows).map(tr => {
+                const inputs = tr.querySelectorAll('input');
+                return {
+                    name: inputs[0].value,
+                    unit: inputs[1].value,
+                    qty: inputs[2].value,
+                    price1: inputs[3].value,
+                    tax1: inputs[4]?.value,
+                    total1: inputs[5]?.value,
+                    price2: inputs[6]?.value,
+                    tax2: inputs[7]?.value,
+                    total2: inputs[8]?.value,
+                    price3: inputs[9]?.value,
+                    tax3: inputs[10]?.value,
+                    total3: inputs[11]?.value,
+                    notes: inputs[12]?.value
+                };
+            })
+        };
+        // تحديد اسم الملف بالتاريخ واسم المورد
+        const dateStr = data.date || new Date().toISOString().slice(0,10); // يفضل إدخال التاريخ YYYY-MM-DD
+        const supplierName = data.supplier1 ? data.supplier1.replace(/[<>:"/\\|?*]+/g, '-') : "بدون-مورد";
+        const fileName = `${dateStr}-${supplierName}.json`;
+
+        // إنشاء وتحميل الملف
+        const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        if (typeof this.showToast === 'function') this.showToast('تم تصدير البيانات كملف بنجاح');
+    } catch (e) {
+        console.error('خطأ في الحفظ:', e);
+        alert('حدث خطأ أثناء حفظ الملف');
+    }
+},
+
+loadData() {
+    // افتح نافذة اختيار ملف
+    const fileInput = document.getElementById('jsonFileInput');
+    fileInput.onchange = (event) => {
+        const input = event.target;
+        if (!input.files || !input.files[0]) return;
+        const file = input.files[0];
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const data = JSON.parse(e.target.result);
+                this.applyLoadedData(data);
+                if (typeof this.showToast === 'function') this.showToast('تم تحميل الملف بنجاح');
+            } catch (e) {
+                alert('صيغة ملف غير صالحة أو تالفة!');
+            }
+            input.value = "";
+        };
+        reader.readAsText(file, "utf-8");
+    };
+    fileInput.click();
+},
+
+applyLoadedData(data) {
+    this.elements.entityName.value = data.entityName || '';
+    this.elements.entityDepartment.value = data.entityDepartment || '';
+    document.getElementById('date').value = data.date || '';
+    document.getElementById('supplier1').value = data.supplier1 || '';
+    document.getElementById('supplier2').value = data.supplier2 || '';
+    document.getElementById('supplier3').value = data.supplier3 || '';
+    document.getElementById('committeeDate').value = data.committeeDate || '';
+    this.elements.taxRateInput.value = data.taxRate || '14';
+
+    this.elements.tableBody.innerHTML = '';
+    if (data.table && data.table.length > 0) {
+        data.table.forEach((row, index) => {
+            this.addRow(false);
+            const tr = this.elements.tableBody.rows[index];
+            const inputs = tr.querySelectorAll('input');
+            inputs[0].value = row.name || '';
+            inputs[1].value = row.unit || '';
+            inputs[2].value = row.qty || '';
+            inputs[3].value = row.price1 || '';
+            if (inputs[4]) inputs[4].value = row.tax1 || '';
+            if (inputs[5]) inputs[5].value = row.total1 || '';
+            if (inputs[6]) inputs[6].value = row.price2 || '';
+            if (inputs[7]) inputs[7].value = row.tax2 || '';
+            if (inputs[8]) inputs[8].value = row.total2 || '';
+            if (inputs[9]) inputs[9].value = row.price3 || '';
+            if (inputs[10]) inputs[10].value = row.tax3 || '';
+            if (inputs[11]) inputs[11].value = row.total3 || '';
+            if (inputs[12]) inputs[12].value = row.notes || '';
+        });
+    }
+    this.saveEntityData();
+    this.updateSupplierHeaders();
+    this.updateAllCalculations();
+},
+
+
+
+
+
+
+            saveAndGo() {
+                this.saveData();
+            },
+
+            showToast(message) {
+                const toast = document.createElement('div');
+                toast.className = 'toast';
+                toast.textContent = message;
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.remove();
+                }, 3000);
+            },
+
+            escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+        };
+
+        function handleLogout() {
+            if (confirm('هل أنت متأكد من تسجيل الخروج؟')) {
+                window.location.href = 'index.html';
+            }
         }
-      });
-      document.getElementById('countItems').textContent = count;
-      document.getElementById('supplierTotal1').textContent = total[0].toFixed(2);
-      document.getElementById('supplierTotal2').textContent = total[1].toFixed(2);
-      document.getElementById('supplierTotal3').textContent = total[2].toFixed(2);
 
-      // تمييز المورد الأقل في tfoot & أعلى الصفحة
-      let minVal = Math.min(...total.filter(x=>x>0));
-      for(let i=0;i<3;i++){
-        let td = document.getElementById('total'+(i+1));
-        let st = document.getElementById('supplierTotal'+(i+1));
-        td.classList.remove('highlight-cell');
-        st.parentNode.classList.remove('highlight-cell');
-        if(minVal === total[i] && minVal>0){
-          td.classList.add('highlight-cell');
-          st.parentNode.classList.add('highlight-cell');
-        }
-      }
-    }
-    // حدث القيم عند تغيير أي مدخل رقمي بـtable فقط
-    document.addEventListener('input', function(e){
-      if(
-        e.target.matches('.enhanced-table input[type="text"], .enhanced-table input[type="number"]')
-        || e.target.closest('.enhanced-table')
-      ){
-        updateTotalsLive();
-      }
-    });
-    setTimeout(updateTotalsLive, 200); // تحديث أولي بعد التحميل
-    // زر القائمة الجانبية
-    function toggleMenu(){document.querySelector('.nav-links').classList.toggle('active');}
-
-
-function createRow(num, item='', unit='', qty=1, price1=0, price2=0, price3=0, notes=''){
-  return `<tr>
-    <td>${num}</td>
-    <td><input list="itemsList" value="${item}" placeholder="اختر صنف"></td>
-<td><input value="${unit}" placeholder="الوحدة"></td>
-    <td><input type="number" value="${qty}" min="0" step="any" style="width:80px;"></td>
-    <td><input type="number" value="${price1}" min="0" step="any" style="width:85px;"></td>
-    <td><input type="number" value="${price2}" min="0" step="any" style="width:85px;"></td>
-    <td><input type="number" value="${price3}" min="0" step="any" style="width:85px;"></td>
-    <td><input value="${notes}" placeholder="ملاحظات"></td>
-    <td><button onclick="this.closest('tr').remove(); updateTotalsLive();" class="btn">مسح</button></td>
-  </tr>`;
-}
-
-// مثال إضافة 3 صفوف افتراضية عند التحميل
-document.addEventListener('DOMContentLoaded',()=>{
-  let tbody = document.getElementById('itemsTableBody');
-  tbody.innerHTML = '';
-  for(let i=0;i<3;i++){ tbody.innerHTML += createRow(i+1); }
-  updateTotalsLive();
-});
-
-// عند الإضافة أو الحذف أو التعديل
-document.addEventListener('input', function(e){
-  if( e.target.closest('#itemsTable') ){
-    updateTotalsLive();
-  }
-});
-function addRow(){
-  let tbody = document.getElementById('itemsTableBody');
-  let n = tbody.rows.length+1;
-  tbody.innerHTML += createRow(n);
-  updateTotalsLive();
-}
-
-function updateTotalsLive(){
-  let tbody = document.getElementById('itemsTableBody');
-  let total=[0,0,0], count=0;
-  [...tbody.rows].forEach((tr,idx)=>{
-    tr.cells[0].textContent = idx+1;
-    let qty = parseFloat(tr.cells[3].querySelector('input').value) || 0;
-    if(qty>0) count++;
-    for(let i=0;i<3;i++){
-      let price = parseFloat(tr.cells[4+i].querySelector('input').value) || 0;
-      total[i] += qty*price;
-    }
-  });
-  document.getElementById('countItems').textContent=count;
-  document.getElementById('supplierTotal1').textContent=total[0].toFixed(2);
-  document.getElementById('supplierTotal2').textContent=total[1].toFixed(2);
-  document.getElementById('supplierTotal3').textContent=total[2].toFixed(2);
-
-  // لون الأقل
-  let minVal = Math.min(...total.filter(x=>x>0));
-  for(let i=0;i<3;i++){
-    let td = document.getElementById('total'+(i+1));
-    let st = document.getElementById('supplierTotal'+(i+1));
-    td.classList.remove('highlight-cell'); st.parentNode.classList.remove('highlight-cell');
-    if(minVal === total[i] && minVal>0){
-      td.classList.add('highlight-cell'); st.parentNode.classList.add('highlight-cell');
-    }
-    td.textContent = total[i].toFixed(2);
-  }
-}
-
-
-function saveAndGo() {
-  // جمع كل بيانات الصفحة
-  const data = {
-    // إعدادات الجهة
-    entityName: document.getElementById('entityName').value,
-    entityDepartment: document.getElementById('entityDepartment').value,
-    // بيانات أساسية
-    date: document.getElementById('date').value,
-    supplier1: document.getElementById('supplier1').value,
-    supplier2: document.getElementById('supplier2').value,
-    supplier3: document.getElementById('supplier3').value,
-    committeeDate: document.getElementById('committeeDate').value,
-    taxRate: document.getElementById('taxRate').value,
-    // البيانات من صفوف الجدول
-    table: Array.from(document.querySelectorAll('#itemsTable tbody tr')).map(tr => ({
-      name: tr.cells[1].querySelector('input').value,
-      unit: tr.cells[2].querySelector('input').value,
-      qty: tr.cells[3].querySelector('input').value,
-      price1: tr.cells[4].querySelector('input').value,
-      price2: tr.cells[5].querySelector('input').value,
-      price3: tr.cells[6].querySelector('input').value,
-      notes: tr.cells[7].querySelector('input').value
-    })),
-    // التوقيعات/الاعتمادات من الصفحة إذا كانت هناك
-    signatures: Array.from(document.querySelectorAll('.signatures-section .signature-card')).map(div => div.textContent.trim())
-  };
-  // حفظ كل البيانات في LocalStorage باسم ثابت
-  localStorage.setItem("mainFormData", JSON.stringify(data));
-  // الانتقال مثلا لصفحة taw.html أو غيرها (عدّل حسب اسم الصفحة المطلوبة)
-  window.location.href = "taw.html";
-}
-
-
-
-
-
-
-
-
-
-  </script>
+        document.addEventListener('DOMContentLoaded', () => {
+            window.AppManager = AppManager;
+            AppManager.init();
+        });
+    </script>
 </body>
 </html>
